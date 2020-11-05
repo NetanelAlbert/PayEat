@@ -15,18 +15,10 @@
         tools:layout_editor_absoluteX="161dp"
         tools:layout_editor_absoluteY="156dp" />
 
-    <Spinner
-        android:id="@+id/spinner"
+    <ListView
         android:layout_width="409dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="1dp" />
+        android:layout_height="525dp"
+        tools:layout_editor_absoluteX="1dp"
+        tools:layout_editor_absoluteY="205dp" />
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:layout_editor_absoluteX="104dp"
-        tools:layout_editor_absoluteY="344dp"
-        tools:srcCompat="@tools:sample/avatars" />
 </androidx.constraintlayout.widget.ConstraintLayout>
