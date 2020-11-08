@@ -12,14 +12,14 @@
         android:id="@+id/button"
         android:layout_width="172dp"
         android:layout_height="60dp"
-        android:layout_marginTop="496dp"
+        android:layout_marginTop="484dp"
         android:backgroundTint="#F4EC94"
         android:foregroundTint="#B63838"
         android:shadowColor="#E42727"
         android:text="כניסה"
         android:textColorLink="#C82323"
         app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="117dp" />
+        tools:layout_editor_absoluteX="121dp" />
 
     <ImageButton
         android:id="@+id/imageButton"
