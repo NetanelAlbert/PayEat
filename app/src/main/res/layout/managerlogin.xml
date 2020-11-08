@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#72F3D2"
+    android:backgroundTint="#87ECD2"
+    android:foregroundTint="@color/colorAccent">
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="172dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="484dp"
+        android:backgroundTint="#F4EC94"
+        android:foregroundTint="#B63838"
+        android:shadowColor="#E42727"
+        android:text="כניסה"
+        android:textColorLink="#C82323"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="121dp" />
+
+    <ImageButton
+        android:id="@+id/imageButton"
+        android:layout_width="176dp"
+        android:layout_height="177dp"
+        tools:layout_editor_absoluteX="117dp"
+        tools:layout_editor_absoluteY="59dp"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <ImageButton
+        android:id="@+id/imageButton2"
+        android:layout_width="37dp"
+        android:layout_height="37dp"
+        android:tint="#651FFF"
+        app:srcCompat="?android:attr/fingerprintAuthDrawable"
+        tools:layout_editor_absoluteX="100dp"
+        tools:layout_editor_absoluteY="260dp" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:foregroundTint="#CF3232"
+        android:tint="#3D5AFE"
+        app:srcCompat="@android:drawable/ic_lock_lock"
+        tools:layout_editor_absoluteX="105dp"
+        tools:layout_editor_absoluteY="323dp" />
+
+    <ProgressBar
+        android:id="@+id/progressBar2"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:layout_editor_absoluteX="181dp"
+        tools:layout_editor_absoluteY="417dp" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="216dp"
+        android:layout_height="33dp"
+        android:text="                     שם משתמש"
+        tools:layout_editor_absoluteX="105dp"
+        tools:layout_editor_absoluteY="264dp" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="209dp"
+        android:layout_height="33dp"
+        android:text="                          סיסמא                      "
+        tools:layout_editor_absoluteX="105dp"
+        tools:layout_editor_absoluteY="323dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
