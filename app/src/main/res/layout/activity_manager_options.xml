@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    android:background="@color/colorAccent"
+    android:orientation="vertical"
+    tools:context=".ManagerOptions">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/imageView_restaurant_logo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:contentDescription="@string/restaurant_logo"
+            tools:layout_editor_absoluteX="39dp"
+            tools:layout_editor_absoluteY="30dp"
+            tools:srcCompat="@tools:sample/avatars" />
+
+        <TextView
+            android:id="@+id/textView_restaurant_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_weight="1"
+            android:text="@string/restaurant_name"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+            android:textColor="@color/design_default_color_on_secondary"
+            tools:layout_editor_absoluteX="282dp"
+            tools:layout_editor_absoluteY="88dp" />
+
+        <TextView
+            android:id="@+id/textView_name_manager"
+            android:layout_width="165dp"
+            android:layout_height="58dp"
+            android:layout_marginBottom="20dp"
+            android:layout_weight="1"
+            android:text="@string/Manager_name"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textColor="@color/design_default_color_on_secondary"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.973"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.039" />
+
+    </LinearLayout>
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp">
+
+        <TableRow android:gravity="center">
+
+            <Button
+                android:id="@+id/button_edit_menu"
+                android:layout_width="218dp"
+                android:layout_height="154dp"
+                android:layout_weight="1"
+                android:rotationX="0"
+                android:shadowColor="#FFFFFF"
+                android:text="@string/edit_menu"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                android:textColor="@color/design_default_color_on_secondary"
+                tools:ignore="ButtonStyle"
+                tools:layout_editor_absoluteX="396dp"
+                tools:layout_editor_absoluteY="447dp" />
+
+            <Space android:layout_weight="0.3" />
+
+            <Button
+                android:id="@+id/button_view_menu"
+                android:layout_width="218dp"
+                android:layout_height="154dp"
+                android:layout_weight="1"
+                android:rotationX="0"
+                android:text="@string/view_menu"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                android:textColor="@color/design_default_color_on_secondary"
+                tools:ignore="ButtonStyle"
+                tools:layout_editor_absoluteX="396dp"
+                tools:layout_editor_absoluteY="267dp" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center">
+
+            <Button
+                android:id="@+id/button_edit_exist_orders"
+                android:layout_width="218dp"
+                android:layout_height="154dp"
+                android:layout_weight="1"
+                android:rotationX="0"
+                android:text="@string/edit_order"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                android:textColor="@color/design_default_color_on_secondary"
+                tools:ignore="ButtonStyle"
+                tools:layout_editor_absoluteX="156dp"
+                tools:layout_editor_absoluteY="447dp" />
+
+            <Space android:layout_weight="0.3" />
+
+            <Button
+                android:id="@+id/button_view_exist_orders"
+                android:layout_width="218dp"
+                android:layout_height="154dp"
+                android:layout_weight="1"
+                android:rotationX="0"
+                android:text="@string/view_exist_orders"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                android:textColor="@color/design_default_color_on_secondary"
+                tools:ignore="ButtonStyle"
+                tools:layout_editor_absoluteX="156dp"
+                tools:layout_editor_absoluteY="267dp" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center">
+
+            <Button
+                android:id="@+id/button_restaurant_occupancy"
+                android:layout_width="218dp"
+                android:layout_height="154dp"
+                android:layout_marginLeft="40dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="40dp"
+                android:layout_weight="1"
+                android:rotationX="0"
+                android:text="@string/restaurant_occupancy"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                android:textColor="@color/design_default_color_on_secondary"
+                tools:layout_editor_absoluteX="275dp"
+                tools:layout_editor_absoluteY="628dp" />
+        </TableRow>
+    </TableLayout>
+</LinearLayout>
