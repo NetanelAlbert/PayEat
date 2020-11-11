@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/icon_image"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#4F5E5A"
+    android:backgroundTint="#87ECD2"
+    android:foregroundTint="@color/colorPrimary">
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="172dp"
+        android:layout_height="60dp"
+        android:backgroundTint="#ECE48C"
+        android:foregroundTint="#B63838"
+        android:shadowColor="#151515"
+        android:text="כניסה"
+        android:textColorLink="#0B0A0A"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.506"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.746" />
+
+    <ImageButton
+        android:id="@+id/imageButton"
+        android:layout_width="176dp"
+        android:layout_height="177dp"
+        android:layout_marginTop="48dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@tools:sample/avatars" />
+
+
+    <EditText
+        android:id="@+id/username_edit_text"
+        android:layout_width="216dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="36dp"
+        android:text="שם משתמש"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageButton" />
+
+    <EditText
+        android:id="@+id/textView2"
+        android:layout_width="209dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="28dp"
+        android:text="סיסמא"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/username_edit_text" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
