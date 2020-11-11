@@ -8,12 +8,20 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:890564795902:android:333870d7557ba04a49f4af",
+        "mobilesdk_app_id": "1:890564795902:android:17e4f526b4976d8049f4af",
         "android_client_info": {
           "package_name": "com.example.payeat"
         }
       },
       "oauth_client": [
+        {
+          "client_id": "890564795902-as4brl03v3qta01rjhfal698t1df84nt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.payeat",
+            "certificate_hash": "65b7997bca74b3e9fc682442afdffb09b0fa8148"
+          }
+        },
         {
           "client_id": "890564795902-mdian2r03opjdv5tpikfnj2f569ji1pf.apps.googleusercontent.com",
           "client_type": 3
