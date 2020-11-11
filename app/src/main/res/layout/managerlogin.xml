@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="#72F3D2"
     android:backgroundTint="#87ECD2"
-    android:foregroundTint="@color/colorAccent">
+    android:foregroundTint="@color/colorBackground">
 
     <Button
         android:id="@+id/button"
