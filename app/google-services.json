@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "890564795902",
+    "firebase_url": "https://payeat-4a103.firebaseio.com",
+    "project_id": "payeat-4a103",
+    "storage_bucket": "payeat-4a103.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:890564795902:android:333870d7557ba04a49f4af",
+        "android_client_info": {
+          "package_name": "com.example.payeat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "890564795902-mdian2r03opjdv5tpikfnj2f569ji1pf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDlO_z0MsfmU7eoASHvosoUisg0lYfxYac"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "890564795902-mdian2r03opjdv5tpikfnj2f569ji1pf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
