@@ -30,8 +30,8 @@
 
     <ImageView
         android:id="@+id/activity_main_logo_imagview"
-        android:layout_width="245dp"
-        android:layout_height="77dp"
+        android:layout_width="275dp"
+        android:layout_height="181dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
