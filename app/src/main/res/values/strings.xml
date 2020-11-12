@@ -17,4 +17,7 @@
     <string name="view_exist_orders">הצג הזמנות קיימות</string>
     <string name="restaurant_occupancy">תפוסת מסעדה</string>
     <string name="restaurant_logo">restaurant_logo</string>
+
+    //Main menu activity strings
+    <string name="activity_main_menu_gridview_imageView_description">Sub menu image</string>
 </resources>
