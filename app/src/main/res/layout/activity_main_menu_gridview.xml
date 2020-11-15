@@ -8,7 +8,7 @@
 
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/main_menu_item_textView"
         android:layout_width="215dp"
         android:layout_height="32dp"
         android:layout_marginTop="8dp"
@@ -18,12 +18,12 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/main_menu_item_imageView"
         android:layout_width="216dp"
         android:layout_height="139dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:layout_constraintTop_toBottomOf="@+id/main_menu_item_textView"
         tools:srcCompat="@tools:sample/avatars" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

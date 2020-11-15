@@ -17,7 +17,7 @@ import android.widget.TextView;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     TextView textViewDisplay;
-    //Firebase firebaseReference;
+//    Firebase firebaseReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
