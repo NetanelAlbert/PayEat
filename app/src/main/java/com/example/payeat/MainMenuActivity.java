@@ -37,8 +37,10 @@ public class MainMenuActivity extends AppCompatActivity implements AdapterView.O
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         Toast.makeText(this, "onItemClick - " + adapterView.getItemAtPosition(i), Toast.LENGTH_SHORT).show();
+
         Intent intent = new Intent(this, MenuByTitleActivity.class);
-        //intent.putExtra()
+        intent.putExtra(getResources().getString(R.string.intent_extras_menu_id),i); // TODO change 'i' to the real id according to database.
+        startActivity(intent);
     }
 
     private class MenusAdapter extends ArrayAdapter<String>{
