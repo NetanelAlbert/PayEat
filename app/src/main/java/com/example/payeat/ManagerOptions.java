@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.support.design.widget.BottomNavigationView;
 
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
@@ -22,7 +21,6 @@ public class ManagerOptions extends AppCompatActivity implements View.OnClickLis
     TextView textViewRestaurantName;
     ImageView imageViewRestaurantLogo;
     Button buttonToListViewOrdersActivity;
-    ButtomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
 
     Firebase firebaseReference;
 
