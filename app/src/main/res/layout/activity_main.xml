@@ -8,8 +8,8 @@
 
     <Button
         android:id="@+id/activity_main_customer_button"
-        android:layout_width="209dp"
-        android:layout_height="68dp"
+        android:layout_width="251dp"
+        android:layout_height="138dp"
         android:text="לקוח"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -18,8 +18,8 @@
 
     <Button
         android:id="@+id/activity_main_manager_button"
-        android:layout_width="210dp"
-        android:layout_height="66dp"
+        android:layout_width="251dp"
+        android:layout_height="138dp"
         android:text="מנהל"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -36,17 +36,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@tools:sample/avatars" />
-
-    <TextView
-        android:id="@+id/textView_from_database"
-        android:layout_width="211dp"
-        android:layout_height="34dp"
-        android:text="hello"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.373" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

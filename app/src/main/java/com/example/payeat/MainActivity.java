@@ -53,19 +53,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
+        Intent intent = null;
         switch (v.getId()){
             case R.id.activity_main_customer_button :
-                Intent intent = new Intent(this, MainMenuActivity.class);
-                startActivity(intent);
+                intent = new Intent(this, MainMenuActivity.class);
                 break;
             case R.id.activity_main_manager_button :
-
-
+                intent = new Intent(this, ManagerLoginActivity.class);
                 break;
 
             default:
 
 
         }
+        if(intent != null)
+            startActivity(intent);
     }
 }
