@@ -31,5 +31,11 @@ public class Dish {
         price=p;
     }
 
-
+    @Override
+    public String toString() {
+        return
+                "שם מנה: '" + name + '\'' +
+                ", מחיר: " + price +
+                ", תיאור: '" + description + '\'';
+    }
 }
