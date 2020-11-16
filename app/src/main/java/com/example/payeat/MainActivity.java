@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 intent = new Intent(this, MainMenuActivity.class);
                 break;
             case R.id.activity_main_manager_button :
-                intent = new Intent(this, ManagerLoginActivity.class);
+                intent = new Intent(this, ManagerOptionsActivity.class);
                 break;
 
             default:

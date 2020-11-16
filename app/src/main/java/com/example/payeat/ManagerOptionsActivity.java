@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
@@ -35,9 +36,10 @@ public class ManagerOptionsActivity extends AppCompatActivity implements View.On
         textViewRestaurantName = (TextView) findViewById(R.id.textView_restaurant_name);
         imageViewRestaurantLogo = (ImageView) findViewById(R.id.imageView_restaurant_logo);
 
-        firebaseReference = new Firebase("https://payeat-4a103.firebaseio.com/");
+//        firebaseReference = new Firebase("https://payeat-4a103.firebaseio.com/");
+        firebaseReference = Database.getDataBaseInstance();
 
-        firebaseReference.addValueEventListener(new ValueEventListener() {
+        firebaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @SuppressLint("SetTextI18n")
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -50,7 +52,7 @@ public class ManagerOptionsActivity extends AppCompatActivity implements View.On
 
             @Override
             public void onCancelled(FirebaseError firebaseError) {
-
+                Toast.makeText(getApplicationContext(),firebaseError.getMessage(),Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -61,6 +63,7 @@ public class ManagerOptionsActivity extends AppCompatActivity implements View.On
         switch (v.getId()) {
             case R.id.button_view_menu:
                 intent = new Intent(this, ManagerMenuActivity.class);
+
                 startActivity(intent);
             case R.id.button_list_of_existing_orders:
                 intent = new Intent(this, ExistOrdersActivity.class);

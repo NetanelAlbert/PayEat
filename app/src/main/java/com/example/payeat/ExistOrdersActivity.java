@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.SearchView;
+import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -21,8 +22,8 @@ public class ExistOrdersActivity extends AppCompatActivity {
     private ExpandableListViewAdapter listViewAdapter;
     private ExpandableListView expandableListView;
     private SearchView searchView;
-    private List<String> orderList;
-    private HashMap<String, List<String>> all_orders; // order_id -> order
+    private List<String> idOrderList;
+    private HashMap<String, Order> all_orders; // order_id -> Order/Dishes
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,100 +50,61 @@ public class ExistOrdersActivity extends AppCompatActivity {
                 }
             }
         });
-
         expandableListView = findViewById(R.id.listView_orders);
         makeList();
-        listViewAdapter = new ExpandableListViewAdapter(this, orderList, all_orders);
+        listViewAdapter = new ExpandableListViewAdapter(this, idOrderList, all_orders);
         expandableListView.setAdapter(listViewAdapter);
-    }
 
-    private void makeList() {
-        orderList = new ArrayList<String>(); // id order (the title of the order whatever)
-        all_orders = new HashMap<String, List<String>>(); // each raw in the order. what is the order info.
-        int number_of_orders = 3;
-
-        // when firebase will be ready hear we are going to do the quary
-
-        for(int i= 1; i<=number_of_orders; i++) {
-            orderList.add("Order "+ i);
-        }
-        List<String> order1 = new ArrayList<>(); // in the future it will be an object 'Order'
-        order1.add("Raw 1");
-        order1.add("Raw 2");
-        order1.add("Raw 3");
-
-        List<String> order2 = new ArrayList<>(); // in the future it will be an object 'Order'
-        order2.add("Raw 4");
-        order2.add("Raw 5");
-        order2.add("Raw 6");
-
-        List<String> order3 = new ArrayList<>(); // in the future it will be an object 'Order'
-        order3.add("Raw 7");
-        order3.add("Raw 8");
-        order3.add("Raw 9");
-
-        all_orders.put(orderList.get(0), order1);
-        all_orders.put(orderList.get(1), order2);
-        all_orders.put(orderList.get(2), order3);
-    }
-
-    private void initSearchWidgets()
-    {
-        searchView = (SearchView) findViewById(R.id.SearchView_orders);
-
+        searchView = findViewById(R.id.SearchView_orders);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
-            public boolean onQueryTextSubmit(String s) {
+            public boolean onQueryTextSubmit(String query) {
                 return false;
             }
 
             @Override
-            public boolean onQueryTextChange(String s)
-            {
-//                ArrayList<Order> filteredOrders = new ArrayList<Order>();
-                ArrayList<String> filteredOrders = new ArrayList<String>();
+            public boolean onQueryTextChange(String newText) {
+                ArrayList<String> filteredOrders = new ArrayList<>();
+                HashMap<String, Order> all_ordersFiltered = new HashMap<>();
 
-                for(String order: orderList)
+                for(String order_id: all_orders.keySet())
                 {
-                    if(order.toLowerCase().contains(s.toLowerCase()))
+                    if(order_id.toLowerCase().contains(newText.toLowerCase()))
                     {
-                        filteredOrders.add(order);
+                        filteredOrders.add(order_id);
+                        all_ordersFiltered.put(order_id, all_orders.get(order_id));
                     }
                 }
-
-//                for(Order order: orderList)
-//                {
-//                    if(order.getName().toLowerCase().contains(s.toLowerCase()))
-//                    {
-//                          filteredShapes.add(order);
-//                    }
-//                }
-                listViewAdapter = new ExpandableListViewAdapter(getApplicationContext(), filteredOrders, all_orders);
+                listViewAdapter = new ExpandableListViewAdapter(getApplicationContext(), filteredOrders, all_ordersFiltered);
                 expandableListView.setAdapter(listViewAdapter);
                 return false;
             }
         });
+
     }
-//    ListView OrderListView;
-//    String[] orders;
-//
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_view_exist_orders);
-//
-//        OrderListView = (ListView) findViewById(R.id.listView_orders);
-//        orders = new DateFormatSymbols().getMonths();
-////        ArrayAdapter<String> ordersAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, orders);
-//        ArrayAdapter<String> ordersAdapter = new ArrayAdapter<>(this, R.layout.list_item, orders);
-//        OrderListView.setAdapter(ordersAdapter);
-//        OrderListView.setOnItemClickListener(this);
-//
-//    }
-//
-//    @Override
-//    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//        String order = parent.getItemAtPosition(position).toString();
-//        Toast.makeText(getApplicationContext(), "Clicked: "+ order, Toast.LENGTH_SHORT).show();
-//    }
+
+    private void makeList() {
+        idOrderList = new ArrayList<String>(); // id Order (the title of the Order whatever)
+        all_orders = new HashMap<String, Order>(); // each raw in the Order. what is the Order info.
+
+        ArrayList<Order> orders = new ArrayList<>();
+
+        // when firebase will be ready hear we are going to do the quary
+
+        Dish dish1 = new Dish("Raw 1", 50, "description1");
+        Dish dish2 = new Dish("Raw 2", 40, "description2");
+        Dish dish3 = new Dish("Raw 3", 30, "description3");
+
+        Order order1 = new Order(new Dish[]{dish1, dish2, dish3});
+        Order order2 = new Order(new Dish[]{dish2, dish3, dish1});
+        Order order3 = new Order(new Dish[]{dish3, dish1, dish2});
+
+        idOrderList.add("Order 1");
+        idOrderList.add("Order 2");
+        idOrderList.add("Order 3");
+
+        all_orders.put(idOrderList.get(0), order1);
+        all_orders.put(idOrderList.get(1), order2);
+        all_orders.put(idOrderList.get(2), order3);
+    }
 }

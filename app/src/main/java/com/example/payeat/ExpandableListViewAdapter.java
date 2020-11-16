@@ -13,33 +13,33 @@ import java.util.List;
 public class ExpandableListViewAdapter extends BaseExpandableListAdapter {
 
     private Context context;
-    private List<String> orderList;
-    private HashMap<String, List<String>> all_orders;
+    private List<String> idOrderList;
+    private HashMap<String, Order> all_orders;
 
-    public ExpandableListViewAdapter(Context context, List<String> orderList, HashMap<String, List<String>> all_orders) {
+    public ExpandableListViewAdapter(Context context, List<String> idOrderList, HashMap<String, Order> all_orders) {
         this.context = context;
-        this.orderList = orderList;
+        this.idOrderList = idOrderList;
         this.all_orders = all_orders;
     }
 
     @Override
     public int getGroupCount() {
-        return this.orderList.size();
+        return this.idOrderList.size();
     }
 
     @Override
     public int getChildrenCount(int groupPosition) {
-        return this.all_orders.get(this.orderList.get(groupPosition)).size();
+        return this.all_orders.get(this.idOrderList.get(groupPosition)).size();
     }
 
     @Override
     public Object getGroup(int groupPosition) {
-        return this.orderList.get(groupPosition);
+        return this.idOrderList.get(groupPosition);
     }
 
     @Override
     public Object getChild(int groupPosition, int childPosition) {
-        return this.all_orders.get(this.orderList.get(groupPosition)).get(childPosition);
+        return this.all_orders.get(this.idOrderList.get(groupPosition)).get(childPosition);
     }
 
     @Override
@@ -74,7 +74,7 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter {
 
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-        String topicTitle = (String) getChild(groupPosition, childPosition);
+        Dish topicTitle = (Dish) getChild(groupPosition, childPosition);
 
         if(convertView == null) {
             LayoutInflater inflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -82,7 +82,7 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter {
         }
 
         TextView orderTopic = convertView.findViewById(R.id.textView_order_info);
-        orderTopic.setText(topicTitle);
+        orderTopic.setText(topicTitle.toString());
 
         return convertView;
     }
