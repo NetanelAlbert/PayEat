@@ -17,6 +17,7 @@ import java.util.List;
 
 public class DishDetailsAdapter extends ArrayAdapter<String> {
 
+
         private final String s;
         private final Context context;
 
