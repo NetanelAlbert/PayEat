@@ -7,14 +7,14 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ManagerMenu"></activity>
-        <activity android:name=".RestaurantOccupancy" />
+        <activity android:name=".ManagerMenuActivity"></activity>
+        <activity android:name=".RestaurantOccupancyActivity" />
         <activity android:name=".ExistOrdersActivity" />
         <activity android:name=".BonAppetitActivity" />
         <activity android:name=".ManagerLoginActivity" />
         <activity android:name=".MenuByTitleActivity" />
         <activity android:name=".MainMenuActivity" />
-        <activity android:name=".ManagerOptions" />
+        <activity android:name=".ManagerOptionsActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

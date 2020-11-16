@@ -1,10 +1,16 @@
 package com.example.payeat;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.SearchView;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,11 +29,31 @@ public class ExistOrdersActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_exist_orders);
 
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+        bottomNavigationView.setSelectedItemId(R.id.orders);
+        bottomNavigationView.setOnNavigationItemReselectedListener(new BottomNavigationView.OnNavigationItemReselectedListener() {
+            @Override
+            public void onNavigationItemReselected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.menu:
+                        startActivity(new Intent(getApplicationContext(), ManagerMenuActivity.class));
+                        finish();
+                        overridePendingTransition(0, 0);
+                        return;
+                    case R.id.orders:
+                    case R.id.restaurant_capacity:
+                        startActivity(new Intent(getApplicationContext(), RestaurantOccupancyActivity.class));
+                        finish();
+                        overridePendingTransition(0, 0);
+                        return;
+                }
+            }
+        });
+
         expandableListView = findViewById(R.id.listView_orders);
         makeList();
         listViewAdapter = new ExpandableListViewAdapter(this, orderList, all_orders);
         expandableListView.setAdapter(listViewAdapter);
-
     }
 
     private void makeList() {
@@ -97,8 +123,6 @@ public class ExistOrdersActivity extends AppCompatActivity {
             }
         });
     }
-
-
 //    ListView OrderListView;
 //    String[] orders;
 //

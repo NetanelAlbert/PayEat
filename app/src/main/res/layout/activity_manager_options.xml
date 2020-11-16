@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorBackground"
     android:orientation="vertical"
-    tools:context=".ManagerOptions">
+    tools:context=".ManagerOptionsActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -52,7 +52,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.039" />
-
     </LinearLayout>
 
     <LinearLayout
@@ -61,29 +60,15 @@
         android:layout_marginTop="30dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:gravity="bottom"
+        android:gravity="center"
         android:orientation="vertical">
-
-
-        <Button
-            android:id="@+id/button_edit_menu"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:shadowColor="#FFFFFF"
-            android:text="@string/edit_menu"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-            android:textColor="@color/design_default_color_on_secondary" />
-
 
         <Button
             android:id="@+id/button_view_menu"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:rotationX="0"
-            android:text="@string/view_menu"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+            android:background="@drawable/menu_icon"
             android:textColor="@color/design_default_color_on_secondary" />
 
         <Button
@@ -91,8 +76,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="@string/view_exist_orders"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+            android:background="@drawable/order_icon"
             android:textColor="@color/design_default_color_on_secondary" />
 
         <Button
@@ -100,19 +84,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="@string/restaurant_occupancy"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+            android:background="@drawable/capacity_icon"
             android:textColor="@color/design_default_color_on_secondary" />
-
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/bottom_navigation"
-        app:itemBackground="@color/colorPrimary"
-        app:itemTextColor="@drawable/selector"
-        app:itemIconTint="@drawable/selector"
-        app:menu="@menu/menu_navigation"
-        android:layout_marginTop="20dp"/>
-
     </LinearLayout>
-</RelativeLayout>
+</LinearLayout>

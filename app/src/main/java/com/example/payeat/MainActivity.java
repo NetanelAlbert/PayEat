@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(intent);
                 break;
             case R.id.activity_main_manager_button :
-                Intent intent2 = new Intent(this, ManagerOptions.class);
+                Intent intent2 = new Intent(this, ManagerOptionsActivity.class);
                 startActivity(intent2);
                 break;
 

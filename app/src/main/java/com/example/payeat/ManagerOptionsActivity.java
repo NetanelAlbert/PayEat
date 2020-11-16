@@ -6,7 +6,6 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -15,12 +14,11 @@ import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 
-public class ManagerOptions extends AppCompatActivity implements View.OnClickListener {
+public class ManagerOptionsActivity extends AppCompatActivity implements View.OnClickListener {
 
     TextView textViewManagerName;
     TextView textViewRestaurantName;
     ImageView imageViewRestaurantLogo;
-    Button buttonToListViewOrdersActivity;
 
     Firebase firebaseReference;
 
@@ -31,11 +29,11 @@ public class ManagerOptions extends AppCompatActivity implements View.OnClickLis
 
         findViewById(R.id.button_list_of_existing_orders).setOnClickListener(this);
         findViewById(R.id.button_restaurant_occupancy).setOnClickListener(this); // need to think about this, how it should be?
+        findViewById(R.id.button_view_menu).setOnClickListener(this);
 
         textViewManagerName = (TextView) findViewById(R.id.textView_name_manager);
         textViewRestaurantName = (TextView) findViewById(R.id.textView_restaurant_name);
         imageViewRestaurantLogo = (ImageView) findViewById(R.id.imageView_restaurant_logo);
-        buttonToListViewOrdersActivity = (Button) findViewById(R.id.button_list_of_existing_orders);
 
         firebaseReference = new Firebase("https://payeat-4a103.firebaseio.com/");
 
@@ -59,12 +57,18 @@ public class ManagerOptions extends AppCompatActivity implements View.OnClickLis
 
     @Override
     public void onClick(View v) {
+        Intent intent;
         switch (v.getId()) {
+            case R.id.button_view_menu:
+                intent = new Intent(this, ManagerMenuActivity.class);
+                startActivity(intent);
             case R.id.button_list_of_existing_orders:
-                Intent intent = new Intent(this, ExistOrdersActivity.class);
+                intent = new Intent(this, ExistOrdersActivity.class);
                 startActivity(intent);
                 break;
-
+            case R.id.button_restaurant_occupancy:
+                intent = new Intent(this, RestaurantOccupancyActivity.class);
+                startActivity(intent);
             default:
 
 
