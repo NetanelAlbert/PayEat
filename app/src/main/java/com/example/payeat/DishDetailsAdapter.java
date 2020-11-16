@@ -17,6 +17,7 @@ import java.util.List;
 
 public class DishDetailsAdapter extends ArrayAdapter<String> {
 
+
         private final String s;
         private final Context context;
 
@@ -44,9 +45,13 @@ public class DishDetailsAdapter extends ArrayAdapter<String> {
             // Lookup view for data population
             TextView dish_name_text = convertView.findViewById(R.id.dish_name_text);
             TextView descriptionText = convertView.findViewById(R.id.dish_detailes_text);
-            TextView DishPriceText = convertView.findViewById(R.id.dish_price_text);
+            TextView dish_price_text = convertView.findViewById(R.id.dish_price_text);
 
-            return convertView;
+//            dish_name_text.setText(name);
+//            descriptionText.setText(PatEatDao.getDescription());
+//            dish_price_text.setText(priceString);
+
+                return convertView;
         }
     }
 
