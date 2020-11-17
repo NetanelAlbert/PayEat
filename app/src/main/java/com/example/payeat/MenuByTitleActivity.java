@@ -6,6 +6,7 @@ package com.example.payeat;
         import androidx.appcompat.app.AppCompatActivity;
 
         import android.content.Context;
+        import android.content.Intent;
         import android.os.Bundle;
         import android.view.LayoutInflater;
         import android.view.View;
@@ -21,6 +22,7 @@ package com.example.payeat;
         import java.util.List;
 
 public class MenuByTitleActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
+    private DishDetailsFragment fragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +38,13 @@ public class MenuByTitleActivity extends AppCompatActivity implements AdapterVie
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+        Intent intent = null;
+        switch (view.getId()) {
+            case R.id.expand_dish_button:
+            //    fragment = DishDetailsFragment.newInstance(this); //HELP!!
+                fragment.show(getSupportFragmentManager(), "DishDetailsFragment");
+                break;
+        }
         Toast.makeText(this, "onItemClick - " + adapterView.getItemAtPosition(i), Toast.LENGTH_SHORT).show();
 
        // Intent intent = new Intent(this, MenuByTitleActivity.class); //Activity Dish
