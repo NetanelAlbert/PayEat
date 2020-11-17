@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,7 +17,6 @@ import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -27,11 +27,20 @@ public class MainMenuActivity extends AppCompatActivity implements AdapterView.O
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
 
+        // Set the list of menus
         MenusAdapter adapter = new MenusAdapter(this, R.layout.activity_main_menu_gridview,
                 Arrays.asList("ראשונות","עיקריות","שתיה קלה", "אלכוהול"));
         GridView menusGridView = findViewById(R.id.activity_main_menu_gridview);
         menusGridView.setAdapter(adapter);
         menusGridView.setOnItemClickListener(this);
+
+        // Set the table number
+        SharedPreferences preferences = getSharedPreferences(getString(R.string.shared_preferences_key), MODE_PRIVATE);
+        int tableNum = preferences.getInt(getString(R.string.client_table_number),-1);
+        TextView tableNumTextView = findViewById(R.id.activity_main_menu_table_number_textView);
+        tableNumTextView.setText("שולחן "+tableNum);
+
+
     }
 
     @Override
