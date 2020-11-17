@@ -16,7 +16,7 @@
         android:backgroundTint="#ECE48C"
         android:foregroundTint="#B63838"
         android:shadowColor="#151515"
-        android:text="כניסה"
+        android:hint="כניסה"
         android:textColorLink="#0B0A0A"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
