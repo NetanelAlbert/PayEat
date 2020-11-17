@@ -4,40 +4,45 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:background="@color/colorBackground">
+
+    <ImageView
+        android:id="@+id/activity_main_logo_imagview"
+        android:layout_width="427dp"
+        android:layout_height="375dp"
+        android:src="@drawable/app_logo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@tools:sample/avatars" />
 
     <Button
         android:id="@+id/activity_main_customer_button"
         android:layout_width="251dp"
         android:layout_height="138dp"
         android:text="לקוח"
-        android:textSize="50dp"
+        android:textSize="50sp"
+        android:background="@color/colorButton"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/activity_main_logo_imagview" />
 
+
     <Button
         android:id="@+id/activity_main_manager_button"
         android:layout_width="251dp"
         android:layout_height="138dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/colorButton"
         android:text="מנהל"
-        android:textSize="50dp"
+        android:textSize="50sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/activity_main_customer_button"
         app:layout_constraintVertical_bias="0.0" />
-
-    <ImageView
-        android:id="@+id/activity_main_logo_imagview"
-        android:layout_width="278dp"
-        android:layout_height="240dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:src="@drawable/app_logo"
-        tools:srcCompat="@tools:sample/avatars" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -3,6 +3,7 @@ package com.example.payeat;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.TextureView;
 import android.view.View;
@@ -16,9 +17,8 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    TextView textViewDisplay;
 //    Firebase firebaseReference;
-
+    private ChooseTableFragment fragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,12 +56,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Intent intent = null;
         switch (v.getId()){
             case R.id.activity_main_customer_button :
-                intent = new Intent(this, MainMenuActivity.class);
+                fragment = ChooseTableFragment.newInstance(this);
+                fragment.show(getSupportFragmentManager(), "ChooseTableFragment");
                 break;
             case R.id.activity_main_manager_button :
                 intent = new Intent(this, ManagerLoginActivity.class);
                 break;
-
+            case R.id.fragment_choose_table_Button :
+                String tableNumberS = fragment.getTableNumber();
+                if(tableNumberS == null || tableNumberS.length() == 0)
+                    return;
+                int tableNumber = Integer.parseInt(tableNumberS);
+                SharedPreferences preferences = getSharedPreferences(getString(R.string.shared_preferences_key), MODE_PRIVATE);
+                SharedPreferences.Editor prefEditor = preferences.edit();
+                prefEditor.putInt(getString(R.string.client_table_number), tableNumber);
+                prefEditor.apply();
+                fragment.dismiss();
+                intent = new Intent(this, MainMenuActivity.class);
+                break;
             default:
 
 
