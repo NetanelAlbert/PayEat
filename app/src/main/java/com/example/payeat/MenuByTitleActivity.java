@@ -6,7 +6,6 @@ package com.example.payeat;
         import androidx.appcompat.app.AppCompatActivity;
 
         import android.content.Context;
-        import android.content.Intent;
         import android.os.Bundle;
         import android.view.LayoutInflater;
         import android.view.View;
@@ -28,7 +27,7 @@ public class MenuByTitleActivity extends AppCompatActivity implements AdapterVie
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu_by_title);
 
-        DishAdapter adapter = new DishAdapter(this, R.layout.menu_item,
+        DishAdapter adapter = new DishAdapter(this, R.layout.activity_menu_by_title_list_item,
                 Arrays.asList("סלט חלומי","סלט יווני","סלט ירוק", "סלט טוסט"));
         ListView DishListView = findViewById(R.id.category_menu_list);
         DishListView.setAdapter(adapter);
@@ -55,7 +54,7 @@ public class MenuByTitleActivity extends AppCompatActivity implements AdapterVie
         @Override
         public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
             if (convertView == null) {
-                convertView = LayoutInflater.from(getContext()).inflate(R.layout.menu_item, parent, false);
+                convertView = LayoutInflater.from(getContext()).inflate(R.layout.activity_menu_by_title_list_item, parent, false);
             }
             TextView title = convertView.findViewById(R.id.dish_name_text);
             title.setText(list.get(position));
