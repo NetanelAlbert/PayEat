@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -12,8 +13,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
-public class DishDetailsFragment extends DialogFragment {
+public class DishDetailsFragment extends DialogFragment implements View.OnClickListener {
     /**
      * A simple {@link Fragment} subclass.
      * Use the {@link ChooseTableFragment#newInstance} factory method to
@@ -28,7 +30,7 @@ public class DishDetailsFragment extends DialogFragment {
     private TextView price;
 
     private View.OnClickListener menuByTitleActivity;
-
+    private OrderDishFragment fragment;
 
 
     public DishDetailsFragment() {
@@ -69,12 +71,27 @@ public class DishDetailsFragment extends DialogFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         name = view.findViewById(R.id.dish_name_text_fragment);
-        desc=view.findViewById(R.id.dish_detailes_text);
-        price=view.findViewById(R.id.dish_price_text);
+        desc = view.findViewById(R.id.dish_detailes_text);
+        price = view.findViewById(R.id.dish_price_text);
         Button orderButton = view.findViewById(R.id.order_dish_fragment_button);
         orderButton.setOnClickListener(menuByTitleActivity);
         super.onViewCreated(view, savedInstanceState);
     }
 
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.order_dish_fragment_button:
+                fragment = OrderDishFragment.newInstance(this);
+                fragment.show(getSupportFragmentManager(), "OrderDishFragment");
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + v.getId());
+        }
+    }
+
+    private FragmentManager getSupportFragmentManager() {
+      return null;
+    }
 }
