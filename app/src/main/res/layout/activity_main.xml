@@ -4,26 +4,28 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
+    tools:context=".activities.MainActivity"
     android:background="@color/colorBackground">
 
     <ImageView
         android:id="@+id/activity_main_logo_imagview"
-        android:layout_width="427dp"
-        android:layout_height="375dp"
+        android:layout_width="472dp"
+        android:layout_height="434dp"
         android:src="@drawable/app_logo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@tools:sample/avatars" />
+        tools:srcCompat="@drawable/app_logo" />
 
     <Button
         android:id="@+id/activity_main_customer_button"
         android:layout_width="251dp"
         android:layout_height="138dp"
-        android:text="לקוח"
-        android:textSize="50sp"
+        android:layout_marginTop="180dp"
         android:background="@color/colorButton"
+        android:text="לקוח"
+        android:textColor="@color/colorTextOnButton"
+        android:textSize="50sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -37,6 +39,7 @@
         android:layout_marginTop="8dp"
         android:background="@color/colorButton"
         android:text="מנהל"
+        android:textColor="@color/colorTextOnButton"
         android:textSize="50sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -13,6 +13,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
+import com.example.payeat.fragments.ChooseTableFragment;
+
 public class DishDetailsFragment extends DialogFragment {
     /**
      * A simple {@link Fragment} subclass.
