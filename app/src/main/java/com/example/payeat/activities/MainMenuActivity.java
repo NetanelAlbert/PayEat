@@ -1,4 +1,4 @@
-package com.example.payeat;
+package com.example.payeat.activities;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,6 +16,8 @@ import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.payeat.R;
 
 import java.util.Arrays;
 import java.util.List;
