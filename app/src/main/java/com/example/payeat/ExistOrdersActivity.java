@@ -32,23 +32,24 @@ public class ExistOrdersActivity extends AppCompatActivity {
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setSelectedItemId(R.id.orders);
-        bottomNavigationView.setOnNavigationItemReselectedListener(new BottomNavigationView.OnNavigationItemReselectedListener() {
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
-            public void onNavigationItemReselected(@NonNull MenuItem item) {
-                Toast.makeText(getApplicationContext(),""+item.getItemId(),Toast.LENGTH_LONG).show();
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.menu:
                         startActivity(new Intent(getApplicationContext(), ManagerMenuActivity.class));
                         finish();
                         overridePendingTransition(0, 0);
-                        return;
+                        return true;
                     case R.id.orders:
+                        return true;
                     case R.id.restaurant_capacity:
                         startActivity(new Intent(getApplicationContext(), RestaurantOccupancyActivity.class));
                         finish();
                         overridePendingTransition(0, 0);
-                        return;
+                        return true;
                 }
+                return false;
             }
         });
         expandableListView = findViewById(R.id.listView_orders);
