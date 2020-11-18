@@ -10,7 +10,7 @@ public class Order {
 
     private int order_id;
     private ArrayList<Dish> orderInfo; // order_info is collection of dishes
-
+    private int table_number;
     public ArrayList<Dish> getOrderInfo() {
         return orderInfo;
     }
@@ -22,6 +22,9 @@ public class Order {
         // Get order_id from the database
         this.order_id = getOrderId() + 1; // TODO: fix! not working yet
         setOrderId(this.order_id);
+
+        // Get table_number from the database
+        this.table_number = getTableNumber();
     }
 
     public boolean add(Dish dish) {
@@ -47,6 +50,11 @@ public class Order {
     public static void setOrderId(int new_orderId) {
         firebaseReference.child("number_of_orders").setValue(new_orderId);
     }
+
+    public int getTableNumber() {
+        return 1;
+    }
+
 
     public int size() {
         return this.orderInfo.size();

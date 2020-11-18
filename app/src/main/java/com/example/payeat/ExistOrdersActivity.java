@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.SearchView;
 import android.widget.Toast;
+import androidx.appcompat.widget.SwitchCompat;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -22,13 +23,19 @@ public class ExistOrdersActivity extends AppCompatActivity {
     private ExpandableListViewAdapter listViewAdapter;
     private ExpandableListView expandableListView;
     private SearchView searchView;
+    private SwitchCompat switchCompat;
+
     private List<String> idOrderList;
     private HashMap<String, Order> all_orders; // order_id -> Order/Dishes
+
+    private boolean mode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_exist_orders);
+
+        mode = false; // read-only mode by default
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setSelectedItemId(R.id.orders);
@@ -82,6 +89,33 @@ public class ExistOrdersActivity extends AppCompatActivity {
                 return false;
             }
         });
+
+        switchCompat = findViewById(R.id.SwitchButton_mode_orders);
+        switchCompat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (switchCompat.isChecked()) {
+                    Toast.makeText(getApplicationContext(), "עריכה", Toast.LENGTH_SHORT).show();
+                    mode = true;
+                }
+                else {
+                    Toast.makeText(getApplicationContext(), "צפייה בלבד", Toast.LENGTH_SHORT).show();
+                    mode = false;
+                }
+            }
+        });
+
+        expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+
+            @Override
+            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+                if(mode) {
+                    Toast.makeText(getApplicationContext(), "ימלך אתה במצב עריכה, לחצת על: " + childPosition, Toast.LENGTH_SHORT).show();
+                }
+                return false;
+            }
+        });
+
 
     }
 
