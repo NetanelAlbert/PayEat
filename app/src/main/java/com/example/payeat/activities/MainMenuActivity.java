@@ -17,7 +17,6 @@ import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.payeat.MenuByTitleActivity;
 import com.example.payeat.R;
 
 import java.util.Arrays;
