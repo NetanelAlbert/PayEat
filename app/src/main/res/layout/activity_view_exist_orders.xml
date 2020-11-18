@@ -34,25 +34,12 @@
             tools:ignore="RtlHardcoded"
             android:layout_marginTop="20dp">
 
-            <androidx.appcompat.widget.SwitchCompat
-                android:id="@+id/SwitchButton_mode_orders"
-                android:layout_width="wrap_content"
+            <Button
+                android:id="@+id/button_edit_order"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:showText="true"
-                android:textOff="צפייה בלבד"
-                android:textOn="עריכה"
-                android:thumb="@drawable/sh_thumb"
-                android:track="@drawable/sh_track" />
-
-            <TextView
-                android:id="@+id/textView_mode_orders"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="תצוגה:"
-                android:textColor="@android:color/black"
-                android:textSize="25dp" />
+                android:layout_weight="1"
+                android:background="@drawable/ic_edit"/>
 
             <SearchView
                 android:id="@+id/SearchView_orders"
