@@ -9,7 +9,6 @@
         android:roundIcon="@drawable/app_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".trying"></activity>
         <activity android:name=".ManagerMenuActivity" />
         <activity android:name=".RestaurantOccupancyActivity" />
         <activity android:name=".ExistOrdersActivity" />
