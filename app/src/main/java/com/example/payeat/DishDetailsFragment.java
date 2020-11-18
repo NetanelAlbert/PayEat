@@ -27,7 +27,7 @@ public class DishDetailsFragment extends DialogFragment {
     private TextView desc;
     private TextView price;
 
-    private View.OnClickListener mainActivity;
+    private View.OnClickListener menuByTitleActivity;
 
 
 
@@ -49,7 +49,7 @@ public class DishDetailsFragment extends DialogFragment {
     }
 
     private void setOnClickListener(View.OnClickListener clicker) {
-        this.mainActivity = clicker;
+        this.menuByTitleActivity = clicker;
     }
 
     @Override
@@ -72,7 +72,7 @@ public class DishDetailsFragment extends DialogFragment {
         desc=view.findViewById(R.id.dish_detailes_text);
         price=view.findViewById(R.id.dish_price_text);
         Button button = view.findViewById(R.id.order_dish_fragment_button);
-        button.setOnClickListener(mainActivity);
+        button.setOnClickListener(menuByTitleActivity);
         super.onViewCreated(view, savedInstanceState);
     }
 
