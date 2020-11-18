@@ -63,8 +63,8 @@ public class ManagerOptionsActivity extends AppCompatActivity implements View.On
         switch (v.getId()) {
             case R.id.button_view_menu:
                 intent = new Intent(this, ManagerMenuActivity.class);
-
                 startActivity(intent);
+                break;
             case R.id.button_list_of_existing_orders:
                 intent = new Intent(this, ExistOrdersActivity.class);
                 startActivity(intent);
@@ -72,6 +72,7 @@ public class ManagerOptionsActivity extends AppCompatActivity implements View.On
             case R.id.button_restaurant_occupancy:
                 intent = new Intent(this, RestaurantOccupancyActivity.class);
                 startActivity(intent);
+                break;
             default:
 
 
