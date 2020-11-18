@@ -87,20 +87,7 @@ public class MenuByTitleActivity extends AppCompatActivity implements AdapterVie
                     }
                 });
             }
-            Button orderDishButton =  convertView.findViewById(R.id.order_dish_button);
-            if(position == 0){
-                orderDishButton.setVisibility(View.INVISIBLE);
-            } else {
-                orderDishButton.setVisibility(View.VISIBLE);
-                orderDishButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        fragment2 = OrderDishFragment.newInstance((View.OnClickListener) this);
-                        fragment2.show(getSupportFragmentManager(), "OrderDishFragment");
 
-                    }
-                });
-            }
             return convertView;
         }
     }
