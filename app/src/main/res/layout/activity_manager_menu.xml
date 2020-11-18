@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ManagerMenuActivity">
+    android:orientation="vertical"
+    tools:context=".ManagerMenuActivity"
+    android:gravity="right"
+    android:background="@color/colorBackground">
 
     <TextView
         android:id="@+id/textViewOrdersTitle"
@@ -12,9 +15,39 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="4dp"
         android:gravity="center"
-        android:text="תפריט"
+        android:text="תפריט:"
         android:textColor="@android:color/black"
         android:textSize="35sp" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="right"
+        tools:ignore="RtlHardcoded">
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/SwitchButton_mode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:showText="true"
+            android:textOff="צפייה בלבד"
+            android:textOn="עריכה"
+            android:thumb="@drawable/sh_thumb"
+            android:track="@drawable/sh_track" />
+
+        <TextView
+            android:id="@+id/textView_mode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:gravity="center"
+            android:text="מצב תצוגה:   "
+            android:textColor="@android:color/black"
+            android:textSize="25dp" />
+
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -26,11 +59,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/bottom_navigation"
-            app:itemBackground="@color/colorPrimary"
+            app:itemBackground="@color/colorButton"
             app:itemTextColor="@drawable/selector"
             app:itemIconTint="@drawable/selector"
             app:menu="@menu/menu_navigation"
             android:layout_marginTop="20dp"/>
 
     </LinearLayout>
-</RelativeLayout>
+</LinearLayout>
