@@ -14,15 +14,19 @@ package com.example.payeat;
         import android.widget.AdapterView;
         import android.widget.ArrayAdapter;
 
+        import android.widget.Button;
         import android.widget.ListView;
         import android.widget.TextView;
         import android.widget.Toast;
 
         import java.util.Arrays;
+        import java.util.Collections;
         import java.util.List;
 
 public class MenuByTitleActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
-    private DishDetailsFragment fragment;
+    private DishDetailsFragment fragment1;
+    private OrderDishFragment fragment2;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,14 +44,14 @@ public class MenuByTitleActivity extends AppCompatActivity implements AdapterVie
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        Intent intent = null;
-        switch (view.getId()) {
-            case R.id.expand_dish_button:
-                fragment = DishDetailsFragment.newInstance((View.OnClickListener) this); //HELP!!
-                fragment.show(getSupportFragmentManager(), "DishDetailsFragment");
-                break;
-        }
-        Toast.makeText(this, "onItemClick - " + adapterView.getItemAtPosition(i), Toast.LENGTH_SHORT).show();
+//        Intent intent = null;
+//        switch (view.getId()) {
+//            case R.id.expand_dish_button:
+//                fragment = DishDetailsFragment.newInstance((View.OnClickListener) this); //HELP!!
+//                fragment.show(getSupportFragmentManager(), "DishDetailsFragment");
+//                break;
+//        }
+//        Toast.makeText(this, "onItemClick - " + adapterView.getItemAtPosition(i), Toast.LENGTH_SHORT).show();
 
        // Intent intent = new Intent(this, MenuByTitleActivity.class); //Activity Dish
         //intent.putExtra(getResources().getString(R.string.intent_extras_menu_id),i); // TODO change 'i' to the real id according to database.
@@ -69,7 +73,34 @@ public class MenuByTitleActivity extends AppCompatActivity implements AdapterVie
             }
             TextView title = convertView.findViewById(R.id.dish_name_text);
             title.setText(list.get(position));
+            Button expandDishButton =  convertView.findViewById(R.id.expand_dish_button);
+            if(position == 0){
+                expandDishButton.setVisibility(View.INVISIBLE);
+            } else {
+                expandDishButton.setVisibility(View.VISIBLE);
+                expandDishButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        fragment1 = DishDetailsFragment.newInstance((View.OnClickListener) this);
+                       fragment1.show(getSupportFragmentManager(), "DishDetailsFragment");
 
+                    }
+                });
+            }
+            Button orderDishButton =  convertView.findViewById(R.id.order_dish_button);
+            if(position == 0){
+                orderDishButton.setVisibility(View.INVISIBLE);
+            } else {
+                orderDishButton.setVisibility(View.VISIBLE);
+                orderDishButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        fragment2 = OrderDishFragment.newInstance((View.OnClickListener) this);
+                        fragment2.show(getSupportFragmentManager(), "OrderDishFragment");
+
+                    }
+                });
+            }
             return convertView;
         }
     }
