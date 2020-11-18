@@ -13,7 +13,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
-public class DishDetailsFragment extends DialogFragment {
+public class OrderDishFragment extends DialogFragment {
     /**
      * A simple {@link Fragment} subclass.
      * Use the {@link ChooseTableFragment#newInstance} factory method to
@@ -23,15 +23,15 @@ public class DishDetailsFragment extends DialogFragment {
     private static final String On_Click_Listener = "OnClickListener";
 
     private Context context;
-    private TextView name;
-    private TextView desc;
-    private TextView price;
+//    private TextView name;
+//    private TextView desc;
+//    private TextView price;
 
     private View.OnClickListener menuByTitleActivity;
 
 
 
-    public DishDetailsFragment() {
+    public OrderDishFragment() {
         // Required empty public constructor
     }
 
@@ -42,8 +42,8 @@ public class DishDetailsFragment extends DialogFragment {
      * @param clicker - A listener to the button, should be MainActivity.
      * @return A new instance of fragment ChooseTableFragment.
      */
-    public static DishDetailsFragment newInstance(View.OnClickListener clicker) {
-        DishDetailsFragment fragment = new DishDetailsFragment();
+    public static OrderDishFragment newInstance(View.OnClickListener clicker) {
+        OrderDishFragment fragment = new OrderDishFragment();
         fragment.setOnClickListener(clicker);
         return fragment;
     }
@@ -63,14 +63,14 @@ public class DishDetailsFragment extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_dish_details, container, false);
+        return inflater.inflate(R.layout.fragment_order_dish, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        name = view.findViewById(R.id.dish_name_text_fragment);
-        desc=view.findViewById(R.id.dish_detailes_text);
-        price=view.findViewById(R.id.dish_price_text);
+//        name = view.findViewById(R.id.dish_name_text_fragment);
+//        desc=view.findViewById(R.id.dish_detailes_text);
+//        price=view.findViewById(R.id.dish_price_text);
         Button orderButton = view.findViewById(R.id.order_dish_fragment_button);
         orderButton.setOnClickListener(menuByTitleActivity);
         super.onViewCreated(view, savedInstanceState);
