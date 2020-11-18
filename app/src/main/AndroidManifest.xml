@@ -4,10 +4,13 @@
 
     <application
         android:name=".Database"
+        android:icon="@drawable/app_logo"
         android:label="@string/app_name"
+        android:roundIcon="@drawable/app_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ManagerMenuActivity"></activity>
+        <activity android:name=".trying"></activity>
+        <activity android:name=".ManagerMenuActivity" />
         <activity android:name=".RestaurantOccupancyActivity" />
         <activity android:name=".ExistOrdersActivity" />
         <activity android:name=".BonAppetitActivity" />

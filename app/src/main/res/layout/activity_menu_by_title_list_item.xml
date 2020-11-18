@@ -6,7 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-
     <TextView
         android:id="@+id/dish_name_text"
         android:layout_width="100dp"
@@ -35,11 +34,12 @@
         android:id="@+id/expand_dish_button"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_marginTop="4dp"
-        android:background="#079F9F"
         android:text="לצפיה במנה"
         android:textColor="#000000"
-        android:textSize="10dp"
+        android:background="#69DAF4"
+
+        android:textSize="10sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/order_dish_button"
         app:layout_constraintTop_toTopOf="parent" />
 
