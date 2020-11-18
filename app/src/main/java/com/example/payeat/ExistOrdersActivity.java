@@ -35,6 +35,7 @@ public class ExistOrdersActivity extends AppCompatActivity {
         bottomNavigationView.setOnNavigationItemReselectedListener(new BottomNavigationView.OnNavigationItemReselectedListener() {
             @Override
             public void onNavigationItemReselected(@NonNull MenuItem item) {
+                Toast.makeText(getApplicationContext(),""+item.getItemId(),Toast.LENGTH_LONG).show();
                 switch (item.getItemId()) {
                     case R.id.menu:
                         startActivity(new Intent(getApplicationContext(), ManagerMenuActivity.class));

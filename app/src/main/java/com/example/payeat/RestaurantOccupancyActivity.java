@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -20,8 +21,9 @@ public class RestaurantOccupancyActivity extends AppCompatActivity {
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setSelectedItemId(R.id.restaurant_capacity);
         bottomNavigationView.setOnNavigationItemReselectedListener(new BottomNavigationView.OnNavigationItemReselectedListener() {
-            @Override
+            @Override // the double-click is because the reselected
             public void onNavigationItemReselected(@NonNull MenuItem item) {
+                Toast.makeText(getApplicationContext(),""+item.getItemId(),Toast.LENGTH_LONG).show();
                 switch (item.getItemId()) {
                     case R.id.menu:
                         startActivity(new Intent(getApplicationContext(), ManagerMenuActivity.class));
