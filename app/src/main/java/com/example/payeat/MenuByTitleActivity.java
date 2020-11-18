@@ -34,6 +34,8 @@ public class MenuByTitleActivity extends AppCompatActivity implements AdapterVie
         ListView DishListView = findViewById(R.id.category_menu_list);
         DishListView.setAdapter(adapter);
         DishListView.setOnItemClickListener(this);
+//        findViewById(R.id.order_dish_button).setOnItemClickListener(this);
+//        findViewById(R.id.expand_dish_button).setOnClickListener(this);
     }
 
     @Override
@@ -41,7 +43,7 @@ public class MenuByTitleActivity extends AppCompatActivity implements AdapterVie
         Intent intent = null;
         switch (view.getId()) {
             case R.id.expand_dish_button:
-            //    fragment = DishDetailsFragment.newInstance(this); //HELP!!
+                fragment = DishDetailsFragment.newInstance((View.OnClickListener) this); //HELP!!
                 fragment.show(getSupportFragmentManager(), "DishDetailsFragment");
                 break;
         }
