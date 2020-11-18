@@ -1,5 +1,5 @@
 
-package com.example.payeat;
+package com.example.payeat.activities;
 
         import androidx.annotation.NonNull;
         import androidx.annotation.Nullable;
@@ -19,13 +19,15 @@ package com.example.payeat;
         import android.widget.TextView;
         import android.widget.Toast;
 
+        import com.example.payeat.DishDetailsFragment;
+        import com.example.payeat.R;
+
         import java.util.Arrays;
         import java.util.Collections;
         import java.util.List;
 
 public class MenuByTitleActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
     private DishDetailsFragment fragment1;
-    private OrderDishFragment fragment2;
 
 
     @Override

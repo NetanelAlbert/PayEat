@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -13,10 +14,10 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
-public class DishDetailsFragment extends DialogFragment {
+public class DishDetailsFragment extends DialogFragment  implements AdapterView.OnItemClickListener {
     /**
      * A simple {@link Fragment} subclass.
-     * Use the {@link ChooseTableFragment#newInstance} factory method to
+     * Use the {@link DishDetailsFragment#newInstance} factory method to
      * create an instance of this fragment.
      */
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -28,6 +29,7 @@ public class DishDetailsFragment extends DialogFragment {
     private TextView price;
 
     private View.OnClickListener menuByTitleActivity;
+    private OrderDishFragment orderFragment;
 
 
 
@@ -71,10 +73,24 @@ public class DishDetailsFragment extends DialogFragment {
         name = view.findViewById(R.id.dish_name_text_fragment);
         desc=view.findViewById(R.id.dish_detailes_text);
         price=view.findViewById(R.id.dish_price_text);
-        Button orderButton = view.findViewById(R.id.order_dish_fragment_button);
-        orderButton.setOnClickListener(menuByTitleActivity);
+        final Button orderButton = view.findViewById(R.id.order_dish_fragment_button);
+            orderButton.setVisibility(View.VISIBLE);
+            //does not work ???????
+//            orderButton.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    orderFragment = OrderDishFragment.newInstance((View.OnClickListener) this);
+//                    orderFragment.show(getSupportFragmentManager(), "OrderDishFragment");
+//
+//                }
+//            });
+
         super.onViewCreated(view, savedInstanceState);
     }
 
 
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+    }
 }
