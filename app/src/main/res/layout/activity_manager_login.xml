@@ -5,19 +5,16 @@
     android:id="@+id/icon_image"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#4F5E5A"
-    android:backgroundTint="#87ECD2"
+    android:background="@color/colorBackground"
     android:foregroundTint="@color/colorPrimary">
 
     <Button
         android:id="@+id/button"
         android:layout_width="172dp"
         android:layout_height="60dp"
-        android:backgroundTint="#ECE48C"
-        android:foregroundTint="#B63838"
-        android:shadowColor="#151515"
+        android:backgroundTint="@color/colorButton"
         android:hint="כניסה"
-        android:textColorLink="#0B0A0A"
+        android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.506"
