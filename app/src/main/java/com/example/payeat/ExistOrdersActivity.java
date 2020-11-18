@@ -9,9 +9,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.SearchView;
-import android.widget.Toast;
-import androidx.appcompat.widget.SwitchCompat;
 
+import com.example.payeat.fragments.ChooseTableFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
@@ -23,19 +22,17 @@ public class ExistOrdersActivity extends AppCompatActivity {
     private ExpandableListViewAdapter listViewAdapter;
     private ExpandableListView expandableListView;
     private SearchView searchView;
-    private SwitchCompat switchCompat;
+    private ChooseTableFragment chooseTableFragment;
 
     private List<String> idOrderList;
     private HashMap<String, Order> all_orders; // order_id -> Order/Dishes
-
-    private boolean mode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_exist_orders);
 
-        mode = false; // read-only mode by default
+//        findViewById(R.id.button_delete_dish).setOnClickListener(this);
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setSelectedItemId(R.id.orders);
@@ -61,7 +58,7 @@ public class ExistOrdersActivity extends AppCompatActivity {
         });
         expandableListView = findViewById(R.id.listView_orders);
         makeList();
-        listViewAdapter = new ExpandableListViewAdapter(this, idOrderList, all_orders);
+        listViewAdapter = new ExpandableListViewAdapter(this, idOrderList, all_orders, getSupportFragmentManager());
         expandableListView.setAdapter(listViewAdapter);
 
         searchView = findViewById(R.id.SearchView_orders);
@@ -84,39 +81,12 @@ public class ExistOrdersActivity extends AppCompatActivity {
                         all_ordersFiltered.put(order_id, all_orders.get(order_id));
                     }
                 }
-                listViewAdapter = new ExpandableListViewAdapter(getApplicationContext(), filteredOrders, all_ordersFiltered);
+                listViewAdapter = new ExpandableListViewAdapter(getApplicationContext(),
+                        filteredOrders, all_ordersFiltered, getSupportFragmentManager());
                 expandableListView.setAdapter(listViewAdapter);
                 return false;
             }
         });
-
-        switchCompat = findViewById(R.id.SwitchButton_mode_orders);
-        switchCompat.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (switchCompat.isChecked()) {
-                    Toast.makeText(getApplicationContext(), "עריכה", Toast.LENGTH_SHORT).show();
-                    mode = true;
-                }
-                else {
-                    Toast.makeText(getApplicationContext(), "צפייה בלבד", Toast.LENGTH_SHORT).show();
-                    mode = false;
-                }
-            }
-        });
-
-        expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
-
-            @Override
-            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-                if(mode) {
-                    Toast.makeText(getApplicationContext(), "ימלך אתה במצב עריכה, לחצת על: " + childPosition, Toast.LENGTH_SHORT).show();
-                }
-                return false;
-            }
-        });
-
-
     }
 
     private void makeList() {
@@ -127,9 +97,9 @@ public class ExistOrdersActivity extends AppCompatActivity {
 
         // when firebase will be ready hear we are going to do the quary
 
-        Dish dish1 = new Dish("Raw 1", 50, "description1");
-        Dish dish2 = new Dish("Raw 2", 40, "description2");
-        Dish dish3 = new Dish("Raw 3", 30, "description3");
+        Dish dish1 = new Dish("שורה 1", 50, "description1");
+        Dish dish2 = new Dish("שורה 2", 40, "description2");
+        Dish dish3 = new Dish("שורה 3", 30, "description3");
 
         Order order1 = new Order(new Dish[]{dish1, dish2, dish3}, 1);
         Order order2 = new Order(new Dish[]{dish2, dish3, dish1}, 2);

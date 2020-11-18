@@ -1,20 +1,116 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
     android:padding="4dp"
     android:gravity="center"
-    android:background="@android:color/white"
+    android:background="@color/colorBackground"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context=".ExistOrdersActivity">
 
-    <TextView
+    <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:id="@+id/textView_order_info"
-        android:text="Order info"
-        android:textSize="26sp"
-        android:textColor="@android:color/black"
-        android:paddingEnd="?android:expandableListPreferredChildIndicatorRight"
-        android:paddingStart="?android:expandableListPreferredChildIndicatorRight"
-        />
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textView_dish_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="שם מנה: "
+                tools:ignore="NestedWeights" />
+
+            <EditText
+                android:id="@+id/editText_dish_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:autofillHints="שם מנה"
+                android:editable="false"
+                android:ems="5"
+                tools:ignore="Deprecated,NestedWeights" />
+
+            <TextView
+                android:id="@+id/textView_cost"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="מחיר: " />
+
+            <EditText
+                android:id="@+id/editText_cost"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:autofillHints="מחיר"
+                android:editable="false"
+                android:ems="5"
+                tools:ignore="Deprecated,NestedWeights"
+                android:inputType="number" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textView_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="תיאור: "
+                tools:ignore="NestedWeights" />
+
+            <EditText
+                android:id="@+id/editText_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:autofillHints="תיאור"
+                android:editable="false"
+                android:ems="10"
+                tools:ignore="Deprecated,NestedWeights" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <Space
+        android:layout_width="20dp"
+        android:layout_height="10dp" />
+
+    <Button
+        android:id="@+id/button_edit_cost"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="עדכן מחיר"
+        android:background="@color/colorButton" />
+
+    <Space
+        android:layout_width="20dp"
+        android:layout_height="10dp" />
+
+    <Button
+        android:id="@+id/button_delete_dish"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="מחק מנה"
+        android:background="@color/colorButton" />
+
+    <Space
+        android:layout_width="20dp"
+        android:layout_height="10dp" />
+
+
 </LinearLayout>

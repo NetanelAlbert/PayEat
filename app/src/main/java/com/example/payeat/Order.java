@@ -32,4 +32,8 @@ public class Order {
     public Dish get(int childPosition) {
         return this.orderInfo.get(childPosition);
     }
+
+    public Dish deleteDish(int index) {
+        return orderInfo.remove(index);
+    }
 }

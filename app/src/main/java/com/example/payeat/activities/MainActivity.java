@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 
+import com.example.payeat.ManagerOptionsActivity;
 import com.example.payeat.fragments.ChooseTableFragment;
 import com.example.payeat.ManagerLoginActivity;
 import com.example.payeat.R;
