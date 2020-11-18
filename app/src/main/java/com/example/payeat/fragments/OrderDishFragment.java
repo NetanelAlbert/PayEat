@@ -1,4 +1,4 @@
-package com.example.payeat;
+package com.example.payeat.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -12,7 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
-import com.example.payeat.fragments.ChooseTableFragment;
+import com.example.payeat.R;
 
 public class OrderDishFragment extends DialogFragment {
     /**

@@ -6,7 +6,6 @@ package com.example.payeat.activities;
         import androidx.appcompat.app.AppCompatActivity;
 
         import android.content.Context;
-        import android.content.Intent;
         import android.os.Bundle;
         import android.view.LayoutInflater;
         import android.view.View;
@@ -17,13 +16,11 @@ package com.example.payeat.activities;
         import android.widget.Button;
         import android.widget.ListView;
         import android.widget.TextView;
-        import android.widget.Toast;
 
-        import com.example.payeat.DishDetailsFragment;
+        import com.example.payeat.fragments.DishDetailsFragment;
         import com.example.payeat.R;
 
         import java.util.Arrays;
-        import java.util.Collections;
         import java.util.List;
 
 public class MenuByTitleActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
