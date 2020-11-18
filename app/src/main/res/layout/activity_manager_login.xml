@@ -13,7 +13,7 @@
         android:layout_width="172dp"
         android:layout_height="60dp"
         android:backgroundTint="@color/colorButton"
-        android:hint="כניסה"
+        android:text="כניסה"
         android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -22,28 +22,16 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.746" />
 
-    <EditText
-        android:id="@+id/username_edit_text"
-        android:layout_width="216dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="36dp"
-        android:text="שם משתמש"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageButton" />
-
 
     <EditText
         android:id="@+id/textView2"
         android:layout_width="209dp"
         android:layout_height="50dp"
-        android:layout_marginTop="28dp"
-        android:text="סיסמא"
+        android:layout_marginTop="312dp"
+        android:hint="סיסמא"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/username_edit_text" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
         android:id="@+id/imageButton"
