@@ -1,4 +1,4 @@
-package com.example.payeat;
+package com.example.payeat.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -6,12 +6,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
+
+import com.example.payeat.R;
 
 public class OrderDishFragment extends DialogFragment {
     /**
@@ -27,7 +28,7 @@ public class OrderDishFragment extends DialogFragment {
 //    private TextView desc;
 //    private TextView price;
 
-    private View.OnClickListener menuByTitleActivity;
+    private View.OnClickListener dishDetailsFragment;
 
 
 
@@ -49,7 +50,7 @@ public class OrderDishFragment extends DialogFragment {
     }
 
     private void setOnClickListener(View.OnClickListener clicker) {
-        this.menuByTitleActivity = clicker;
+        this.dishDetailsFragment = clicker;
     }
 
     @Override
@@ -72,7 +73,7 @@ public class OrderDishFragment extends DialogFragment {
 //        desc=view.findViewById(R.id.dish_detailes_text);
 //        price=view.findViewById(R.id.dish_price_text);
         Button orderButton = view.findViewById(R.id.order_dish_fragment_button);
-        orderButton.setOnClickListener(menuByTitleActivity);
+        orderButton.setOnClickListener(dishDetailsFragment);
         super.onViewCreated(view, savedInstanceState);
     }
 
