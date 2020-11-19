@@ -2,7 +2,6 @@ package com.example.payeat;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.fragment.app.FragmentManager;
@@ -20,9 +20,12 @@ import java.util.List;
 public class ExpandableListViewAdapter extends BaseExpandableListAdapter {
 
     private Context _context;
+//    public EditText static cost; not need this after connect to the database
+
     private List<String> _listDataHeader;
     private HashMap<String, Order> _listChildData;
     private UpdateCostFragment costFragment;
+    private DeleteDishFragment deleteDishFragment;
     FragmentManager FmBase;
 
     public ExpandableListViewAdapter(Context context, List<String> _listDataHeader,
@@ -106,37 +109,27 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter {
         editCostButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = null;
-                switch (v.getId()) {
-                    case R.id.button_edit_cost:
-                        costFragment = UpdateCostFragment.newInstance(this);
-                        costFragment.show(FmBase, "UpdateCostFragment");
-                        break;
-//                    case R.id.button_update_cost:
-//                        String new_costS = costFragment.getCost();
-//                        if(new_costS == null || new_costS.length() == 0)
-//                            return;
-//                        int new_cost = Integer.parseInt(new_costS);
-//                        costFragment.dismiss();
-//
-//                        break;
-//                    case R.id.button_cancel_cost:
-//                        costFragment.dismiss();
-//                        break;
-                    default:
-                }
+                costFragment = UpdateCostFragment.newInstance(groupPosition, childPosition);
+                costFragment.show(FmBase, "UpdateCostFragment");
             }
         });
         Button deleteDishButton = convertView.findViewById(R.id.button_delete_dish);
         deleteDishButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                v.setBackground(Drawable.createFromPath("#000"));
-                Order order = (Order)  _listChildData.get((String) getGroup(groupPosition));
-                Dish deletedDish = order.deleteDish(childPosition);
+                deleteDishFragment = DeleteDishFragment.newInstance(groupPosition, childPosition);
+                deleteDishFragment.show(FmBase, "DeleteFragment");
             }
         });
 
+//        if(isLastChild) {
+//            LinearLayout buttonContainer = (LinearLayout) convertView.findViewById(R.id.layout_order_topics);
+//            Button myButton = new Button(_context);
+//            myButton.setText("Press Me");
+//
+//            buttonContainer.addView(myButton);
+//
+//        }
 
         return convertView;
     }
@@ -146,5 +139,4 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter {
 //        Toast.makeText(,"you press: " + childPosition + " in: " + groupPosition, Toast.LENGTH_SHORT).show();
         return true;
     }
-
 }

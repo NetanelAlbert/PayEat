@@ -1,5 +1,6 @@
 package com.example.payeat;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,20 +20,15 @@ import android.widget.EditText;
  * Use the {@link UpdateCostFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class UpdateCostFragment extends DialogFragment {
+public class UpdateCostFragment extends DialogFragment implements View.OnClickListener {
 
-//
-//    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-//    private static final String ARG_PARAM1 = "param1";
-//    private static final String ARG_PARAM2 = "param2";
-//
-//
-//    private String mParam1;
-//    private String mParam2;
-    private Button button_update_cost;
-    private Button button_cancel_cost;
-    private EditText editText;
-    private View.OnClickListener ExpandableListViewAdapter;
+    private static String ORDER_NUMBER;
+    private static String DISH_NUMBER;
+
+    private int order_number;
+    private int dish_number;
+
+    private EditText editTextNumber_new_cost;
 
     public UpdateCostFragment() {
         // Required empty public constructor
@@ -41,29 +37,28 @@ public class UpdateCostFragment extends DialogFragment {
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
-     *
-     * @param clicker - A listener to the button, should be ExpandableListViewAdapter.
+     * @param PgroupPosition order number.
+     * @param PchildPosition dish number.
      * @return A new instance of fragment UpdateCostFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static UpdateCostFragment newInstance(View.OnClickListener clicker) {
+    public static UpdateCostFragment newInstance(int PgroupPosition, int PchildPosition) {
         UpdateCostFragment fragment = new UpdateCostFragment();
-        fragment.setOnClickListener(clicker);
-//        Bundle args = new Bundle();
-//        args.putString(ARG_PARAM1, param1);
-//        args.putString(ARG_PARAM2, param2);
-//        fragment.setArguments(args);
+        Bundle args = new Bundle();
+        args.putInt(ORDER_NUMBER, PgroupPosition);
+        args.putInt(DISH_NUMBER, PchildPosition);
+        fragment.setArguments(args);
         return fragment;
-    }
-
-    private void setOnClickListener(View.OnClickListener clicker) {
-        this.ExpandableListViewAdapter = clicker;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        if (getArguments() != null) {
+            order_number = getArguments().getInt(ORDER_NUMBER);
+            dish_number = getArguments().getInt(DISH_NUMBER);
+        }
+//        editText_cost=com.example.payeat.ExpandableListViewAdapter.cost;
     }
 
     @Override
@@ -73,35 +68,41 @@ public class UpdateCostFragment extends DialogFragment {
         final View convertView = inflater.inflate(R.layout.fragment_update_cost, container, false);
 
         Button updateCostButton = convertView.findViewById(R.id.button_update_cost);
-        updateCostButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                EditText editText = convertView.findViewById(R.id.editText_cost); //this return null
-                String new_costS = getCost();
-                if(new_costS == null || new_costS.length() == 0)
-                    return;
-                int new_cost = Integer.parseInt(new_costS);
-                editText.setText(new_cost);
-                dismiss();
-            }
-        });
+        updateCostButton.setOnClickListener(this);
 
         Button cancelCostButton = convertView.findViewById(R.id.button_cancel_cost);
-        cancelCostButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dismiss();
-            }
-        });
+        cancelCostButton.setOnClickListener(this);
 
+        editTextNumber_new_cost = convertView.findViewById(R.id.editTextNumber_new_cost);
 
         return convertView;
     }
 
     public String getCost() {
-        if(editText == null)
+        if( editTextNumber_new_cost== null)
             throw new RuntimeException("Should be called after the fragment is alive.");
 
-        return editText.getText().toString();
+        return editTextNumber_new_cost.getText().toString();
+    }
+
+    @SuppressLint("SetTextI18n")
+    @Override
+    public void onClick(View v) {
+        switch(v.getId()) {
+            case R.id.button_update_cost:
+                String new_costS = getCost();
+                if(new_costS == null || new_costS.length() == 0)
+                    return;
+                int new_cost = Integer.parseInt(new_costS);
+//                editText_cost.setText(""+new_cost);
+                // need to update the database with the new cost and not editText
+
+                dismiss();
+                break;
+            case R.id.button_cancel_cost:
+                dismiss();
+                break;
+        }
+
     }
 }
