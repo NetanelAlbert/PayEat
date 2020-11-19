@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import com.example.payeat.R;
 
@@ -76,23 +77,35 @@ public class DishDetailsFragment extends DialogFragment  implements AdapterView.
         desc=view.findViewById(R.id.dish_detailes_text);
         price=view.findViewById(R.id.dish_price_text);
         final Button orderButton = view.findViewById(R.id.order_dish_fragment_button);
-            orderButton.setVisibility(View.VISIBLE);
-            //does not work ???????
-//            orderButton.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    orderFragment = OrderDishFragment.newInstance((View.OnClickListener) this);
-//                    orderFragment.show(getSupportFragmentManager(), "OrderDishFragment");
-//
-//                }
-//            });
+        orderButton.setVisibility(View.VISIBLE);
+        //does not work ???????
+            orderButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    orderFragment = OrderDishFragment.newInstance((View.OnClickListener) this);
+                    FragmentManager fm = getFragmentManager();
+                    fm.beginTransaction()
+                            .setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
+                            .show(orderFragment)
+                            .commit();
+//                    orderFragment.show(getActivity().getSupportFragmentManager()
+//                            , "OrderDishFragment");
+
+                }
+            });
 
         super.onViewCreated(view, savedInstanceState);
     }
-
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
     }
+
+
+//    @Override
+//    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//
+//    }
 }

@@ -73,9 +73,7 @@ public class MenuByTitleActivity extends AppCompatActivity implements AdapterVie
             TextView title = convertView.findViewById(R.id.dish_name_text);
             title.setText(list.get(position));
             Button expandDishButton =  convertView.findViewById(R.id.expand_dish_button);
-            if(position == 0){
-                expandDishButton.setVisibility(View.INVISIBLE);
-            } else {
+
                 expandDishButton.setVisibility(View.VISIBLE);
                 expandDishButton.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -85,7 +83,6 @@ public class MenuByTitleActivity extends AppCompatActivity implements AdapterVie
 
                     }
                 });
-            }
 
             return convertView;
         }
