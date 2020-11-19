@@ -13,7 +13,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class ManagerMenuActivity extends AppCompatActivity {
 
-    SwitchCompat switchCompat;
+    private SwitchCompat switchCompat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +44,7 @@ public class ManagerMenuActivity extends AppCompatActivity {
             }
         });
 
-        switchCompat = findViewById(R.id.SwitchButton_mode);
+        switchCompat = findViewById(R.id.SwitchButton_mode_menu);
         switchCompat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

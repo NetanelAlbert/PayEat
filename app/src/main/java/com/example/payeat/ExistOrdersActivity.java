@@ -9,8 +9,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.SearchView;
-import android.widget.Toast;
 
+import com.example.payeat.fragments.ChooseTableFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
@@ -22,6 +22,8 @@ public class ExistOrdersActivity extends AppCompatActivity {
     private ExpandableListViewAdapter listViewAdapter;
     private ExpandableListView expandableListView;
     private SearchView searchView;
+    private ChooseTableFragment chooseTableFragment;
+
     private List<String> idOrderList;
     private HashMap<String, Order> all_orders; // order_id -> Order/Dishes
 
@@ -29,6 +31,8 @@ public class ExistOrdersActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_exist_orders);
+
+//        findViewById(R.id.button_delete_dish).setOnClickListener(this);
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setSelectedItemId(R.id.orders);
@@ -54,7 +58,7 @@ public class ExistOrdersActivity extends AppCompatActivity {
         });
         expandableListView = findViewById(R.id.listView_orders);
         makeList();
-        listViewAdapter = new ExpandableListViewAdapter(this, idOrderList, all_orders);
+        listViewAdapter = new ExpandableListViewAdapter(this, idOrderList, all_orders, getSupportFragmentManager());
         expandableListView.setAdapter(listViewAdapter);
 
         searchView = findViewById(R.id.SearchView_orders);
@@ -77,12 +81,12 @@ public class ExistOrdersActivity extends AppCompatActivity {
                         all_ordersFiltered.put(order_id, all_orders.get(order_id));
                     }
                 }
-                listViewAdapter = new ExpandableListViewAdapter(getApplicationContext(), filteredOrders, all_ordersFiltered);
+                listViewAdapter = new ExpandableListViewAdapter(getApplicationContext(),
+                        filteredOrders, all_ordersFiltered, getSupportFragmentManager());
                 expandableListView.setAdapter(listViewAdapter);
                 return false;
             }
         });
-
     }
 
     private void makeList() {
@@ -93,17 +97,17 @@ public class ExistOrdersActivity extends AppCompatActivity {
 
         // when firebase will be ready hear we are going to do the quary
 
-        Dish dish1 = new Dish("Raw 1", 50, "description1");
-        Dish dish2 = new Dish("Raw 2", 40, "description2");
-        Dish dish3 = new Dish("Raw 3", 30, "description3");
+        Dish dish1 = new Dish("שורה 1", 50, "description1");
+        Dish dish2 = new Dish("שורה 2", 40, "description2");
+        Dish dish3 = new Dish("שורה 3", 30, "description3");
 
-        Order order1 = new Order(new Dish[]{dish1, dish2, dish3});
-        Order order2 = new Order(new Dish[]{dish2, dish3, dish1});
-        Order order3 = new Order(new Dish[]{dish3, dish1, dish2});
+        Order order1 = new Order(new Dish[]{dish1, dish2, dish3}, 1);
+        Order order2 = new Order(new Dish[]{dish2, dish3, dish1}, 2);
+        Order order3 = new Order(new Dish[]{dish3, dish1, dish2}, 3);
 
-        idOrderList.add("Order 1");
-        idOrderList.add("Order 2");
-        idOrderList.add("Order 3");
+        idOrderList.add("שולחן 1");
+        idOrderList.add("שולחן 2");
+        idOrderList.add("שולחן 3");
 
         all_orders.put(idOrderList.get(0), order1);
         all_orders.put(idOrderList.get(1), order2);
