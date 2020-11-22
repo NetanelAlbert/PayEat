@@ -7,7 +7,7 @@
     android:background="@color/colorBackground"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ExistOrdersActivity" >
+    tools:context=".activities.ExistOrdersActivity" >
 
     <LinearLayout
         android:layout_width="wrap_content"
