@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Order {
-    private static Firebase firebaseReference = Database.getDataBaseInstance();
 
     private ArrayList<Dish> orderInfo; // order_info is collection of dishes
     private int table_number; // the identifier of the order.
@@ -35,5 +34,13 @@ public class Order {
 
     public Dish deleteDish(int index) {
         return orderInfo.remove(index);
+    }
+
+    public int calculateOrder() {
+        int sum = 0;
+        for (Dish d: this.orderInfo) {
+            sum += d.getPrice();
+        }
+        return sum;
     }
 }
