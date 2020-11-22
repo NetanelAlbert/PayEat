@@ -1,20 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/colorBackground"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center">
+
+    <TextView
+        android:id="@+id/textView_write"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="נא כתוב הערות להזמנת אם יש"
+        android:textSize="25dp"
+        android:textColor="@android:color/black" />
 
     <EditText
         android:id="@+id/order_dish_fragment_costumer_request"
-        android:layout_width="301dp"
-        android:layout_height="138dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="104dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="נא כתוב הערות להזמנת אם יש"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
@@ -33,4 +42,4 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/order_dish_fragment_costumer_request" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
