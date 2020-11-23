@@ -19,26 +19,27 @@ package com.example.payeat.activities;
 
         import com.example.payeat.fragments.DishDetailsFragment;
         import com.example.payeat.R;
+        import com.example.payeat.fragments.OrderDishFragment;
 
         import java.util.Arrays;
         import java.util.List;
 
 public class MenuByTitleActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
     private DishDetailsFragment fragment1;
+    private OrderDishFragment fragment2;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu_by_title);
-
         DishAdapter adapter = new DishAdapter(this, R.layout.activity_menu_by_title_list_item,
                 Arrays.asList("סלט חלומי","סלט יווני","סלט ירוק", "סלט טוסט"));
         ListView DishListView = findViewById(R.id.category_menu_list);
         DishListView.setAdapter(adapter);
         DishListView.setOnItemClickListener(this);
-//        findViewById(R.id.order_dish_button).setOnItemClickListener(this);
-//        findViewById(R.id.expand_dish_button).setOnClickListener(this);
+       // findViewById(R.id.order_dish_button).setOnItemClickListener(this);
+       // findViewById(R.id.expand_dish_button).setOnClickListener((View.OnClickListener) this);
     }
 
     @Override
@@ -73,16 +74,24 @@ public class MenuByTitleActivity extends AppCompatActivity implements AdapterVie
             TextView title = convertView.findViewById(R.id.dish_name_text);
             title.setText(list.get(position));
             Button expandDishButton =  convertView.findViewById(R.id.expand_dish_button);
-
                 expandDishButton.setVisibility(View.VISIBLE);
                 expandDishButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        fragment1 = DishDetailsFragment.newInstance((View.OnClickListener) this);
+                       fragment1 = DishDetailsFragment.newInstance((View.OnClickListener) this);
                        fragment1.show(getSupportFragmentManager(), "DishDetailsFragment");
-
                     }
                 });
+//            Button OrderDishButton =  convertView.findViewById(R.id.order_dish_fragment_button);
+//            //OrderDishButton.setVisibility(View.VISIBLE);
+//            OrderDishButton.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    fragment1.dismiss();
+//                    fragment2 = OrderDishFragment.newInstance((View.OnClickListener) this);
+//                    fragment2.show(getSupportFragmentManager(), "orderDishFragment");
+//                }
+//            });
 
             return convertView;
         }
