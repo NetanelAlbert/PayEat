@@ -27,7 +27,7 @@ package com.example.payeat.activities;
 public class MenuByTitleActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
     private DishDetailsFragment fragment1;
     private OrderDishFragment fragment2;
-
+    private boolean mode_manager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +40,8 @@ public class MenuByTitleActivity extends AppCompatActivity implements AdapterVie
         DishListView.setOnItemClickListener(this);
        // findViewById(R.id.order_dish_button).setOnItemClickListener(this);
        // findViewById(R.id.expand_dish_button).setOnClickListener((View.OnClickListener) this);
+
+        mode_manager = getIntent().getBooleanExtra("mode manager", false);
     }
 
     @Override
@@ -78,7 +80,7 @@ public class MenuByTitleActivity extends AppCompatActivity implements AdapterVie
                 expandDishButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                       fragment1 = DishDetailsFragment.newInstance((View.OnClickListener) this);
+                       fragment1 = DishDetailsFragment.newInstance(mode_manager);
                        fragment1.show(getSupportFragmentManager(), "DishDetailsFragment");
                     }
                 });
