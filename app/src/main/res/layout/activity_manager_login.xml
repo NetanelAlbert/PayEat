@@ -9,11 +9,11 @@
     android:foregroundTint="@color/colorPrimary">
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/activity_manager_login_button"
         android:layout_width="172dp"
         android:layout_height="60dp"
         android:backgroundTint="@color/colorButton"
-        android:text="כניסה"
+        android:text="כניסת מנהל"
         android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -23,25 +23,26 @@
         app:layout_constraintVertical_bias="0.746" />
 
 
+    <ImageView
+        android:id="@+id/activity_main_logo_imagview"
+        android:layout_width="472dp"
+        android:layout_height="434dp"
+        android:layout_marginTop="4dp"
+        android:src="@drawable/app_logo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.672"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@drawable/app_logo" />
+
     <EditText
         android:id="@+id/textView2"
         android:layout_width="209dp"
         android:layout_height="50dp"
-        android:layout_marginTop="312dp"
+        android:layout_marginTop="380dp"
         android:hint="סיסמא"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageButton
-        android:id="@+id/imageButton"
-        android:layout_width="176dp"
-        android:layout_height="177dp"
-        android:layout_marginTop="48dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@tools:sample/avatars" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

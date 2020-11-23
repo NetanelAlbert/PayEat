@@ -1,14 +1,16 @@
-package com.example.payeat;
+package com.example.payeat.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
-public class ManagerLoginActivity extends AppCompatActivity {
+import com.example.payeat.R;
+
+public class MyCartActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_manager_login);
+        setContentView(R.layout.activity_my_cart);
     }
 }
