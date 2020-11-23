@@ -9,7 +9,7 @@
     android:foregroundTint="@color/colorPrimary">
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/activity_manager_login_button"
         android:layout_width="172dp"
         android:layout_height="60dp"
         android:backgroundTint="@color/colorButton"
@@ -23,16 +23,6 @@
         app:layout_constraintVertical_bias="0.746" />
 
 
-    <EditText
-        android:id="@+id/textView2"
-        android:layout_width="209dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="380dp"
-        android:hint="סיסמא"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <ImageView
         android:id="@+id/activity_main_logo_imagview"
         android:layout_width="472dp"
@@ -44,5 +34,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@drawable/app_logo" />
+
+    <EditText
+        android:id="@+id/textView2"
+        android:layout_width="209dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="380dp"
+        android:hint="סיסמא"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

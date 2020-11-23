@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/colorBackground"
     android:backgroundTint="#87ECD2"
-    tools:context=".BonAppetitActivity">
+    tools:context=".activities.BonAppetitActivity">
 
     <EditText
         android:id="@+id/editTextcבתיאבון"
