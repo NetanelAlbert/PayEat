@@ -16,6 +16,7 @@ package com.example.payeat.activities;
         import android.widget.Button;
         import android.widget.ListView;
         import android.widget.TextView;
+        import android.widget.Toast;
 
         import com.example.payeat.fragments.DishDetailsFragment;
         import com.example.payeat.R;
@@ -24,24 +25,25 @@ package com.example.payeat.activities;
         import java.util.Arrays;
         import java.util.List;
 
-public class MenuByTitleActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
+public class MenuByTitleActivity extends AppCompatActivity implements AdapterView.OnItemClickListener ,View.OnClickListener {
     private DishDetailsFragment fragment1;
-    private OrderDishFragment fragment2;
     private boolean mode_manager;
+    private Button goToCart;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu_by_title);
         DishAdapter adapter = new DishAdapter(this, R.layout.activity_menu_by_title_list_item,
-                Arrays.asList("סלט חלומי","סלט יווני","סלט ירוק", "סלט טוסט"));
+                Arrays.asList("קרמבו", "קרמבו", "קרמבו", "קרמבו"));
         ListView DishListView = findViewById(R.id.category_menu_list);
         DishListView.setAdapter(adapter);
         DishListView.setOnItemClickListener(this);
-       // findViewById(R.id.order_dish_button).setOnItemClickListener(this);
-       // findViewById(R.id.expand_dish_button).setOnClickListener((View.OnClickListener) this);
-
         mode_manager = getIntent().getBooleanExtra("mode manager", false);
+        goToCart = (Button) findViewById(R.id.go_to_my_cart_button);
+
+        //Setting listeners to button
+        goToCart.setOnClickListener((View.OnClickListener) this);
     }
 
     @Override
@@ -58,6 +60,14 @@ public class MenuByTitleActivity extends AppCompatActivity implements AdapterVie
        // Intent intent = new Intent(this, MenuByTitleActivity.class); //Activity Dish
         //intent.putExtra(getResources().getString(R.string.intent_extras_menu_id),i); // TODO change 'i' to the real id according to database.
         //startActivity(intent);
+    }
+
+    @Override
+    public void onClick(View v) {
+        if(v.getId()==R.id.go_to_my_cart_button)
+            Toast.makeText(this, "הולך לעגלה!", Toast.LENGTH_SHORT ).show();
+
+
     }
 
     private class DishAdapter extends ArrayAdapter<String>{
@@ -84,16 +94,6 @@ public class MenuByTitleActivity extends AppCompatActivity implements AdapterVie
                        fragment1.show(getSupportFragmentManager(), "DishDetailsFragment");
                     }
                 });
-//            Button OrderDishButton =  convertView.findViewById(R.id.order_dish_fragment_button);
-//            //OrderDishButton.setVisibility(View.VISIBLE);
-//            OrderDishButton.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    fragment1.dismiss();
-//                    fragment2 = OrderDishFragment.newInstance((View.OnClickListener) this);
-//                    fragment2.show(getSupportFragmentManager(), "orderDishFragment");
-//                }
-//            });
 
             return convertView;
         }

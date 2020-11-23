@@ -13,7 +13,7 @@
         android:id="@+id/textView_write"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="נא כתוב הערות להזמנת אם יש"
+        android:text="נא כתוב הערות להזמנה אם יש"
         android:textSize="25dp"
         android:textColor="@android:color/black" />
 
