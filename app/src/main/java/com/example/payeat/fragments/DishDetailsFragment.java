@@ -31,7 +31,7 @@ public class DishDetailsFragment extends DialogFragment  implements View.OnClick
     private TextView desc;
     private TextView price;
 
-    //    private View.OnClickListener menuByTitleActivity;
+//    private View.OnClickListener menuByTitleActivity;
     private OrderDishFragment orderFragment;
 
 
@@ -112,11 +112,11 @@ public class DishDetailsFragment extends DialogFragment  implements View.OnClick
                 orderFragment = OrderDishFragment.newInstance((View.OnClickListener) this);
                 FragmentManager fm = getFragmentManager();
                 fm.beginTransaction()
-                        .setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
-                        .show(orderFragment)
-                        .commit();
-                orderFragment.show(getActivity().getSupportFragmentManager()
-                        , "OrderDishFragment");
+                            .setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
+                            .show(orderFragment)
+                            .commit();
+                    orderFragment.show(getActivity().getSupportFragmentManager()
+                            , "OrderDishFragment");
 
                 dismiss();
                 break;
