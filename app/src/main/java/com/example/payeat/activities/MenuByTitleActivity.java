@@ -44,6 +44,10 @@ public class MenuByTitleActivity extends AppCompatActivity implements AdapterVie
 
         //Setting listeners to button
         goToCart.setOnClickListener((View.OnClickListener) this);
+
+        if(mode_manager) {
+          goToCart.setVisibility(View.GONE);
+        }
     }
 
     @Override

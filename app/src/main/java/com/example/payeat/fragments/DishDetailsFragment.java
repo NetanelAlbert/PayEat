@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.fragment.app.DialogFragment;
@@ -26,9 +27,9 @@ public class DishDetailsFragment extends DialogFragment  implements View.OnClick
     private static String MODE_MANAGER;
 
     private Context context;
-    private TextView name;
-    private TextView desc;
-    private TextView price;
+    private TextView TextView_dishName;
+    private TextView TextView_dishDesc;
+    private TextView TextView_dishPrice;
     private boolean mode_manager;
 
 //    private View.OnClickListener menuByTitleActivity;
@@ -77,6 +78,10 @@ public class DishDetailsFragment extends DialogFragment  implements View.OnClick
         Button orderDishButton = convertView.findViewById(R.id.order_dish_fragment_button);
         orderDishButton.setOnClickListener(this);
 
+        TextView_dishName = convertView.findViewById(R.id.dish_name_text_fragment);
+        TextView_dishDesc = convertView.findViewById(R.id.dish_details_fragment);
+        TextView_dishPrice = convertView.findViewById(R.id.dish_price_fragment);
+
         if(mode_manager) {
             orderDishButton.setText("עדכן מנה");
         }
@@ -116,19 +121,22 @@ public class DishDetailsFragment extends DialogFragment  implements View.OnClick
         switch(v.getId()) {
             case R.id.order_dish_fragment_button:
                 if(mode_manager) {
+                    int cost;
+                    try {
+                        cost = Integer.getInteger(""+TextView_dishPrice.getText());
+                    }
+                    catch (Exception exception) {
+                        cost = 0;
+                    }
 
-                    editDishFragment = EditDishFromManagerFragment.newInstance("bla", "bla");
+                    editDishFragment = EditDishFromManagerFragment.newInstance(""+TextView_dishName.getText(), cost, ""+TextView_dishDesc.getText());
                     FragmentManager fm = getFragmentManager();
                     fm.beginTransaction()
                             .setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
                             .show(editDishFragment)
                             .commit();
-//                    editDishFragment.show(getActivity().getSupportFragmentManager()
-//                            , "EditDishFromManagerFragment");
-
-                    // TODO NOT RECOGNIZE show()
-
-
+                    editDishFragment.show(getActivity().getSupportFragmentManager()
+                            , "EditDishFromManagerFragment");
                 }
                 else {
                     // do whatever you want when you press on "הזמן מנה"
