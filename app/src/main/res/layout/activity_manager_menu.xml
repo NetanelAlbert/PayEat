@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ManagerMenuActivity"
+    tools:context=".activities.ManagerMenuActivity"
     android:gravity="right"
     android:background="@color/colorBackground">
 
@@ -27,7 +27,7 @@
         tools:ignore="RtlHardcoded">
 
         <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/SwitchButton_mode"
+            android:id="@+id/SwitchButton_mode_menu"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -38,7 +38,7 @@
             android:track="@drawable/sh_track" />
 
         <TextView
-            android:id="@+id/textView_mode"
+            android:id="@+id/textView_mode_menu"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="4dp"

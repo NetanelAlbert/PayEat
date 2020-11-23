@@ -6,15 +6,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import com.example.payeat.R;
 
-public class OrderDishFragment extends DialogFragment {
+public class OrderDishFragment extends DialogFragment implements View.OnClickListener {
     /**
      * A simple {@link Fragment} subclass.
      * Use the {@link ChooseTableFragment#newInstance} factory method to
@@ -64,17 +66,24 @@ public class OrderDishFragment extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_order_dish, container, false);
+        final View convertView = inflater.inflate(R.layout.fragment_order_dish, container, false);
+
+        Button orderButton = convertView.findViewById(R.id.confirm_order_button);
+        orderButton.setOnClickListener(this);
+
+        return convertView;
+
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-//        name = view.findViewById(R.id.dish_name_text_fragment);
-//        desc=view.findViewById(R.id.dish_detailes_text);
-//        price=view.findViewById(R.id.dish_price_text);
-        Button orderButton = view.findViewById(R.id.order_dish_fragment_button);
-        orderButton.setOnClickListener(dishDetailsFragment);
-        super.onViewCreated(view, savedInstanceState);
+    public void onClick(View v) {
+        switch(v.getId()) {
+            case R.id.confirm_order_button:
+                Toast.makeText(getActivity(), "סגור, הזמנתי!", Toast.LENGTH_SHORT ).show();
+                dismiss();
+                break;
+        }
+
     }
 
 

@@ -4,31 +4,47 @@ public class Dish {
     private String name;
     private int price;
     private String description;
-
+    private boolean in_stock;
+    private String notes;
 
     public Dish(String name, int price, String description) {
         this.name = name;
         this.price = price;
         this.description = description;
+        this.in_stock = true;
+        this.notes = "";
+    }
+
+    public Dish(String name, int price, String description, boolean in_stock) {
+        this.name = name;
+        this.price = price;
+        this.description = description;
+        this.in_stock = in_stock;
+        this.notes = "";
+    }
+
+    public Dish(String name, int price, String description, boolean in_stock, String notes) {
+        this.name = name;
+        this.price = price;
+        this.description = description;
+        this.in_stock = in_stock;
+        this.notes = notes;
     }
 
     public String getName(){
         return name;
     }
-    public void setName(String n){
-        name=n;
-    }
     public String getDesc(){
         return description;
-    }
-    public void setDesc(String d){
-        description=d;
     }
     public int getPrice(){
         return price;
     }
-    public void setName(int p){
-        price=p;
+    public boolean isIn_stock() {
+        return in_stock;
+    }
+    public String getNotes() {
+        return notes;
     }
 
     @Override

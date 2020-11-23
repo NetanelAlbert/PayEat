@@ -28,5 +28,7 @@
     <string name="shared_preferences_key">spk</string>
     <string name="ok">אישור</string>
     <string name="client_table_number">ctn</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

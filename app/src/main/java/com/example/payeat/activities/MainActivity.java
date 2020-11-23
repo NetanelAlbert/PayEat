@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.example.payeat.fragments.ChooseTableFragment;
-import com.example.payeat.ManagerLoginActivity;
 import com.example.payeat.R;
 
 //import com.firebase.client.DataSnapshot;
@@ -60,7 +59,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 fragment.show(getSupportFragmentManager(), "ChooseTableFragment");
                 break;
             case R.id.activity_main_manager_button :
-                intent = new Intent(this, ManagerLoginActivity.class);
+                intent = new Intent(this, ManagerOptionsActivity.class);
                 break;
             case R.id.fragment_choose_table_Button :
                 String tableNumberS = fragment.getTableNumber();

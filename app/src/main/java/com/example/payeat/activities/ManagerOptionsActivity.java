@@ -1,4 +1,4 @@
-package com.example.payeat;
+package com.example.payeat.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -10,6 +10,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.payeat.Database;
+import com.example.payeat.R;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
@@ -59,23 +61,22 @@ public class ManagerOptionsActivity extends AppCompatActivity implements View.On
 
     @Override
     public void onClick(View v) {
-        Intent intent;
+        Intent intent = null;
         switch (v.getId()) {
             case R.id.button_view_menu:
                 intent = new Intent(this, ManagerMenuActivity.class);
-                startActivity(intent);
                 break;
             case R.id.button_list_of_existing_orders:
                 intent = new Intent(this, ExistOrdersActivity.class);
-                startActivity(intent);
                 break;
             case R.id.button_restaurant_occupancy:
                 intent = new Intent(this, RestaurantOccupancyActivity.class);
-                startActivity(intent);
                 break;
             default:
 
-
+        }
+        if (intent != null) {
+            startActivity(intent);
         }
     }
 }
