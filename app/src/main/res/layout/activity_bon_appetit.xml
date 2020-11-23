@@ -5,14 +5,26 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorBackground"
-    android:backgroundTint="#87ECD2"
+
     tools:context=".activities.BonAppetitActivity">
+
+    <Button
+        android:id="@+id/view_check_button"
+        android:layout_width="177dp"
+        android:layout_height="52dp"
+        android:layout_marginTop="516dp"
+        android:backgroundTint="@color/colorButton"
+        android:text="צפה בחשבון"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.931"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/editTextcבתיאבון"
         android:layout_width="412dp"
         android:layout_height="195dp"
-        android:layout_marginTop="188dp"
+        android:layout_marginTop="176dp"
         android:ems="10"
 
 
@@ -25,6 +37,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="בתיאבון!" />
+
+    <Button
+        android:id="@+id/go_back_to_menu_button"
+        android:layout_width="177dp"
+        android:layout_height="52dp"
+        android:layout_marginTop="516dp"
+        android:backgroundTint="@color/colorButton"
+        android:text="חזור לתפריט והזמן עוד"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.111"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
