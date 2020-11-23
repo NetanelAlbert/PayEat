@@ -1,8 +1,10 @@
-package com.example.payeat;
+package com.example.payeat.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.example.payeat.R;
 
 public class ManagerLoginActivity extends AppCompatActivity {
 
