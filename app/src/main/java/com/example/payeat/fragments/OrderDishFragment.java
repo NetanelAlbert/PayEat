@@ -22,8 +22,6 @@ public class OrderDishFragment extends DialogFragment implements View.OnClickLis
      * Use the {@link ChooseTableFragment#newInstance} factory method to
      * create an instance of this fragment.
      */
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String On_Click_Listener = "OnClickListener";
 
     private Context context;
 //    private TextView name;

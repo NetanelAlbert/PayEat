@@ -24,6 +24,8 @@ import java.util.List;
 
 public class MainMenuActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
+    private boolean mode_manager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,13 +38,17 @@ public class MainMenuActivity extends AppCompatActivity implements AdapterView.O
         menusGridView.setAdapter(adapter);
         menusGridView.setOnItemClickListener(this);
 
-        // Set the table number
-        SharedPreferences preferences = getSharedPreferences(getString(R.string.shared_preferences_key), MODE_PRIVATE);
-        int tableNum = preferences.getInt(getString(R.string.client_table_number),-1);
+        mode_manager = getIntent().getBooleanExtra("mode manager", false);
         TextView tableNumTextView = findViewById(R.id.activity_main_menu_table_number_textView);
-        tableNumTextView.setText("שולחן "+tableNum);
-
-
+        if(mode_manager) {
+            tableNumTextView.setVisibility(View.GONE);
+        }
+        else {
+            // Set the table number
+            SharedPreferences preferences = getSharedPreferences(getString(R.string.shared_preferences_key), MODE_PRIVATE);
+            int tableNum = preferences.getInt(getString(R.string.client_table_number),-1);
+            tableNumTextView.setText("שולחן "+tableNum);
+        }
     }
 
     @Override
@@ -50,6 +56,7 @@ public class MainMenuActivity extends AppCompatActivity implements AdapterView.O
         Toast.makeText(this, "onItemClick - " + adapterView.getItemAtPosition(i), Toast.LENGTH_SHORT).show();
 
         Intent intent = new Intent(this, MenuByTitleActivity.class);
+        intent.putExtra("mode manager", mode_manager);
         intent.putExtra(getResources().getString(R.string.intent_extras_menu_id),i); // TODO change 'i' to the real id according to database.
         startActivity(intent);
     }
