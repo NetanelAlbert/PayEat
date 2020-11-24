@@ -6,6 +6,7 @@ package com.example.payeat.activities;
         import androidx.appcompat.app.AppCompatActivity;
 
         import android.content.Context;
+        import android.content.Intent;
         import android.os.Bundle;
         import android.view.LayoutInflater;
         import android.view.View;
@@ -68,9 +69,12 @@ public class MenuByTitleActivity extends AppCompatActivity implements AdapterVie
 
     @Override
     public void onClick(View v) {
-        if(v.getId()==R.id.go_to_my_cart_button)
-            Toast.makeText(this, "הולך לעגלה!", Toast.LENGTH_SHORT ).show();
+        if(v.getId()==R.id.go_to_my_cart_button) {
+            Toast.makeText(this, "הולך לעגלה!", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this, MyCartActivity.class);
+            startActivity(intent);
 
+        }
 
     }
 
@@ -96,6 +100,7 @@ public class MenuByTitleActivity extends AppCompatActivity implements AdapterVie
                     public void onClick(View v) {
                        fragment1 = DishDetailsFragment.newInstance(mode_manager);
                        fragment1.show(getSupportFragmentManager(), "DishDetailsFragment");
+
                     }
                 });
 
