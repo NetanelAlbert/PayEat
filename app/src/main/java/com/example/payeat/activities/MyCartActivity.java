@@ -34,6 +34,7 @@ public class MyCartActivity extends AppCompatActivity implements AdapterView.OnI
         ListView DishListView = findViewById(R.id.category_menu_list);
         DishListView.setAdapter(adapter);
         DishListView.setOnItemClickListener(this);
+
       //  mode_manager = getIntent().getBooleanExtra("mode manager", false);
       //  goToCart = (Button) findViewById(R.id.go_to_my_cart_button);
 

@@ -69,7 +69,6 @@
             android:text="תיאור המנה"
             android:textAlignment="center" />
     </LinearLayout>
-
-
+    
 
 </LinearLayout>
