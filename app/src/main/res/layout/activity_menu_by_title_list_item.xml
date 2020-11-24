@@ -1,59 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-
-    <TextView
-        android:id="@+id/dish_name_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="שם המנה"
-        android:textSize="24dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/dish_detailes_text"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/dish_detailes_text"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:text="פרטי המנה"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/dish_name_text"
-
-        app:layout_constraintStart_toEndOf="@+id/dish_price_text"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.517" />
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center"
+    android:background="@color/colorBackground">
 
     <Button
         android:id="@+id/expand_dish_button"
-        android:layout_width="35dp"
-        android:layout_height="32dp"
-        android:layout_marginStart="16dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="2dp"
+
+        android:layout_marginBottom="20dp"
         android:background="@drawable/round_button_background"
         android:text="לצפיה במנה"
-
+        android:textAlignment="center"
         android:textColor="@color/colorTextOnButton"
-        android:textSize="10sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.454" />
+        android:textSize="10sp" />
 
-    <TextView
-        android:id="@+id/dish_price_text"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:text="מחיר"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/expand_dish_button"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.523" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:orientation="vertical"
+        android:gravity="right"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:gravity="right">
+
+            <TextView
+                android:id="@+id/dish_price_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:text="מחיר"
+                android:textAlignment="center"
+                android:textSize="24sp" />
+
+            <Space
+                android:layout_width="60dp"
+                android:layout_height="10dp" />
+
+            <TextView
+                android:id="@+id/dish_name_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="4dp"
+                android:text="שם המנה"
+                android:textAlignment="viewEnd"
+                android:textSize="24dp" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/dish_detailes_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:text="מקצף ביצים בנגיעות וניל על מצע ביסקוט בציפוי שוקולד עדין"
+            android:textAlignment="center" />
+    </LinearLayout>
+
+
+</LinearLayout>

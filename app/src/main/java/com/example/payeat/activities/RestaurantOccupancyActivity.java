@@ -39,7 +39,9 @@ public class RestaurantOccupancyActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.menu:
-                        startActivity(new Intent(getApplicationContext(), ManagerMenuActivity.class));
+                        Intent intent = new Intent(getApplicationContext(), MainMenuActivity.class);
+                        intent.putExtra("mode manager", true);
+                        startActivity(intent);
                         finish();
                         overridePendingTransition(0, 0);
                         return true;

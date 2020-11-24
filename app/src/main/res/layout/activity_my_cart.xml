@@ -1,9 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MyCartActivity">
+    android:orientation="vertical"
+    android:background="@color/colorBackground"
+    tools:context=".activities.MyCartActivity">
+    <TextView
+        android:id="@+id/my_cart_text"
+        android:text="העגלה שלי"
+        android:textSize="36sp"
+        android:textAlignment="center"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <ListView
+        android:id="@+id/my_cart_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/order_after_viewing_cart_button"
+        android:layout_width="403dp"
+        android:layout_height="95dp"
+        android:layout_gravity="center_vertical|center_horizontal"
+        android:layout_weight="1"
+        android:background="@drawable/round_button_background"
+        android:gravity="center"
+        android:text="הזמן"
+        android:textColor="@color/colorTextOnButton" />
+
+</LinearLayout>

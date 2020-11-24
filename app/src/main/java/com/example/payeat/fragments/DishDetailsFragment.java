@@ -5,12 +5,10 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -24,15 +22,19 @@ public class DishDetailsFragment extends DialogFragment  implements View.OnClick
      * create an instance of this fragment.
      */
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String On_Click_Listener = "OnClickListener";
+//    private static final String On_Click_Listener = "OnClickListener";
+
+    private static String MODE_MANAGER;
 
     private Context context;
-    private TextView name;
-    private TextView desc;
-    private TextView price;
+    private TextView TextView_dishName;
+    private TextView TextView_dishDesc;
+    private TextView TextView_dishPrice;
+    private boolean mode_manager;
 
 //    private View.OnClickListener menuByTitleActivity;
     private OrderDishFragment orderFragment;
+    private EditDishFromManagerFragment editDishFragment;
 
 
 
@@ -44,12 +46,14 @@ public class DishDetailsFragment extends DialogFragment  implements View.OnClick
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param clicker - A listener to the button, should be MainActivity.
      * @return A new instance of fragment ChooseTableFragment.
      */
-    public static DishDetailsFragment newInstance(View.OnClickListener clicker) {
+    public static DishDetailsFragment newInstance(boolean mode) {
         DishDetailsFragment fragment = new DishDetailsFragment();
 //        fragment.setOnClickListener(clicker);
+        Bundle args = new Bundle();
+        args.putBoolean(MODE_MANAGER, mode);
+        fragment.setArguments(args);
         return fragment;
     }
 
@@ -60,8 +64,9 @@ public class DishDetailsFragment extends DialogFragment  implements View.OnClick
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
+        if (getArguments() != null) {
+            mode_manager = getArguments().getBoolean(MODE_MANAGER);
+        }
     }
 
     @Override
@@ -72,6 +77,14 @@ public class DishDetailsFragment extends DialogFragment  implements View.OnClick
 
         Button orderDishButton = convertView.findViewById(R.id.order_dish_fragment_button);
         orderDishButton.setOnClickListener(this);
+
+        TextView_dishName = convertView.findViewById(R.id.dish_name_text_fragment);
+        TextView_dishDesc = convertView.findViewById(R.id.dish_details_fragment);
+        TextView_dishPrice = convertView.findViewById(R.id.dish_price_fragment);
+
+        if(mode_manager) {
+            orderDishButton.setText("עדכן מנה");
+        }
 
         return convertView;
     }
@@ -107,17 +120,36 @@ public class DishDetailsFragment extends DialogFragment  implements View.OnClick
     public void onClick(View v) {
         switch(v.getId()) {
             case R.id.order_dish_fragment_button:
-                // do whatever you want when you press on "הזמן מנה"
+                if(mode_manager) {
+                    int cost;
+                    try {
+                        cost = Integer.getInteger(""+TextView_dishPrice.getText());
+                    }
+                    catch (Exception exception) {
+                        cost = 0;
+                    }
 
-                orderFragment = OrderDishFragment.newInstance((View.OnClickListener) this);
-                FragmentManager fm = getFragmentManager();
-                fm.beginTransaction()
+                    editDishFragment = EditDishFromManagerFragment.newInstance(""+TextView_dishName.getText(), cost, ""+TextView_dishDesc.getText());
+                    FragmentManager fm = getFragmentManager();
+                    fm.beginTransaction()
+                            .setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
+                            .show(editDishFragment)
+                            .commit();
+                    editDishFragment.show(getActivity().getSupportFragmentManager()
+                            , "EditDishFromManagerFragment");
+                }
+                else {
+                    // do whatever you want when you press on "הזמן מנה"
+
+                    orderFragment = OrderDishFragment.newInstance((View.OnClickListener) this);
+                    FragmentManager fm = getFragmentManager();
+                    fm.beginTransaction()
                             .setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
                             .show(orderFragment)
                             .commit();
                     orderFragment.show(getActivity().getSupportFragmentManager()
                             , "OrderDishFragment");
-
+                }
                 dismiss();
                 break;
         }

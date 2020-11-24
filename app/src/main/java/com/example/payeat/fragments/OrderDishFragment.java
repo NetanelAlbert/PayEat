@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,8 +22,6 @@ public class OrderDishFragment extends DialogFragment implements View.OnClickLis
      * Use the {@link ChooseTableFragment#newInstance} factory method to
      * create an instance of this fragment.
      */
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String On_Click_Listener = "OnClickListener";
 
     private Context context;
 //    private TextView name;
@@ -78,10 +77,7 @@ public class OrderDishFragment extends DialogFragment implements View.OnClickLis
     public void onClick(View v) {
         switch(v.getId()) {
             case R.id.confirm_order_button:
-                // do whatever you want when you press on "אשר הזמנה"
-
-//                TODO
-
+                Toast.makeText(getActivity(), "סגור, הזמנתי!", Toast.LENGTH_SHORT ).show();
                 dismiss();
                 break;
         }

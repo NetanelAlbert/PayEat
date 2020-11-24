@@ -16,29 +16,38 @@ package com.example.payeat.activities;
         import android.widget.Button;
         import android.widget.ListView;
         import android.widget.TextView;
+        import android.widget.Toast;
 
         import com.example.payeat.fragments.DishDetailsFragment;
         import com.example.payeat.R;
+        import com.example.payeat.fragments.OrderDishFragment;
 
         import java.util.Arrays;
         import java.util.List;
 
-public class MenuByTitleActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
+public class MenuByTitleActivity extends AppCompatActivity implements AdapterView.OnItemClickListener ,View.OnClickListener {
     private DishDetailsFragment fragment1;
-
+    private boolean mode_manager;
+    private Button goToCart;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu_by_title);
-
         DishAdapter adapter = new DishAdapter(this, R.layout.activity_menu_by_title_list_item,
-                Arrays.asList("סלט חלומי","סלט יווני","סלט ירוק", "סלט טוסט"));
+                Arrays.asList("קרמבו", "קרמבו", "קרמבו", "קרמבו"));
         ListView DishListView = findViewById(R.id.category_menu_list);
         DishListView.setAdapter(adapter);
         DishListView.setOnItemClickListener(this);
-//        findViewById(R.id.order_dish_button).setOnItemClickListener(this);
-//        findViewById(R.id.expand_dish_button).setOnClickListener(this);
+        mode_manager = getIntent().getBooleanExtra("mode manager", false);
+        goToCart = (Button) findViewById(R.id.go_to_my_cart_button);
+
+        //Setting listeners to button
+        goToCart.setOnClickListener((View.OnClickListener) this);
+
+        if(mode_manager) {
+          goToCart.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -57,6 +66,14 @@ public class MenuByTitleActivity extends AppCompatActivity implements AdapterVie
         //startActivity(intent);
     }
 
+    @Override
+    public void onClick(View v) {
+        if(v.getId()==R.id.go_to_my_cart_button)
+            Toast.makeText(this, "הולך לעגלה!", Toast.LENGTH_SHORT ).show();
+
+
+    }
+
     private class DishAdapter extends ArrayAdapter<String>{
         private List<String> list;
         public DishAdapter(@NonNull Context context, int resource, @NonNull List<String> objects) {
@@ -73,14 +90,12 @@ public class MenuByTitleActivity extends AppCompatActivity implements AdapterVie
             TextView title = convertView.findViewById(R.id.dish_name_text);
             title.setText(list.get(position));
             Button expandDishButton =  convertView.findViewById(R.id.expand_dish_button);
-
                 expandDishButton.setVisibility(View.VISIBLE);
                 expandDishButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        fragment1 = DishDetailsFragment.newInstance((View.OnClickListener) this);
+                       fragment1 = DishDetailsFragment.newInstance(mode_manager);
                        fragment1.show(getSupportFragmentManager(), "DishDetailsFragment");
-
                     }
                 });
 
