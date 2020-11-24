@@ -77,6 +77,7 @@ public class OrderDishFragment extends DialogFragment implements View.OnClickLis
     public void onClick(View v) {
         switch(v.getId()) {
             case R.id.confirm_order_button:
+                //ToDo add to cart!!
                 Toast.makeText(getActivity(), "סגור, הזמנתי!", Toast.LENGTH_SHORT ).show();
                 dismiss();
                 break;
