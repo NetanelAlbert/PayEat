@@ -9,6 +9,7 @@ package com.example.payeat.activities;
         import android.content.Intent;
         import android.os.Bundle;
         import android.view.LayoutInflater;
+        import android.view.MenuItem;
         import android.view.View;
         import android.view.ViewGroup;
         import android.widget.AdapterView;
@@ -22,6 +23,7 @@ package com.example.payeat.activities;
         import com.example.payeat.fragments.DishDetailsFragment;
         import com.example.payeat.R;
         import com.example.payeat.fragments.OrderDishFragment;
+        import com.google.android.material.bottomnavigation.BottomNavigationView;
 
         import java.util.Arrays;
         import java.util.List;
@@ -46,8 +48,35 @@ public class MenuByTitleActivity extends AppCompatActivity implements AdapterVie
         //Setting listeners to button
         goToCart.setOnClickListener((View.OnClickListener) this);
 
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+        bottomNavigationView.setSelectedItemId(R.id.menu);
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.menu:
+                        return true;
+                    case R.id.orders:
+                        startActivity(new Intent(getApplicationContext(), ExistOrdersActivity.class));
+                        finish();
+                        overridePendingTransition(0, 0);
+                        return true;
+                    case R.id.restaurant_capacity:
+                        startActivity(new Intent(getApplicationContext(), RestaurantOccupancyActivity.class));
+                        finish();
+                        overridePendingTransition(0, 0);
+                        return true;
+                }
+                return false;
+            }
+        });
+
         if(mode_manager) {
-          goToCart.setVisibility(View.GONE);
+            goToCart.setVisibility(View.GONE);
+        }
+        else {
+            bottomNavigationView.setVisibility(View.GONE);
         }
     }
 

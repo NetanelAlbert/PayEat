@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -18,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.payeat.R;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.Arrays;
 import java.util.List;
@@ -40,15 +42,42 @@ public class MainMenuActivity extends AppCompatActivity implements AdapterView.O
 
         mode_manager = getIntent().getBooleanExtra("mode manager", false);
         TextView tableNumTextView = findViewById(R.id.activity_main_menu_table_number_textView);
+
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+        bottomNavigationView.setSelectedItemId(R.id.menu);
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.menu:
+                        return true;
+                    case R.id.orders:
+                        startActivity(new Intent(getApplicationContext(), ExistOrdersActivity.class));
+                        finish();
+                        overridePendingTransition(0, 0);
+                        return true;
+                    case R.id.restaurant_capacity:
+                        startActivity(new Intent(getApplicationContext(), RestaurantOccupancyActivity.class));
+                        finish();
+                        overridePendingTransition(0, 0);
+                        return true;
+                }
+                return false;
+            }
+        });
+
         if(mode_manager) {
             tableNumTextView.setVisibility(View.GONE);
         }
         else {
+            bottomNavigationView.setVisibility(View.GONE);
             // Set the table number
             SharedPreferences preferences = getSharedPreferences(getString(R.string.shared_preferences_key), MODE_PRIVATE);
             int tableNum = preferences.getInt(getString(R.string.client_table_number),-1);
             tableNumTextView.setText("שולחן "+tableNum);
         }
+
     }
 
     @Override
