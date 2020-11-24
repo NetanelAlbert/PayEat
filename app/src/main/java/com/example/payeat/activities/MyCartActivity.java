@@ -44,7 +44,6 @@ public class MyCartActivity extends AppCompatActivity implements AdapterView.OnI
           //  goToCart.setVisibility(View.GONE);
         //}
     }
-
 //    @Override
 //    public void onClick(View v) {
 //        if(v.getId()==R.id.go_to_my_cart_button)
@@ -53,7 +52,7 @@ public class MyCartActivity extends AppCompatActivity implements AdapterView.OnI
 //
 //    }
 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-    
+
 }
     private class DishAdapter extends ArrayAdapter<String> {
         private List<String> list;
