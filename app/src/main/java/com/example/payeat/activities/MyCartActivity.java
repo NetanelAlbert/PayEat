@@ -24,17 +24,23 @@ import java.util.Arrays;
 import java.util.List;
 
 public class MyCartActivity extends AppCompatActivity implements AdapterView.OnItemClickListener ,View.OnClickListener {
+    private Button orderYourOrder;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_cart);
-
-        MyCartActivity.DishAdapter adapter = new MyCartActivity.DishAdapter(this, R.layout.activity_my_cart_list_item,
+       // findViewById(R.id.go_to_my_cart_button).setOnClickListener(this);
+        DishAdapter adapter = new MyCartActivity.DishAdapter(this, R.layout.activity_my_cart_list_item,
                 Arrays.asList("קרמבו", "קרמבו", "קרמבו", "קרמבו"));
-        ListView DishListView = findViewById(R.id.category_menu_list);
+        ListView DishListView = findViewById(R.id.my_cart_list);
         DishListView.setAdapter(adapter);
         DishListView.setOnItemClickListener(this);
-      //  mode_manager = getIntent().getBooleanExtra("mode manager", false);
+        orderYourOrder = (Button) findViewById(R.id.order_after_viewing_cart_button);
+        orderYourOrder.setOnClickListener((View.OnClickListener) this);
+
+
+        //  mode_manager = getIntent().getBooleanExtra("mode manager", false);
       //  goToCart = (Button) findViewById(R.id.go_to_my_cart_button);
 
         //Setting listeners to button
@@ -64,18 +70,23 @@ public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         @NonNull
         @Override
         public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-            if (convertView == null) {
-                convertView = LayoutInflater.from(getContext()).inflate(R.layout.activity_my_cart_list_item, parent, false);
-            }
 
-            TextView title = convertView.findViewById(R.id.name_of_dish_text);
+         if (convertView == null) {
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.activity_my_cart_list_item, parent, false);
+        }
+        TextView title = convertView.findViewById(R.id.name_of_dish_text);
             title.setText(list.get(position));
-
-
-
+        Button expandDishButton =  convertView.findViewById(R.id.cancel_dish_button);
+                expandDishButton.setVisibility(View.VISIBLE);
+                expandDishButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(), "ביטלתי!", Toast.LENGTH_SHORT).show();
+            }
+        });
 
             return convertView;
-        }
+    }
     }
 
     @Override
@@ -84,6 +95,8 @@ public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         Intent intent = null;
         switch (v.getId()){
             case R.id.order_after_viewing_cart_button :
+                Toast.makeText(this, "מייד מגיע!", Toast.LENGTH_SHORT).show();
+
                 intent = new Intent(this, BonAppetitActivity.class);
                 break;
             default:

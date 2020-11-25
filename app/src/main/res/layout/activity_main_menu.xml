@@ -1,17 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".activities.MainMenuActivity"
-    android:background="@color/colorBackground">
+    android:background="@color/colorBackground"
+    tools:context=".activities.MainMenuActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:text="בחר תפריט"
+                android:textAlignment="center"
+                android:textSize="40sp"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:layout_editor_absoluteX="52dp" />
+        </LinearLayout>
+
+
+        <GridView
+            android:id="@+id/activity_main_menu_gridview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:numColumns="2"
+
+            android:layoutDirection="rtl"/>
 
         <TextView
             android:id="@+id/activity_main_menu_table_number_textView"
@@ -23,25 +48,24 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:layout_editor_absoluteX="52dp" />
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:text="בחר תפריט"
-            android:textAlignment="center"
-            android:textSize="40sp"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:layout_editor_absoluteX="52dp" />
+
     </LinearLayout>
 
-
-    <GridView
-        android:id="@+id/activity_main_menu_gridview"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:numColumns="2"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:gravity="bottom">
 
-        android:layoutDirection="rtl"/>
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/bottom_navigation"
+            app:itemBackground="@color/colorButton"
+            app:itemTextColor="@drawable/selector"
+            app:itemIconTint="@drawable/selector"
+            app:menu="@menu/menu_navigation"
+            android:layout_marginTop="20dp" />
 
-
-</LinearLayout>
+    </LinearLayout>
+</RelativeLayout>
