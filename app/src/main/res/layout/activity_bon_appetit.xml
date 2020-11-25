@@ -27,7 +27,6 @@
         android:layout_marginTop="176dp"
         android:ems="10"
 
-
         android:gravity="start|top"
         android:inputType="textMultiLine"
         android:text="בתאבון חמודים! :)"
