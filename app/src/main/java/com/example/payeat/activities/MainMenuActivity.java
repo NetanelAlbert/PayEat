@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -71,7 +72,8 @@ public class MainMenuActivity extends AppCompatActivity implements AdapterView.O
             tableNumTextView.setVisibility(View.GONE);
         }
         else {
-            bottomNavigationView.setVisibility(View.GONE);
+            View navigationLayout = findViewById(R.id.main_menu_navigation_layout);
+            navigationLayout.setVisibility(View.GONE);
             // Set the table number
             SharedPreferences preferences = getSharedPreferences(getString(R.string.shared_preferences_key), MODE_PRIVATE);
             int tableNum = preferences.getInt(getString(R.string.client_table_number),-1);

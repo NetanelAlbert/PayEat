@@ -77,9 +77,9 @@ public class ChooseTableFragment extends DialogFragment {
         super.onViewCreated(view, savedInstanceState);
     }
 
-    public String getTableNumber(){
+    public String getTableNumber() throws RuntimeException {
         if(editText == null)
-            throw new RuntimeException("Should be called after the fragment is alive.");
+            return null;
 
         return editText.getText().toString();
     }
