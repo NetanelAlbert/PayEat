@@ -26,8 +26,8 @@ public class ChooseTableFragment extends DialogFragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String On_Click_Listener = "OnClickListener";
 
-    private Context context;
     private EditText editText;
+    private Button button;
     private View.OnClickListener mainActivity;
 
 
@@ -70,14 +70,16 @@ public class ChooseTableFragment extends DialogFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         editText = view.findViewById(R.id.fragment_choose_table_editText);
-        Button button = view.findViewById(R.id.fragment_choose_table_Button);
+        button = view.findViewById(R.id.fragment_choose_table_Button);
         button.setOnClickListener(mainActivity);
+        editText.requestFocus();
+        //editText
         super.onViewCreated(view, savedInstanceState);
     }
 
-    public String getTableNumber(){
+    public String getTableNumber() throws RuntimeException {
         if(editText == null)
-            throw new RuntimeException("Should be called after the fragment is alive.");
+            return null;
 
         return editText.getText().toString();
     }

@@ -9,13 +9,12 @@
         android:roundIcon="@drawable/app_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <activity android:name=".activities.ManagerMenuActivity" />
         <activity android:name=".activities.MyCartActivity" />
         <activity android:name=".activities.RestaurantOccupancyActivity" />
         <activity android:name=".activities.ExistOrdersActivity" />
-        <activity android:name=".activities.BonAppetitActivity" />
-        <activity android:name=".activities.ManagerLoginActivity" />
+        <activity android:name=".BonAppetitActivity" />
+        <activity android:name=".ManagerLoginActivity" />
         <activity android:name=".activities.MenuByTitleActivity" />
         <activity android:name=".activities.MainMenuActivity" />
         <activity android:name=".activities.ManagerOptionsActivity" />

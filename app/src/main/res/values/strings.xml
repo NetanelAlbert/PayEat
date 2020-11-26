@@ -23,12 +23,11 @@
 
     // Intent extras
     <string name="intent_extras_menu_id">menu id</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="table_number_request">הכנס מספר שולחן</string>
     <string name="shared_preferences_key">spk</string>
     <string name="ok">אישור</string>
     <string name="client_table_number">ctn</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="fragment_names_title">הכנס בין 2 ל-10 שמות כדי לפצל את החשבון, או לחץ דלג</string>
 
 </resources>
