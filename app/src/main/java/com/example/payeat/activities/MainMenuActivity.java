@@ -25,7 +25,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import java.util.Arrays;
 import java.util.List;
 
-public class MainMenuActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
+public class MainMenuActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, BottomNavigationView.OnNavigationItemSelectedListener {
 
     private boolean mode_manager;
 
@@ -46,27 +46,7 @@ public class MainMenuActivity extends AppCompatActivity implements AdapterView.O
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setSelectedItemId(R.id.menu);
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.menu:
-                        return true;
-                    case R.id.orders:
-                        startActivity(new Intent(getApplicationContext(), ExistOrdersActivity.class));
-                        finish();
-                        overridePendingTransition(0, 0);
-                        return true;
-                    case R.id.restaurant_capacity:
-                        startActivity(new Intent(getApplicationContext(), RestaurantOccupancyActivity.class));
-                        finish();
-                        overridePendingTransition(0, 0);
-                        return true;
-                }
-                return false;
-            }
-        });
+        bottomNavigationView.setOnNavigationItemSelectedListener(this);
 
         if(mode_manager) {
             tableNumTextView.setVisibility(View.GONE);
@@ -90,6 +70,25 @@ public class MainMenuActivity extends AppCompatActivity implements AdapterView.O
         intent.putExtra("mode manager", mode_manager);
         intent.putExtra(getResources().getString(R.string.intent_extras_menu_id),i); // TODO change 'i' to the real id according to database.
         startActivity(intent);
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu:
+                return true;
+            case R.id.orders:
+                startActivity(new Intent(getApplicationContext(), ExistOrdersActivity.class));
+                finish();
+                overridePendingTransition(0, 0);
+                return true;
+            case R.id.restaurant_capacity:
+                startActivity(new Intent(getApplicationContext(), RestaurantOccupancyActivity.class));
+                finish();
+                overridePendingTransition(0, 0);
+                return true;
+        }
+        return false;
     }
 
     private class MenusAdapter extends ArrayAdapter<String>{
