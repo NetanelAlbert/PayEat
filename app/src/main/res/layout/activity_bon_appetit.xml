@@ -20,23 +20,22 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
+    <TextView
         android:id="@+id/activity_bon_appetit_text"
         android:layout_width="412dp"
-        android:layout_height="195dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="176dp"
         android:ems="10"
 
-
         android:gravity="start|top"
         android:inputType="textMultiLine"
-        android:textAppearance="@style/TextAppearance.AppCompat.Display4"
+        android:text="בתאבון חמודים! :)"
 
+        android:textSize="80sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="בתיאבון!" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/go_back_to_menu_button"
