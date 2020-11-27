@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,7 +25,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import java.util.Arrays;
 import java.util.List;
 
-public class MainMenuActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
+public class MainMenuActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, BottomNavigationView.OnNavigationItemSelectedListener {
 
     private boolean mode_manager;
 
@@ -45,33 +46,14 @@ public class MainMenuActivity extends AppCompatActivity implements AdapterView.O
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setSelectedItemId(R.id.menu);
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.menu:
-                        return true;
-                    case R.id.orders:
-                        startActivity(new Intent(getApplicationContext(), ExistOrdersActivity.class));
-                        finish();
-                        overridePendingTransition(0, 0);
-                        return true;
-                    case R.id.restaurant_capacity:
-                        startActivity(new Intent(getApplicationContext(), RestaurantOccupancyActivity.class));
-                        finish();
-                        overridePendingTransition(0, 0);
-                        return true;
-                }
-                return false;
-            }
-        });
+        bottomNavigationView.setOnNavigationItemSelectedListener(this);
 
         if(mode_manager) {
             tableNumTextView.setVisibility(View.GONE);
         }
         else {
-            bottomNavigationView.setVisibility(View.GONE);
+            View navigationLayout = findViewById(R.id.main_menu_navigation_layout);
+            navigationLayout.setVisibility(View.GONE);
             // Set the table number
             SharedPreferences preferences = getSharedPreferences(getString(R.string.shared_preferences_key), MODE_PRIVATE);
             int tableNum = preferences.getInt(getString(R.string.client_table_number),-1);
@@ -88,6 +70,25 @@ public class MainMenuActivity extends AppCompatActivity implements AdapterView.O
         intent.putExtra("mode manager", mode_manager);
         intent.putExtra(getResources().getString(R.string.intent_extras_menu_id),i); // TODO change 'i' to the real id according to database.
         startActivity(intent);
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu:
+                return true;
+            case R.id.orders:
+                startActivity(new Intent(getApplicationContext(), ExistOrdersActivity.class));
+                finish();
+                overridePendingTransition(0, 0);
+                return true;
+            case R.id.restaurant_capacity:
+                startActivity(new Intent(getApplicationContext(), RestaurantOccupancyActivity.class));
+                finish();
+                overridePendingTransition(0, 0);
+                return true;
+        }
+        return false;
     }
 
     private class MenusAdapter extends ArrayAdapter<String>{
