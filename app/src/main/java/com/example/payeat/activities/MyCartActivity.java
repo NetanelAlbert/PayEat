@@ -37,7 +37,7 @@ public class MyCartActivity extends AppCompatActivity implements AdapterView.OnI
         DishListView.setAdapter(adapter);
         DishListView.setOnItemClickListener(this);
         orderYourOrder = (Button) findViewById(R.id.order_after_viewing_cart_button);
-        orderYourOrder.setOnClickListener((View.OnClickListener) this);
+        orderYourOrder.setOnClickListener(this);
 
 
         //  mode_manager = getIntent().getBooleanExtra("mode manager", false);
