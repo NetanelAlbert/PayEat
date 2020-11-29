@@ -30,6 +30,7 @@
         android:id="@+id/fragment_choose_table_Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:padding="10dp"
         android:text="@string/ok"
         android:textSize="40sp"
         android:background="@color/colorButton"
