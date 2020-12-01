@@ -5,15 +5,14 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,6 +24,7 @@ import com.example.payeat.OnToggleClickListener;
 import com.example.payeat.Order;
 import com.example.payeat.R;
 import com.example.payeat.dataObjects.DinnerPerson;
+import com.example.payeat.fragments.FinalBillFragment;
 import com.example.payeat.fragments.NamesFragment;
 
 import java.util.ArrayList;
@@ -68,10 +68,15 @@ public class SplitBillActivity extends AppCompatActivity implements OnFragmentDi
 
         nameTextView = findViewById(R.id.activity_split_bill_name_textView);
         nameTextView.setOnClickListener(this);
+
         Button next = findViewById(R.id.activity_split_bill_next_button);
         next.setOnClickListener(this);
+
         Button prev = findViewById(R.id.activity_split_bill_prev_button);
         prev.setOnClickListener(this);
+
+        Button finalBill = findViewById(R.id.activity_split_bill_final_bill_button);
+        finalBill.setOnClickListener(this);
 
     }
 
@@ -108,6 +113,9 @@ public class SplitBillActivity extends AppCompatActivity implements OnFragmentDi
         } else if(v.getId() == R.id.activity_split_bill_name_textView){
             NamesFragment namesFragment = NamesFragment.newInstance(names, this);
             namesFragment.show(getSupportFragmentManager(), "Names Fragment");
+        } else if (v.getId() == R.id.activity_split_bill_final_bill_button) {
+            FinalBillFragment fragment = FinalBillFragment.newInstance("1", "2");
+            fragment.show(getSupportFragmentManager(), "FinalBillFragment");
         }
     }
 
