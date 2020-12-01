@@ -17,6 +17,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.payeat.Dish;
 import com.example.payeat.R;
 import com.example.payeat.fragments.DishDetailsFragment;
 
@@ -32,7 +33,7 @@ public class MyCartActivity extends AppCompatActivity implements AdapterView.OnI
         setContentView(R.layout.activity_my_cart);
        // findViewById(R.id.go_to_my_cart_button).setOnClickListener(this);
         DishAdapter adapter = new MyCartActivity.DishAdapter(this, R.layout.activity_my_cart_list_item,
-                Arrays.asList("קרמבו", "קרמבו", "קרמבו", "קרמבו"));
+                Arrays.asList(new Dish( "food name", 100, "very tasty"), new Dish( "omlet", 10, "very hot")));
         ListView DishListView = findViewById(R.id.my_cart_list);
         DishListView.setAdapter(adapter);
         DishListView.setOnItemClickListener(this);
@@ -60,11 +61,9 @@ public class MyCartActivity extends AppCompatActivity implements AdapterView.OnI
 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
 }
-    private class DishAdapter extends ArrayAdapter<String> {
-        private List<String> list;
-        public DishAdapter(@NonNull Context context, int resource, @NonNull List<String> objects) {
+    private class DishAdapter extends ArrayAdapter<Dish> {
+        public DishAdapter(@NonNull Context context, int resource, @NonNull List<Dish> objects) {
             super(context, resource, objects);
-            this.list = objects;
         }
 
         @NonNull
@@ -74,11 +73,20 @@ public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
          if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.activity_my_cart_list_item, parent, false);
         }
-        TextView title = convertView.findViewById(R.id.name_of_dish_text);
-            title.setText(list.get(position));
-        Button expandDishButton =  convertView.findViewById(R.id.cancel_dish_button);
-                expandDishButton.setVisibility(View.VISIBLE);
-                expandDishButton.setOnClickListener(new View.OnClickListener() {
+
+            TextView dishName = convertView.findViewById(R.id.name_of_dish_text);
+            dishName.setText(getItem(position).getName());
+
+            TextView description = convertView.findViewById(R.id.detailes_of_dish_text);
+            //TODO chang to information about this specific order dish (i.e. the chosen topics on a pizza)
+            description.setText(getItem(position).getDesc());
+
+            TextView price = convertView.findViewById(R.id.price_of_dish_text);
+            price.setText(String.valueOf(getItem(position).getPrice()));
+
+        Button cancelDishButton =  convertView.findViewById(R.id.cancel_dish_button);
+                cancelDishButton.setVisibility(View.VISIBLE);
+                cancelDishButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getContext(), "ביטלתי!", Toast.LENGTH_SHORT).show();
