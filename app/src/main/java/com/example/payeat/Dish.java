@@ -7,6 +7,8 @@ public class Dish {
     private boolean in_stock;
     private String notes;
 
+    public String id;
+
     public Dish(String name, int price, String description) {
         this.name = name;
         this.price = price;

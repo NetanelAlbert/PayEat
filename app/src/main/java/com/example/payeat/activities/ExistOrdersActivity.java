@@ -18,13 +18,19 @@ import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.SearchView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.payeat.Database;
 import com.example.payeat.fragments.DeleteDishFragment;
 import com.example.payeat.Dish;
 import com.example.payeat.Order;
 import com.example.payeat.R;
 import com.example.payeat.fragments.UpdateCostFragment;
 import com.example.payeat.fragments.ChooseTableFragment;
+import com.firebase.client.DataSnapshot;
+import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
@@ -40,6 +46,8 @@ public class ExistOrdersActivity extends AppCompatActivity {
 
     private List<String> idOrderList;
     private HashMap<String, Order> all_orders; // order_id -> Order/Dishes
+
+    Firebase firebaseReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +81,8 @@ public class ExistOrdersActivity extends AppCompatActivity {
             }
         });
         expandableListView = findViewById(R.id.listView_orders);
+        idOrderList = new ArrayList<String>(); // id Order (the title of the Order whatever)
+        all_orders = new HashMap<String, Order>(); // each raw in the Order. what is the Order info.
         makeList();
         listViewAdapter = new ExpandableListViewAdapter(this, idOrderList, all_orders, getSupportFragmentManager());
         expandableListView.setAdapter(listViewAdapter);
@@ -106,12 +116,31 @@ public class ExistOrdersActivity extends AppCompatActivity {
     }
 
     private void makeList() {
-        idOrderList = new ArrayList<String>(); // id Order (the title of the Order whatever)
-        all_orders = new HashMap<String, Order>(); // each raw in the Order. what is the Order info.
 
-        ArrayList<Order> orders = new ArrayList<>();
+        final ArrayList<Order> orders = new ArrayList<>();
 
         // when firebase will be ready hear we are going to do the quary
+
+        firebaseReference = Database.getDataBaseInstance();
+        firebaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @SuppressLint("SetTextI18n")
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Iterable<DataSnapshot> orders_iter = dataSnapshot.child("orders").getChildren();
+                for (DataSnapshot DS: orders_iter) {
+                    HashMap<String, Object> o = (HashMap<String, Object>) DS.getValue();
+
+                    // TODO
+                }
+           }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+                Toast.makeText(getApplicationContext(),firebaseError.getMessage(),Toast.LENGTH_LONG).show();
+            }
+        });
+
+
 
         Dish dish1 = new Dish("שורה 1", 50, "description1");
         Dish dish2 = new Dish("שורה 2", 40, "description2");
