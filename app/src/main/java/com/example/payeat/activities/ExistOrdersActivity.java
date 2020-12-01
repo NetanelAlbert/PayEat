@@ -117,46 +117,23 @@ public class ExistOrdersActivity extends AppCompatActivity {
 
     private void makeList() {
 
-        final ArrayList<Order> orders = new ArrayList<>();
+//        final ArrayList<Order> orders = new ArrayList<>();
+        final ArrayList<Order> orders = Database.getOrders();
 
         // when firebase will be ready hear we are going to do the quary
 
-        firebaseReference = Database.getDataBaseInstance();
-        firebaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @SuppressLint("SetTextI18n")
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Iterable<DataSnapshot> orders_iter = dataSnapshot.child("orders").getChildren();
-                for (DataSnapshot DS: orders_iter) {
-                    HashMap<String, Object> o = (HashMap<String, Object>) DS.getValue();
-
-                    // TODO
-                }
-           }
-
-            @Override
-            public void onCancelled(FirebaseError firebaseError) {
-                Toast.makeText(getApplicationContext(),firebaseError.getMessage(),Toast.LENGTH_LONG).show();
-            }
-        });
-
-
-
-        Dish dish1 = new Dish("שורה 1", 50, "description1");
-        Dish dish2 = new Dish("שורה 2", 40, "description2");
-        Dish dish3 = new Dish("שורה 3", 30, "description3");
-
-        Order order1 = new Order(new Dish[]{dish1, dish2, dish3}, 1);
-        Order order2 = new Order(new Dish[]{dish2, dish3, dish1}, 2);
-        Order order3 = new Order(new Dish[]{dish3, dish1, dish2}, 3);
-
-        idOrderList.add("שולחן 1");
-        idOrderList.add("שולחן 2");
-        idOrderList.add("שולחן 3");
-
-        all_orders.put(idOrderList.get(0), order1);
-        all_orders.put(idOrderList.get(1), order2);
-        all_orders.put(idOrderList.get(2), order3);
+//        idOrderList.add("שולחן 1");
+//        idOrderList.add("שולחן 2");
+//
+//        all_orders.put(idOrderList.get(0), orders.get(0));
+//        all_orders.put(idOrderList.get(1), orders.get(1));
+        int i = 0;
+        for (Order order: orders) {
+            int table_number = order.getTable_number();
+            idOrderList.add("שולחן " + table_number);
+            all_orders.put(idOrderList.get(i), order);
+            i++;
+        }
     }
 
     class ExpandableListViewAdapter extends BaseExpandableListAdapter {
