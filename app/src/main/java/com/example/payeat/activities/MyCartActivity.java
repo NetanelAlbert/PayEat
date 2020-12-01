@@ -69,20 +69,19 @@ public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         @NonNull
         @Override
         public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-
          if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.activity_my_cart_list_item, parent, false);
         }
 
-            TextView dishName = convertView.findViewById(R.id.name_of_dish_text);
-            dishName.setText(getItem(position).getName());
+         TextView dishName = convertView.findViewById(R.id.name_of_dish_text);
+         dishName.setText(getItem(position).getName());
 
-            TextView description = convertView.findViewById(R.id.detailes_of_dish_text);
-            //TODO chang to information about this specific order dish (i.e. the chosen topics on a pizza)
-            description.setText(getItem(position).getDesc());
+         TextView description = convertView.findViewById(R.id.detailes_of_dish_text);
+         //TODO chang to information about this specific order dish (i.e. the chosen topics on a pizza)
+          description.setText(getItem(position).getDesc());
 
-            TextView price = convertView.findViewById(R.id.price_of_dish_text);
-            price.setText(String.valueOf(getItem(position).getPrice()));
+           TextView price = convertView.findViewById(R.id.price_of_dish_text);
+           price.setText(String.valueOf(getItem(position).getPrice()));
 
         Button cancelDishButton =  convertView.findViewById(R.id.cancel_dish_button);
                 cancelDishButton.setVisibility(View.VISIBLE);
