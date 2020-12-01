@@ -26,19 +26,21 @@
         <ListView
             android:id="@+id/category_menu_list"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            />
+            android:layout_height="0dp"
+            android:layout_weight="8" />
 
         <Button
             android:id="@+id/go_to_my_cart_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
             android:gravity="center"
             android:layout_gravity="center_vertical|center_horizontal"
             android:background="@drawable/round_button_background"
-            android:text="צפה בהזמנה שלי"
+            android:text="  צפה בהזמנה שלי  "
+            android:textSize="25sp"
             android:textColor="@color/colorTextOnButton"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:layout_marginBottom="5dp"/>
 
     </LinearLayout>
 
