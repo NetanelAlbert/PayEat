@@ -37,7 +37,7 @@ public class NamesFragment extends DialogFragment implements View.OnClickListene
     private ArrayList<DinnerPerson> names;
     private NamesAdapter namesAdapter;
     private EditText editText;
-    OnFragmentDismissListener listener;
+    private OnFragmentDismissListener listener;
 
     public NamesFragment() {
         // Required empty public constructor

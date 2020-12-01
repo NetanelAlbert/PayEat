@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.payeat.DataChangeListener;
 import com.example.payeat.Database;
 import com.example.payeat.R;
 import com.firebase.client.DataSnapshot;
@@ -17,7 +18,7 @@ import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 
-public class ManagerOptionsActivity extends AppCompatActivity implements View.OnClickListener {
+public class ManagerOptionsActivity extends AppCompatActivity implements View.OnClickListener, DataChangeListener {
 
     TextView textViewManagerName;
     TextView textViewRestaurantName;
@@ -41,6 +42,9 @@ public class ManagerOptionsActivity extends AppCompatActivity implements View.On
 //        firebaseReference = new Firebase("https://payeat-4a103.firebaseio.com/");
         firebaseReference = Database.getDataBaseInstance();
 
+        textViewManagerName.setText("שלום, " + Database.getManagerName());
+        textViewRestaurantName.setText("מסעדת: " + Database.getRestaurantName());
+
         firebaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @SuppressLint("SetTextI18n")
             @Override
@@ -57,6 +61,18 @@ public class ManagerOptionsActivity extends AppCompatActivity implements View.On
                 Toast.makeText(getApplicationContext(),firebaseError.getMessage(),Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Database.addListener(this);
+    }
+
+    @Override
+    protected void onPause() {
+        Database.removeListener(this);
+        super.onPause();
     }
 
     @Override
@@ -79,5 +95,11 @@ public class ManagerOptionsActivity extends AppCompatActivity implements View.On
         if (intent != null) {
             startActivity(intent);
         }
+    }
+
+    @Override
+    public void notifyOnChange() {
+        textViewManagerName.setText("שלום, " + Database.getManagerName());
+        textViewRestaurantName.setText("מסעדת: " + Database.getRestaurantName());
     }
 }

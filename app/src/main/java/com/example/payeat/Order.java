@@ -4,11 +4,14 @@ import com.firebase.client.Firebase;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 
 public class Order {
 
     private ArrayList<Dish> orderInfo; // order_info is collection of dishes
     private int table_number; // the identifier of the order.
+    private Calendar TimeStamp;
+
 
     public Order(Dish[] order_info, int table_number) {
         this.orderInfo = new ArrayList<>();
