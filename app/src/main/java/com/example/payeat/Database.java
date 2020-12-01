@@ -64,6 +64,10 @@ public class Database extends android.app.Application implements ValueEventListe
         return dataSnapshot.child("restaurant_name").getValue(String.class);
     }
 
+    public static int getMaxTableNumber() {
+        return dataSnapshot.child("max_table_number").getValue(Integer.class);
+    }
+
     public static ArrayList<Order> getOrders() { // ido
         ArrayList<Order> result = new ArrayList<>();
         Iterable<DataSnapshot> order_iter = dataSnapshot.child("live_orders").getChildren();
