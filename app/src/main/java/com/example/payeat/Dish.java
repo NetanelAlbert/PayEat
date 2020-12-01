@@ -14,6 +14,20 @@ public class Dish {
     private int shares = 0;
     private String notes;
 
+    public Dish() {
+
+    }
+    // change order of the params
+    public Dish(long dishID, String name, double price, String description, boolean in_stock, int shares, String notes) {
+        this.dishID = dishID;
+        this.name = name;
+        this.price = price;
+        this.description = description;
+        this.in_stock = in_stock;
+        this.shares = shares;
+        this.notes = notes;
+    }
+
     public Dish(String name, double price, String description) {
         this.name = name;
         this.price = price;

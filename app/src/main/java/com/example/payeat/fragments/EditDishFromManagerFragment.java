@@ -12,8 +12,14 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
+import com.example.payeat.Database;
+import com.example.payeat.Dish;
 import com.example.payeat.R;
+import com.firebase.client.Firebase;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -36,6 +42,9 @@ public class EditDishFromManagerFragment extends DialogFragment implements View.
     private String dish_desc;
 
     private ImageView dish_image;
+
+    Firebase firebaseReference;
+
 
     public EditDishFromManagerFragment() {
         // Required empty public constructor
@@ -103,10 +112,34 @@ public class EditDishFromManagerFragment extends DialogFragment implements View.
         switch(v.getId()) {
             case R.id.button_update_dish:
 
+                firebaseReference = Database.getDataBaseInstance();
+
                 dish_name = ""+editText_new_name.getText();
                 dish_price = Integer.parseInt(""+editText_new_price.getText());
                 dish_desc = ""+editText_new_desc.getText();
                 // send name,price,desc to the database
+
+//                Dish dish = new Dish(dish_name, dish_price, dish_desc);
+//                dish.id = firebaseReference.push().getKey();
+//
+//                DatabaseReference.CompletionListener completionListener = new
+//                        DatabaseReference.CompletionListener() {
+//                            @Override
+//                            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference)
+//                            {
+//                                if (databaseError != null)
+//                                {
+//                                    Toast.makeText(getActivity(),databaseError.getMessage(),Toast.LENGTH_LONG).show();
+//                                }
+//                                else
+//                                {
+//                                    Toast.makeText(getActivity(), "Saved!!", Toast.LENGTH_LONG).show();
+//                                }
+//                            }
+//                        };
+//                firebaseReference.child("dishes").setValue(dish, completionListener);
+
+                // not working ! TODO
                 dismiss();
                 break;
             case R.id.button_cancel_update_dish:
