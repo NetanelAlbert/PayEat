@@ -64,7 +64,7 @@ public class Database extends android.app.Application implements ValueEventListe
         return dataSnapshot.child("restaurant_name").getValue(String.class);
     }
 
-    public static ArrayList<Order> getOrders() {
+    public static ArrayList<Order> getOrders() { // ido
         ArrayList<Order> result = new ArrayList<>();
         Iterable<DataSnapshot> order_iter = dataSnapshot.child("live_orders").getChildren();
         for (DataSnapshot order_snap: order_iter) {
@@ -98,27 +98,31 @@ public class Database extends android.app.Application implements ValueEventListe
         return result;
     }
 
-    public static Order getOrder(int table_number) {
+    public static Order getOrder(int table_number) { // edut and eden
         return null;
     }
 
-    public static Dish getDish(int dish_id) {
+    public static Dish getDishFromMenu(String category, int dish_id) { // edut and ido
         return null;
     }
 
-    public static ArrayList<String> getCategories() {
+    public static Dish getDishFromOrders(int order_id, int dish_id) { // edut and ido
         return null;
     }
 
-    public static Menu getMenuByCategory(String category) {
+    public static ArrayList<String> getCategories() { // nati
         return null;
     }
 
-    public static boolean addDishToOrder(int order_id, Dish dish) {
+    public static Menu getMenuByCategory(String category) { // edut
+        return null;
+    }
+
+    public static boolean addDishToOrder(int table_number, Dish dish) { // edut and ido
         return false;
     }
 
-    public static boolean deleteDishFromOrder(int order_id, Dish dish) {
+    public static boolean deleteDishFromOrder(int table_number, Dish dish) { // eden and ido
         return false;
     }
 
