@@ -92,10 +92,8 @@ public class MainMenuActivity extends AppCompatActivity implements AdapterView.O
     }
 
     private class MenusAdapter extends ArrayAdapter<String>{
-        private List<String> list;
         public MenusAdapter(@NonNull Context context, int resource, @NonNull List<String> objects) {
             super(context, resource, objects);
-            this.list = objects;
         }
 
         @NonNull
@@ -105,7 +103,7 @@ public class MainMenuActivity extends AppCompatActivity implements AdapterView.O
                 convertView = LayoutInflater.from(getContext()).inflate(R.layout.activity_main_menu_gridview, parent, false);
             }
             TextView title = convertView.findViewById(R.id.main_menu_item_textView);
-            title.setText(list.get(position));
+            title.setText(getItem(position));
 
             return convertView;
         }

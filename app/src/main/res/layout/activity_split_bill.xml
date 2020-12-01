@@ -1,12 +1,110 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/colorBackground"
     tools:context=".activities.SplitBillActivity">
 
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layoutDirection="rtl"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:text="חלוקת חשבון"
+            android:textAlignment="center"
+            android:textSize="40sp"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_editor_absoluteX="52dp" />
+
+        <TextView
+            android:id="@+id/activity_split_bill_table_number_textView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textAlignment="center"
+            android:textSize="40sp"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_editor_absoluteX="52dp" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/split_bill_guide_text"
+        android:textSize="20sp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layoutDirection="rtl"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/activity_split_bill_prev_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/colorButton"
+            android:textColor="@color/colorTextOnButton"
+            android:textSize="18sp"
+            android:text="הקודם"/>
+
+        <TextView
+            android:id="@+id/activity_split_bill_name_textView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:textSize="30sp"
+            android:gravity="center"
+            android:text="שם"/>
+
+        <Button
+            android:id="@+id/activity_split_bill_next_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/colorButton"
+            android:textColor="@color/colorTextOnButton"
+            android:textSize="18sp"
+            android:text="הבא"/>
+
+    </LinearLayout>
+
+    <ListView
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="10"
+        android:id="@+id/activity_split_bill_listView"/>
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <LinearLayout
+        android:id="@+id/main_menu_navigation_layout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        android:gravity="center|bottom"
+        android:layout_weight="1">
+
+    <Button
+        android:id="@+id/activity_split_bill_get_check_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="0"
+        android:textSize="30sp"
+        android:padding="5dp"
+        android:background="@color/colorButton"
+        android:textColor="@color/colorTextOnButton"
+
+        android:text=" הצג סיכום חשבון "/>
+
+    </LinearLayout>
+</LinearLayout>

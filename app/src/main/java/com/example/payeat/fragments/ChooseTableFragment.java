@@ -8,13 +8,18 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.example.payeat.R;
+
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -73,7 +78,13 @@ public class ChooseTableFragment extends DialogFragment {
         button = view.findViewById(R.id.fragment_choose_table_Button);
         button.setOnClickListener(mainActivity);
         editText.requestFocus();
-        //editText
+        editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                button.callOnClick();
+                return true;
+            }
+        });
         super.onViewCreated(view, savedInstanceState);
     }
 
@@ -83,4 +94,5 @@ public class ChooseTableFragment extends DialogFragment {
 
         return editText.getText().toString();
     }
+
 }
