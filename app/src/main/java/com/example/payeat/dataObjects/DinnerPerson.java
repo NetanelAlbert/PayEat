@@ -1,4 +1,6 @@
-package com.example.payeat;
+package com.example.payeat.dataObjects;
+
+import com.example.payeat.Dish;
 
 import java.util.ArrayList;
 
@@ -21,11 +23,23 @@ public class DinnerPerson {
         return sharingDishes.remove(dish);
     }
 
-    public double howMuch(){
+    public double howMuchToPay(){
         double ans = 0;
         for (Dish dish : sharingDishes) {
             ans += dish.getPrice()/dish.getShares();
         }
         return ans;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public ArrayList<Dish> getSharingDishes() {
+        return sharingDishes;
+    }
+
+    public boolean isShare(Dish dish){
+        return sharingDishes.contains(dish);
     }
 }

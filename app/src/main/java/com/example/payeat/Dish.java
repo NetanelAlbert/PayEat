@@ -63,10 +63,10 @@ public class Dish {
     public int getShares() {
         return shares;
     }
-    public void increaseShares(){
+    public synchronized void increaseShares(){
         ++shares;
     }
-    public void decreaseShares(){
+    public synchronized void decreaseShares(){
         --shares;
     }
 }

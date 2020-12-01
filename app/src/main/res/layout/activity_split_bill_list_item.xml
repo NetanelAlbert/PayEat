@@ -12,7 +12,8 @@
         android:layout_height="65dp"
         android:textSize="20sp"
         android:textOff="לא שלי"
-        android:textOn="אכלתי"
+        android:textOn="אה כן"
+        android:background="@drawable/split_bill_toggle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

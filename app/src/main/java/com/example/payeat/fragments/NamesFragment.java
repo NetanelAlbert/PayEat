@@ -19,7 +19,9 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.payeat.OnFragmentDismissListener;
 import com.example.payeat.R;
+import com.example.payeat.dataObjects.DinnerPerson;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,12 +34,18 @@ import java.util.List;
 public class NamesFragment extends DialogFragment implements View.OnClickListener, AdapterView.OnItemLongClickListener {
 
 
-    private ArrayList<String> names = new ArrayList<>();
+    private ArrayList<DinnerPerson> names;
     private NamesAdapter namesAdapter;
     private EditText editText;
+    OnFragmentDismissListener listener;
 
     public NamesFragment() {
         // Required empty public constructor
+    }
+
+    private void setParameters(ArrayList<DinnerPerson> names, OnFragmentDismissListener listener){
+        this.names = names;
+        this.listener = listener;
     }
 
     /**
@@ -46,9 +54,9 @@ public class NamesFragment extends DialogFragment implements View.OnClickListene
      *
      * @return A new instance of fragment NamesFragment.
      */
-    // TODO: Rename and change types and number of parameters
-    public static NamesFragment newInstance() {
+    public static NamesFragment newInstance(ArrayList<DinnerPerson> names, OnFragmentDismissListener listener) {
         NamesFragment fragment = new NamesFragment();
+        fragment.setParameters(names, listener);
         return fragment;
     }
 
@@ -69,6 +77,13 @@ public class NamesFragment extends DialogFragment implements View.OnClickListene
                 return true;
             }
         });
+        editText.requestFocus();
+
+        Button buttonOk = view.findViewById(R.id.fragment_names_ok_button);
+        buttonOk.setOnClickListener(this);
+
+        Button buttonSkip = view.findViewById(R.id.fragment_names_skip_button);
+        buttonSkip.setOnClickListener(this);
 
         ListView listView = view.findViewById(R.id.fragment_names_listView);
         namesAdapter = new NamesAdapter(getContext(), R.layout.simple_text_view, names);
@@ -85,7 +100,7 @@ public class NamesFragment extends DialogFragment implements View.OnClickListene
         return inflater.inflate(R.layout.fragment_names, container, false);
     }
 
-    public ArrayList<String> getNames(){
+    public ArrayList<DinnerPerson> getNames(){
         return names;
     }
 
@@ -94,14 +109,15 @@ public class NamesFragment extends DialogFragment implements View.OnClickListene
         if(view.getId() == R.id.fragment_names_add_button){
             if(editText.getText().toString().equals(""))
                 return;
-            namesAdapter.add(editText.getText().toString());
+            String name = editText.getText().toString();
+            namesAdapter.add(new DinnerPerson(name));
             editText.setText("");
-        } else if (view.getId() == R.id.fragment_names_skip_button || view.getId() == R.id.fragment_names_ok_button){
-            if(view.getId() == R.id.fragment_names_skip_button){
-                names.clear();
-                names.add(getString(R.string.single_share_text));
-            }
+        } else if (view.getId() == R.id.fragment_names_ok_button){
             dismiss();
+        } else if (view.getId() == R.id.fragment_names_skip_button){
+            namesAdapter.clear();
+            //names.add(getString(R.string.single_share_text)); // TODO maybe need in the SplitBillActivity
+            // TODO sent straight to bil summery
         }
     }
 
@@ -112,9 +128,21 @@ public class NamesFragment extends DialogFragment implements View.OnClickListene
         return true;
     }
 
+//    @Override
+//    public void dismiss() {
+//        listener.notifyDismiss();
+//        System.out.println("-->  @Override dismiss()");
+//        super.dismiss();
+//    }
 
-    private class NamesAdapter extends ArrayAdapter<String> {
-        public NamesAdapter(@NonNull Context context, int resource, @NonNull List<String> objects) {
+    @Override
+    public void onDestroyView() {
+        listener.notifyDismiss();
+        super.onDestroyView();
+    }
+
+    private class NamesAdapter extends ArrayAdapter<DinnerPerson> {
+        public NamesAdapter(@NonNull Context context, int resource, @NonNull List<DinnerPerson> objects) {
             super(context, resource, objects);
         }
 
@@ -125,7 +153,7 @@ public class NamesFragment extends DialogFragment implements View.OnClickListene
                 convertView = LayoutInflater.from(getContext()).inflate(R.layout.simple_text_view, parent, false);
             }
             TextView title = convertView.findViewById(R.id.simple_text_view);
-            title.setText(getItem(position));
+            title.setText(getItem(position).getName());
 
             return convertView;
         }

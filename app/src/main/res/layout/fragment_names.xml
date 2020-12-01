@@ -28,6 +28,7 @@
             android:layout_weight="5"
             android:inputType="textPersonName"
             android:gravity="center"
+            android:textSize="20sp"
             android:hint="שם נוסף" />
 
         <Button
@@ -35,6 +36,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:background="@color/colorButton"
+            android:textColor="@color/colorTextOnButton"
+            android:textSize="18sp"
             android:text="הוסף" />
     </LinearLayout>
 
@@ -49,16 +53,20 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/fragment_names_skip_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="אישור" />
-
-        <Button
             android:id="@+id/fragment_names_ok_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="1dp"
+            android:layout_weight="1"
+            android:background="@color/colorButton"
+            android:textColor="@color/colorTextOnButton"
+            android:text="אישור" />
+
+        <Button
+            android:id="@+id/fragment_names_skip_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="1dp"
             android:layout_weight="1"
             android:text="דלג" />
     </LinearLayout>
