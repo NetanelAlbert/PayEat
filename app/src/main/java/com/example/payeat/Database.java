@@ -98,7 +98,7 @@ public class Database extends android.app.Application implements ValueEventListe
         return result;
     }
 
-    public static Order getOrder(int order_id) {
+    public static Order getOrder(int table_number) {
         return null;
     }
 
