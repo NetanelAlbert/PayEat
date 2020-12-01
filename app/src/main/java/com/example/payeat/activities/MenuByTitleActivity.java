@@ -20,6 +20,7 @@ package com.example.payeat.activities;
         import android.widget.TextView;
         import android.widget.Toast;
 
+        import com.example.payeat.Dish;
         import com.example.payeat.fragments.DishDetailsFragment;
         import com.example.payeat.R;
         import com.example.payeat.fragments.OrderDishFragment;
@@ -38,7 +39,7 @@ public class MenuByTitleActivity extends AppCompatActivity implements AdapterVie
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu_by_title);
         DishAdapter adapter = new DishAdapter(this, R.layout.activity_menu_by_title_list_item,
-                Arrays.asList("קרמבו", "קרמבו", "קרמבו", "קרמבו"));
+                Arrays.asList(new Dish( "food name", 100, "very tasty")));
         ListView DishListView = findViewById(R.id.category_menu_list);
         DishListView.setAdapter(adapter);
         DishListView.setOnItemClickListener(this);
@@ -107,9 +108,9 @@ public class MenuByTitleActivity extends AppCompatActivity implements AdapterVie
 
     }
 
-    private class DishAdapter extends ArrayAdapter<String>{
-        private List<String> list;
-        public DishAdapter(@NonNull Context context, int resource, @NonNull List<String> objects) {
+    private class DishAdapter extends ArrayAdapter<Dish>{
+        private List<Dish> list;
+        public DishAdapter(@NonNull Context context, int resource, @NonNull List<Dish> objects) {
             super(context, resource, objects);
             this.list = objects;
         }
@@ -120,16 +121,24 @@ public class MenuByTitleActivity extends AppCompatActivity implements AdapterVie
             if (convertView == null) {
                 convertView = LayoutInflater.from(getContext()).inflate(R.layout.activity_menu_by_title_list_item, parent, false);
             }
-            TextView title = convertView.findViewById(R.id.dish_name_text);
-            title.setText(list.get(position));
+
+            TextView dishName = convertView.findViewById(R.id.dish_name_text);
+            dishName.setText(getItem(position).getName());
+
+            TextView description = convertView.findViewById(R.id.dish_detailes_text);
+            //TODO chang to information about this specific order dish (i.e. the chosen topics on a pizza)
+            description.setText(getItem(position).getDesc());
+
+            TextView price = convertView.findViewById(R.id.dish_price_text);
+            price.setText(String.valueOf(getItem(position).getPrice()));
+
             Button expandDishButton =  convertView.findViewById(R.id.expand_dish_button);
-                expandDishButton.setVisibility(View.VISIBLE);
-                expandDishButton.setOnClickListener(new View.OnClickListener() {
+            expandDishButton.setVisibility(View.VISIBLE);
+            expandDishButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                       fragment1 = DishDetailsFragment.newInstance(mode_manager);
-                       fragment1.show(getSupportFragmentManager(), "DishDetailsFragment");
-
+                fragment1 = DishDetailsFragment.newInstance(mode_manager);
+                fragment1.show(getSupportFragmentManager(), "DishDetailsFragment");
                     }
                 });
 
