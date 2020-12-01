@@ -1,14 +1,18 @@
 package com.example.payeat;
 
+import java.util.Calendar;
+
 public class Dish {
+    // For menu
+    private long dishID;
     private String name;
     private double price;
     private String description;
     private boolean in_stock;
-    private String notes;
 
-    // For bill splitting
+    // For orders
     private int shares = 0;
+    private String notes;
 
     public Dish(String name, double price, String description) {
         this.name = name;
