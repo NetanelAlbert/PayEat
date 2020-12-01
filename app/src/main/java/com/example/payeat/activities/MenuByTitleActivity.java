@@ -39,7 +39,9 @@ public class MenuByTitleActivity extends AppCompatActivity implements AdapterVie
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu_by_title);
         DishAdapter adapter = new DishAdapter(this, R.layout.activity_menu_by_title_list_item,
-                Arrays.asList(new Dish( "food name", 100, "very tasty")));
+                Arrays.asList(new Dish( "food name", 100, "very tasty"),
+                        new Dish( "other food name", 99, "very very tasty")));
+
         ListView DishListView = findViewById(R.id.category_menu_list);
         DishListView.setAdapter(adapter);
         DishListView.setOnItemClickListener(this);
@@ -103,16 +105,13 @@ public class MenuByTitleActivity extends AppCompatActivity implements AdapterVie
             Toast.makeText(this, "הולך לעגלה!", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(this, MyCartActivity.class);
             startActivity(intent);
-
         }
 
     }
 
     private class DishAdapter extends ArrayAdapter<Dish>{
-        private List<Dish> list;
         public DishAdapter(@NonNull Context context, int resource, @NonNull List<Dish> objects) {
             super(context, resource, objects);
-            this.list = objects;
         }
 
         @NonNull
