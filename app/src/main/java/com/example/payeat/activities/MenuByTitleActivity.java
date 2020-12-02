@@ -7,6 +7,7 @@ package com.example.payeat.activities;
 
         import android.content.Context;
         import android.content.Intent;
+        import android.content.SharedPreferences;
         import android.os.Bundle;
         import android.view.LayoutInflater;
         import android.view.MenuItem;
@@ -34,7 +35,7 @@ public class MenuByTitleActivity extends AppCompatActivity implements AdapterVie
     private DishDetailsFragment dishDetailsFragment;
     private boolean mode_manager;
     private Button goToCart;
-    private String category;
+    private String String_category;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,21 +46,24 @@ public class MenuByTitleActivity extends AppCompatActivity implements AdapterVie
                 (Database.getMenuByCategory(Database.getCategoryNameByNumber(categoryId)).getDishes()));
 
         TextView category = findViewById(R.id.category_name_text);
-        category.setText(Database.getCategoryNameByNumber(categoryId));
-
-        //TextView table = findViewById(R.id.table_number_in_menu);
+        String_category=Database.getCategoryNameByNumber(categoryId);
+        category.setText(String_category);
+        TextView tableNumTextView = findViewById(R.id.table_number_in_menu);
         //String tableNum=getIntent().getStringExtra("tableNum", 0);
        // category.setText("מספר שולחן: ");
-
-        ListView DishListView = findViewById(R.id.category_menu_list);
+        SharedPreferences preferences = getSharedPreferences(getString(R.string.shared_preferences_key), MODE_PRIVATE);
+        int tableNum = preferences.getInt(getString(R.string.client_table_number),-1);
+        tableNumTextView.setText("שולחן "+tableNum);
+       ListView DishListView = findViewById(R.id.category_menu_list);
         DishListView.setAdapter(adapter);
         DishListView.setOnItemClickListener(this);
         mode_manager = getIntent().getBooleanExtra("mode manager", false);
         goToCart = (Button) findViewById(R.id.go_to_my_cart_button);
-
         //Setting listeners to button
         goToCart.setOnClickListener((View.OnClickListener) this);
-
+        if(mode_manager) {
+            tableNumTextView.setVisibility(View.GONE);
+        }
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setSelectedItemId(R.id.menu);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -121,6 +125,8 @@ public class MenuByTitleActivity extends AppCompatActivity implements AdapterVie
             final String name=getItem(position).getName();
             final String desc=getItem(position).getDesc();
             final double price =getItem(position).getPrice();
+            final long dish_id=getItem(position).getID();
+            final boolean in_stock =getItem(position).isIn_stock();
             TextView dishName = convertView.findViewById(R.id.dish_name_text);
             dishName.setText(name);
 
@@ -139,10 +145,14 @@ public class MenuByTitleActivity extends AppCompatActivity implements AdapterVie
 
                 dishDetailsFragment = DishDetailsFragment.newInstance();
                 Bundle bundle = new Bundle();
+                bundle.putString("category", String_category);
                 bundle.putString("name", name);
                 bundle.putString("desc", desc);
                 bundle.putDouble("price", price);
+                bundle.putBoolean("in_stock", in_stock);
+                bundle.putLong("dish_ID", dish_id);
                 bundle.putBoolean("mode_manager", mode_manager);
+
                 dishDetailsFragment.setArguments(bundle);
 
                 System.out.println("\n\n\nname from bundle="+name);

@@ -1,5 +1,7 @@
 package com.example.payeat;
 
+import android.widget.Toast;
+
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
@@ -18,6 +20,21 @@ public class Database extends android.app.Application implements ValueEventListe
     private static Firebase firebaseReference;
     private static DataSnapshot dataSnapshot;
     private static ArrayList<DataChangeListener> listeners;
+    private static final Firebase.CompletionListener completionListener = new Firebase.CompletionListener() {
+        @Override
+        public void onComplete(FirebaseError firebaseError, Firebase firebase) {
+            if (firebaseError != null)
+            {
+//                            Toast.makeText(AddClientActivity.this,databaseError.getMessage(),Toast.LENGTH_LONG).show();
+                System.out.println(firebaseError.getMessage());
+            }
+            else
+            {
+//                            Toast.makeText(AddClientActivity.this, "Saved!!", Toast.LENGTH_LONG).show();
+                System.out.println("Saved!!");
+            }
+        }
+    };
 
     @Override
     public void onCreate() {
@@ -26,6 +43,7 @@ public class Database extends android.app.Application implements ValueEventListe
         firebaseReference = new Firebase("https://payeat-4a103.firebaseio.com/");
         firebaseReference.addValueEventListener(this);
         listeners = new ArrayList<>();
+
     }
 
     @Override
@@ -150,12 +168,74 @@ public class Database extends android.app.Application implements ValueEventListe
         return new Menu(category,dishes);
     }
 
-    public static boolean addDishToOrder(int table_number, Dish dish) { // edut and ido
+    public static boolean addDishToOrder(int table_number, Dish dish) {
+//        ArrayList<Order> result = new ArrayList<>();
+//        Iterable<DataSnapshot> order_iter = dataSnapshot.child("orders_in_progress").child(String.valueOf(table_number)).getChildren();
+//        int orders_counter=0;
+//        for (DataSnapshot order_snap: order_iter) {
+//            orders_counter++;
+//            if(order_snap.child("table_number").getValue().toString()==""+table_number) {
+//
+//                Iterable<DataSnapshot> dish_iter = order_snap.child("dishes").getChildren();
+//                int counter = 0;
+//                for (DataSnapshot dish_snap : dish_iter) {
+//                    counter++;
+//                }
+//                firebaseReference.child("orders_in_progress").child(order_snap.getKey()).child("dishes").child(counter+"").setValue(dish);
+//                break;
+//            }
+//
+//        }
+//            //todo bug with table number !!
+//            System.out.println("wowwwwwwwwwwwwwwwwwwwwww");
+//            firebaseReference.child("orders_in_progress").child(orders_counter+"").child("dishes").child(0+"").setValue(dish);
+//            firebaseReference.child("orders_in_progress").child(orders_counter+"").child("table_number").setValue(table_number);
+        long numOfDishesInOrder = dataSnapshot.child("orders_in_progress").child(String.valueOf(table_number)).child("dishes").getChildrenCount();
+        firebaseReference.child("orders_in_progress").child(String.valueOf(table_number)).child("dishes").child(String.valueOf(numOfDishesInOrder)).setValue(dish);
+
         return false;
+
     } //edut & eden
 
-    public static boolean deleteDishFromOrder(int table_number, Dish dish) { // eden and ido
-        return false;
+    public static List<Dish> getOrderInProgress(int tableNum) {
+//        System.out.println("tableNum=  "+tableNum);
+//        ArrayList<Dish> dishes = new ArrayList<>();
+//        Iterable<DataSnapshot> order_iter = dataSnapshot.child("orders_in_progress").getChildren();
+//        String orderNum="";
+//        for (DataSnapshot order_snap: order_iter) {
+//            System.out.println("tablenum '"+ order_snap.child("table_number").getValue().toString()+"'");
+//            //ToDo fix the compering bug!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
+//            if(order_snap.child("table_number").getValue().toString()==(String.valueOf(tableNum))) {
+//                orderNum = order_snap.getKey();
+//                System.out.println("found!!!!  "+tableNum+"\n"+order_snap);
+//            }
+//        }
+//        if(orderNum=="") {
+//            System.out.println("couldnt find number " + tableNum);
+//            return dishes;
+//        }
+//        Iterable<DataSnapshot> dish_iter = dataSnapshot.child("orders_in_progress").child(orderNum).getChildren();
+//        for (DataSnapshot dish_snap: dish_iter) {
+//            System.out.println(dish_snap);
+//            Dish temp_dish = convertDataSnapShotToDish(dish_snap);
+//            System.out.println(temp_dish.getName());
+//            dishes.add(temp_dish);
+//        }
+        ArrayList<Dish> dishes = new ArrayList<>();
+        Iterable<DataSnapshot> dish_iter = dataSnapshot.child("orders_in_progress").child(String.valueOf(tableNum)).child("dishes").getChildren();
+        for (DataSnapshot dish_snap : dish_iter) {
+            System.out.println(dish_snap);
+            Dish temp_dish = convertDataSnapShotToDish(dish_snap);
+            System.out.println(temp_dish.getName());
+            dishes.add(temp_dish);
+        }
+        return dishes;
+
+    }
+
+    public static boolean deleteDishFromOrder(int order_id, int dish_id) { // eden and ido
+        firebaseReference.child("live_orders").child("" + order_id).child("dishes").child("" + dish_id).removeValue();
+        return true;
     }
 
     public static boolean appendOrder(Order order) {
@@ -164,35 +244,49 @@ public class Database extends android.app.Application implements ValueEventListe
 
     public static boolean deleteOrder(int order_id) {
         return false;
-    }//manager
+    }
 
     public static boolean setDishStock(Dish dish, boolean in_stock) {
         return false;
     }//manager
 
-    public static boolean setPrice(Dish dish, int new_price) { //TODO maybe to remove this option
-        return false;
+    public static boolean setPrice(int order_id, int dish_id, double new_price) {
+        firebaseReference.child("live_orders").child(""+order_id).child("dishes").child(""+dish_id).child("price").setValue(new_price, completionListener);
+        return true;
     }//manager
 
-    public static boolean addDishToMenuByCategory(Dish dish, String category) {
-        return false;
+    public static boolean addDishToMenuByCategory(Dish dish, String category) { // we have here a serious problem
+        // everything seeing to be ok and the addition works but when we refresh the menu it throw null pointer exception
+        long number_of_dishes = dataSnapshot.child("menu").child(category).getChildrenCount();
+        firebaseReference.child("menu").child(category).child(""+number_of_dishes).setValue(dish, completionListener);
+        return true;
     } //manager
 
     public static boolean deleteDishFromMenuByCategory(Dish dish, String category) {
-        return false;
+        Iterable<DataSnapshot> dish_iter = dataSnapshot.child("menu").child(category).getChildren();
+        for (DataSnapshot dish_snap: dish_iter) {
+            String name = dish_snap.child("name").getValue(String.class);
+            if(name.compareTo(dish.getName()) == 0) {
+                dish_snap.getRef().removeValue();
+                break;
+            }
+        }
+        return true;
     }//manger
 
     private static Dish convertDataSnapShotToDish(DataSnapshot dish_snap) {
-        String description = dish_snap.child("description").getValue(String.class);
-        long dishID = dish_snap.child("dishID").getValue(Long.class);
-        boolean in_stock = dish_snap.child("in_stock").getValue(Boolean.class);
-        String name = dish_snap.child("name").getValue(String.class);
-        String notes = dish_snap.child("notes").getValue(String.class);
-        int price = dish_snap.child("price").getValue(Integer.class);
-        int shares = dish_snap.child("shares").getValue(Integer.class);
+        if (dish_snap != null) {
+            String description = dish_snap.child("description").getValue(String.class);
+            long dishID = dish_snap.child("dishID").getValue(Long.class);
+            boolean in_stock = dish_snap.child("in_stock").getValue(Boolean.class);
+            String name = dish_snap.child("name").getValue(String.class);
+            String notes = dish_snap.child("notes").getValue(String.class);
+            int price = dish_snap.child("price").getValue(Integer.class);
+            int shares = dish_snap.child("shares").getValue(Integer.class);
 
-        return new Dish(dishID, name, price, description, in_stock, shares, notes);
-
+            return new Dish(dishID, name, price, description, in_stock, shares, notes);
+        }
+        throw new RuntimeException("dish is null");
     }
 
 }

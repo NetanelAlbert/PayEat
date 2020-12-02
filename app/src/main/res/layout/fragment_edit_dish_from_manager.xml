@@ -20,7 +20,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="56dp"
-            android:text=" עדכן שם המנה:"
+            android:text="שם המנה:"
             android:textSize="36sp" />
 
         <EditText
@@ -28,6 +28,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
+            android:editable="false"
             android:inputType="textPersonName"
             android:gravity="right" />
 

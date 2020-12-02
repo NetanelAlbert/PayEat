@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.example.payeat.Database;
+import com.example.payeat.Dish;
 import com.example.payeat.R;
 
 /**
@@ -78,6 +80,7 @@ public class DeleteDishFragment extends DialogFragment implements View.OnClickLi
 
                 // get the dish item using order_number and dish_number and then:
                 // need to update the order in the database
+                Database.deleteDishFromOrder(order_number, dish_number);
 
                 dismiss();
                 break;
