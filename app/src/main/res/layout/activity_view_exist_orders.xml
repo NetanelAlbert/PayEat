@@ -77,7 +77,8 @@
             app:itemTextColor="@drawable/selector"
             app:itemIconTint="@drawable/selector"
             app:menu="@menu/menu_navigation"
-            android:layout_marginTop="20dp" />
+            android:layout_marginTop="20dp"
+            android:textColor="@color/colorTextOnButton" />
 
     </LinearLayout>
 </RelativeLayout>

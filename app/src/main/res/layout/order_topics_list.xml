@@ -13,7 +13,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:id="@+id/layout_order_topics" >
+        android:id="@+id/layout_order_topics"
+        android:layout_weight="1" >
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -95,7 +96,8 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="עדכן מחיר"
-        android:background="@color/colorButton" />
+        android:background="@color/colorButton"
+        android:textColor="@color/colorTextOnButton"/>
 
     <Space
         android:layout_width="20dp"
@@ -107,7 +109,8 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="מחק מנה"
-        android:background="@color/colorButton" />
+        android:background="@color/colorButton"
+        android:textColor="@color/colorTextOnButton" />
 
     <Space
         android:layout_width="20dp"

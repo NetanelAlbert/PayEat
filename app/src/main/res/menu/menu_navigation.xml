@@ -1,17 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:andorid="http://schemas.android.com/tools">
+    xmlns:andorid="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
         android:id="@+id/menu"
         android:title="Menu"
-        andorid:icon="@drawable/menu_icon" />
+        andorid:icon="@drawable/menu_icon"
+        app:showAsAction="ifRoom" />
     <item
         android:id="@+id/orders"
         android:title="Orders"
-        andorid:icon="@drawable/order_icon" />
+        andorid:icon="@drawable/order_icon"
+        app:showAsAction="ifRoom" />
     <item
         android:id="@+id/restaurant_capacity"
         android:title="Capacity"
-        andorid:icon="@drawable/capacity_icon" />
+        andorid:icon="@drawable/capacity_icon"
+        app:showAsAction="ifRoom" />
 </menu>

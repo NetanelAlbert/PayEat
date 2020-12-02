@@ -19,7 +19,7 @@ public class ManagerMenuActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_manager_menu);
+        setContentView(R.layout.activity_main_menu);
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setSelectedItemId(R.id.menu);
@@ -44,19 +44,5 @@ public class ManagerMenuActivity extends AppCompatActivity {
                 return false;
             }
         });
-
-        switchCompat = findViewById(R.id.SwitchButton_mode_menu);
-        switchCompat.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (switchCompat.isChecked()) {
-                    Toast.makeText(getApplicationContext(), "עריכה", Toast.LENGTH_SHORT).show();
-                }
-                else {
-                    Toast.makeText(getApplicationContext(), "צפייה בלבד", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-
     }
 }

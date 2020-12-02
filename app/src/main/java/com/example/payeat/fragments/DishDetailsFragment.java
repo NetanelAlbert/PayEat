@@ -21,8 +21,6 @@ public class DishDetailsFragment extends DialogFragment  implements View.OnClick
      * Use the {@link DishDetailsFragment#newInstance} factory method to
      * create an instance of this fragment.
      */
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-//    private static final String On_Click_Listener = "OnClickListener";
 
     private static String MODE_MANAGER;
 
@@ -30,9 +28,14 @@ public class DishDetailsFragment extends DialogFragment  implements View.OnClick
     private TextView TextView_dishName;
     private TextView TextView_dishDesc;
     private TextView TextView_dishPrice;
-    private boolean mode_manager;
 
-//    private View.OnClickListener menuByTitleActivity;
+    private boolean mode_manager;
+    private String dish_name;
+    private double dish_price;
+    private String dish_desc;
+
+    private ImageView dish_image;
+
     private OrderDishFragment orderFragment;
     private EditDishFromManagerFragment editDishFragment;
 
@@ -48,25 +51,21 @@ public class DishDetailsFragment extends DialogFragment  implements View.OnClick
      *
      * @return A new instance of fragment ChooseTableFragment.
      */
-    public static DishDetailsFragment newInstance(boolean mode) {
+    public static DishDetailsFragment newInstance() {
         DishDetailsFragment fragment = new DishDetailsFragment();
-//        fragment.setOnClickListener(clicker);
-        Bundle args = new Bundle();
-        args.putBoolean(MODE_MANAGER, mode);
-        fragment.setArguments(args);
+//        Bundle args = new Bundle();
+//        args.putBoolean(MODE_MANAGER, mode);
+//        fragment.setArguments(args);
         return fragment;
     }
 
-//    private void setOnClickListener(View.OnClickListener clicker) {
-//        this.menuByTitleActivity = clicker;
-//    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mode_manager = getArguments().getBoolean(MODE_MANAGER);
-        }
+//        if (getArguments() != null) {
+//            mode_manager = getArguments().getBoolean(MODE_MANAGER);
+//        }
     }
 
     @Override
@@ -81,13 +80,16 @@ public class DishDetailsFragment extends DialogFragment  implements View.OnClick
         TextView_dishName = convertView.findViewById(R.id.dish_name_text_fragment);
         TextView_dishDesc = convertView.findViewById(R.id.dish_details_fragment);
         TextView_dishPrice = convertView.findViewById(R.id.dish_price_fragment);
-        String name = getArguments().getString("name");
-        System.out.println("\n\n\nname="+name);
-        String desc = getArguments().getString("desc");
-        String price = getArguments().getString("price");
-        TextView_dishName.setText(name);
-        TextView_dishDesc.setText(desc);
-        TextView_dishPrice.setText(String.valueOf(price));
+
+        dish_name = getArguments().getString("name");
+        dish_desc = getArguments().getString("desc");
+        dish_price = getArguments().getDouble("price");
+
+        TextView_dishName.setText(dish_name);
+        TextView_dishDesc.setText(dish_desc);
+        TextView_dishPrice.setText(String.valueOf(dish_price));
+
+        mode_manager = getArguments().getBoolean("mode_manager");
 
         if(mode_manager) {
             orderDishButton.setText("עדכן מנה");
@@ -128,15 +130,13 @@ public class DishDetailsFragment extends DialogFragment  implements View.OnClick
         switch(v.getId()) {
             case R.id.order_dish_fragment_button:
                 if(mode_manager) {
-                    int cost;
-                    try {
-                        cost = Integer.getInteger(""+TextView_dishPrice.getText());
-                    }
-                    catch (Exception exception) {
-                        cost = 0;
-                    }
-
-                    editDishFragment = EditDishFromManagerFragment.newInstance(""+TextView_dishName.getText(), cost, ""+TextView_dishDesc.getText());
+                    editDishFragment = EditDishFromManagerFragment.newInstance();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("name", dish_name);
+                    bundle.putString("desc", dish_desc);
+                    bundle.putDouble("price", dish_price);
+                    bundle.putBoolean("mode_manager", mode_manager);
+                    editDishFragment.setArguments(bundle);
                     FragmentManager fm = getFragmentManager();
                     fm.beginTransaction()
                             .setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
