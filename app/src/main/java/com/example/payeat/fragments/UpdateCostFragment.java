@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.example.payeat.Database;
 import com.example.payeat.R;
 
 /**
@@ -27,6 +28,7 @@ public class UpdateCostFragment extends DialogFragment implements View.OnClickLi
     private int order_number;
     private int dish_number;
 
+    private static EditText editTextNumber_old_cost;
     private EditText editTextNumber_new_cost;
 
     public UpdateCostFragment() {
@@ -41,8 +43,9 @@ public class UpdateCostFragment extends DialogFragment implements View.OnClickLi
      * @return A new instance of fragment UpdateCostFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static UpdateCostFragment newInstance(int PgroupPosition, int PchildPosition) {
+    public static UpdateCostFragment newInstance(int PgroupPosition, int PchildPosition, EditText editText_cost) {
         UpdateCostFragment fragment = new UpdateCostFragment();
+        editTextNumber_old_cost = editText_cost;
         Bundle args = new Bundle();
         args.putInt(ORDER_NUMBER, PgroupPosition);
         args.putInt(DISH_NUMBER, PchildPosition);
@@ -73,6 +76,7 @@ public class UpdateCostFragment extends DialogFragment implements View.OnClickLi
         cancelCostButton.setOnClickListener(this);
 
         editTextNumber_new_cost = convertView.findViewById(R.id.editTextNumber_new_cost);
+        editTextNumber_new_cost.setText(editTextNumber_old_cost.getText());
 
         return convertView;
     }
@@ -92,8 +96,12 @@ public class UpdateCostFragment extends DialogFragment implements View.OnClickLi
                 String new_costS = getCost();
                 if(new_costS == null || new_costS.length() == 0)
                     return;
-                int new_cost = Integer.parseInt(new_costS);
-//                editText_cost.setText(""+new_cost);
+                double new_cost = Double.valueOf(new_costS);
+                if(Database.setPrice(order_number , dish_number , new_cost)) {
+                    editTextNumber_old_cost.setText(""+new_cost);
+                }
+
+
                 // need to update the database with the new cost and not editText
 
                 dismiss();
