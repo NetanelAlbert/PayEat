@@ -219,6 +219,9 @@ public class ExistOrdersActivity extends AppCompatActivity implements DataChange
                 convertView = inflater.inflate(R.layout.order_topics_list, null);
             }
 
+            TextView dish_number = convertView.findViewById(R.id.textView_dish_number);
+            dish_number.setText((childPosition+1) + ")");
+
             EditText dish_name = convertView.findViewById(R.id.editText_dish_name);
             dish_name.setText(topicTitle.getName());
 
@@ -227,6 +230,9 @@ public class ExistOrdersActivity extends AppCompatActivity implements DataChange
 
             EditText description = convertView.findViewById(R.id.editText_description);
             description.setText(topicTitle.getDesc());
+
+            EditText notes = convertView.findViewById(R.id.editText_notes);
+            notes.setText(topicTitle.getNotes());
 
             Button editCostButton = convertView.findViewById(R.id.button_edit_cost);
             editCostButton.setOnClickListener(new View.OnClickListener() {
