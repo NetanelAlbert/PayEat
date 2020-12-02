@@ -20,6 +20,7 @@ package com.example.payeat.activities;
         import android.widget.TextView;
         import android.widget.Toast;
 
+        import com.example.payeat.Database;
         import com.example.payeat.Dish;
         import com.example.payeat.fragments.DishDetailsFragment;
         import com.example.payeat.R;
@@ -33,14 +34,15 @@ public class MenuByTitleActivity extends AppCompatActivity implements AdapterVie
     private DishDetailsFragment fragment1;
     private boolean mode_manager;
     private Button goToCart;
+    private String category;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        int categoryId=getIntent().getIntExtra("menu id", 0);
         setContentView(R.layout.activity_menu_by_title);
         DishAdapter adapter = new DishAdapter(this, R.layout.activity_menu_by_title_list_item,
-                Arrays.asList(new Dish( "food name", 100, "very tasty"),
-                        new Dish( "other food name", 99, "very very tasty")));
+                (Database.getDishesByCategory("breakfast")));
 
         ListView DishListView = findViewById(R.id.category_menu_list);
         DishListView.setAdapter(adapter);
