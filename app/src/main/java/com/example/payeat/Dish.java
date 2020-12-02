@@ -67,13 +67,14 @@ public class Dish {
     public String getNotes() {
         return notes;
     }
+    public long getID() { return dishID;}
 
     @Override
     public String toString() {
         return
                 "שם מנה: '" + name + '\'' +
-                ", מחיר: " + price +
-                ", תיאור: '" + description + '\'';
+                        ", מחיר: " + price +
+                        ", תיאור: '" + description + '\'';
     }
 
     // For bill splitting
@@ -86,5 +87,10 @@ public class Dish {
     }
     public synchronized void decreaseShares(){
         --shares;
+    }
+
+
+    public void setNotes(String text) {
+        notes=text;
     }
 }

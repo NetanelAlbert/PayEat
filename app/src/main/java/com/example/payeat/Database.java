@@ -1,5 +1,7 @@
 package com.example.payeat;
 
+import android.widget.Toast;
+
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
@@ -18,6 +20,21 @@ public class Database extends android.app.Application implements ValueEventListe
     private static Firebase firebaseReference;
     private static DataSnapshot dataSnapshot;
     private static ArrayList<DataChangeListener> listeners;
+    private static final Firebase.CompletionListener completionListener = new Firebase.CompletionListener() {
+        @Override
+        public void onComplete(FirebaseError firebaseError, Firebase firebase) {
+            if (firebaseError != null)
+            {
+//                            Toast.makeText(AddClientActivity.this,databaseError.getMessage(),Toast.LENGTH_LONG).show();
+                System.out.println(firebaseError.getMessage());
+            }
+            else
+            {
+//                            Toast.makeText(AddClientActivity.this, "Saved!!", Toast.LENGTH_LONG).show();
+                System.out.println("Saved!!");
+            }
+        }
+    };
 
     @Override
     public void onCreate() {
@@ -26,6 +43,7 @@ public class Database extends android.app.Application implements ValueEventListe
         firebaseReference = new Firebase("https://payeat-4a103.firebaseio.com/");
         firebaseReference.addValueEventListener(this);
         listeners = new ArrayList<>();
+
     }
 
     @Override
@@ -150,8 +168,22 @@ public class Database extends android.app.Application implements ValueEventListe
         return new Menu(category,dishes);
     }
 
-    public static boolean addDishToOrder(int table_number, Dish dish) { // edut and ido
+    public static boolean addDishToOrder(int table_number, Dish dish) {
+        ArrayList<Order> result = new ArrayList<>();
+        Iterable<DataSnapshot> order_iter = dataSnapshot.child("orders_in_progress").getChildren();
+        for (DataSnapshot order_snap: order_iter) {
+            Iterable<DataSnapshot> dish_iter = order_snap.child("dishes").getChildren();
+            int counter=0;
+            for (DataSnapshot dish_snap: dish_iter) {
+                counter++;
+            }
+            //  if(order_snap.child("table_number").getValue()==table_number)
+            System.out.println("wowwwwwwwwwwwwwwwwwwwwww");
+            firebaseReference.child("order_in_progress").child(order_snap.getKey()).child("dishes").child(counter+"").setValue(dish);
+        }
+
         return false;
+
     } //edut & eden
 
     public static boolean deleteDishFromOrder(int table_number, Dish dish) { // eden and ido
@@ -164,14 +196,15 @@ public class Database extends android.app.Application implements ValueEventListe
 
     public static boolean deleteOrder(int order_id) {
         return false;
-    }//manager
+    }
 
     public static boolean setDishStock(Dish dish, boolean in_stock) {
         return false;
     }//manager
 
-    public static boolean setPrice(Dish dish, int new_price) { //TODO maybe to remove this option
-        return false;
+    public static boolean setPrice(int order_id, int dish_id, double new_price) {
+        firebaseReference.child("live_orders").child(""+order_id).child("dishes").child(""+dish_id).child("price").setValue(new_price, completionListener);
+        return true;
     }//manager
 
     public static boolean addDishToMenuByCategory(Dish dish, String category) {

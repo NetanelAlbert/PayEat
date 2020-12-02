@@ -103,6 +103,7 @@ public class EditDishFromManagerFragment extends DialogFragment implements View.
                 dish_price = Double.parseDouble(""+editText_new_price.getText());
                 dish_desc = ""+editText_new_desc.getText();
 
+                Dish new_dish = new Dish(dish_name, dish_price, dish_desc);
                 // send name,price,desc to the database
 
                 // not working ! TODO

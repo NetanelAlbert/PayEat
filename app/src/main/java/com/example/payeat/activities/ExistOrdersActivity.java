@@ -225,7 +225,7 @@ public class ExistOrdersActivity extends AppCompatActivity implements DataChange
             EditText dish_name = convertView.findViewById(R.id.editText_dish_name);
             dish_name.setText(topicTitle.getName());
 
-            EditText cost = convertView.findViewById(R.id.editText_cost);
+            final EditText cost = convertView.findViewById(R.id.editText_cost);
             cost.setText("" + topicTitle.getPrice());
 
             EditText description = convertView.findViewById(R.id.editText_description);
@@ -238,7 +238,7 @@ public class ExistOrdersActivity extends AppCompatActivity implements DataChange
             editCostButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    costFragment = UpdateCostFragment.newInstance(groupPosition, childPosition);
+                    costFragment = UpdateCostFragment.newInstance(groupPosition, childPosition, cost);
                     costFragment.show(FmBase, "UpdateCostFragment");
                 }
             });
