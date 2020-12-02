@@ -18,20 +18,27 @@ import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.SearchView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.payeat.DataChangeListener;
+import com.example.payeat.Database;
 import com.example.payeat.fragments.DeleteDishFragment;
 import com.example.payeat.Dish;
 import com.example.payeat.Order;
 import com.example.payeat.R;
 import com.example.payeat.fragments.UpdateCostFragment;
 import com.example.payeat.fragments.ChooseTableFragment;
+import com.firebase.client.DataSnapshot;
+import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class ExistOrdersActivity extends AppCompatActivity {
+public class ExistOrdersActivity extends AppCompatActivity implements DataChangeListener {
 
     private ExpandableListViewAdapter listViewAdapter;
     private ExpandableListView expandableListView;
@@ -40,6 +47,8 @@ public class ExistOrdersActivity extends AppCompatActivity {
 
     private List<String> idOrderList;
     private HashMap<String, Order> all_orders; // order_id -> Order/Dishes
+
+    Firebase firebaseReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +82,9 @@ public class ExistOrdersActivity extends AppCompatActivity {
             }
         });
         expandableListView = findViewById(R.id.listView_orders);
-        makeList();
+        idOrderList = new ArrayList<String>(); // id Order (the title of the Order whatever)
+        all_orders = new HashMap<String, Order>(); // each raw in the Order. what is the Order info.
+        notifyOnChange();
         listViewAdapter = new ExpandableListViewAdapter(this, idOrderList, all_orders, getSupportFragmentManager());
         expandableListView.setAdapter(listViewAdapter);
 
@@ -105,29 +116,28 @@ public class ExistOrdersActivity extends AppCompatActivity {
         });
     }
 
-    private void makeList() {
-        idOrderList = new ArrayList<String>(); // id Order (the title of the Order whatever)
-        all_orders = new HashMap<String, Order>(); // each raw in the Order. what is the Order info.
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Database.addListener(this);
+    }
 
-        ArrayList<Order> orders = new ArrayList<>();
+    @Override
+    protected void onPause() {
+        Database.removeListener(this);
+        super.onPause();
+    }
 
-        // when firebase will be ready hear we are going to do the quary
-
-        Dish dish1 = new Dish("שורה 1", 50, "description1");
-        Dish dish2 = new Dish("שורה 2", 40, "description2");
-        Dish dish3 = new Dish("שורה 3", 30, "description3");
-
-        Order order1 = new Order(new Dish[]{dish1, dish2, dish3}, 1);
-        Order order2 = new Order(new Dish[]{dish2, dish3, dish1}, 2);
-        Order order3 = new Order(new Dish[]{dish3, dish1, dish2}, 3);
-
-        idOrderList.add("שולחן 1");
-        idOrderList.add("שולחן 2");
-        idOrderList.add("שולחן 3");
-
-        all_orders.put(idOrderList.get(0), order1);
-        all_orders.put(idOrderList.get(1), order2);
-        all_orders.put(idOrderList.get(2), order3);
+    @Override
+    public void notifyOnChange() {
+        final ArrayList<Order> orders = Database.getOrders();
+        int i = 0;
+        for (Order order: orders) {
+            int table_number = order.getTable_number();
+            idOrderList.add("שולחן " + table_number);
+            all_orders.put(idOrderList.get(i), order);
+            i++;
+        }
     }
 
     class ExpandableListViewAdapter extends BaseExpandableListAdapter {

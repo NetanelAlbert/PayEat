@@ -81,6 +81,13 @@ public class DishDetailsFragment extends DialogFragment  implements View.OnClick
         TextView_dishName = convertView.findViewById(R.id.dish_name_text_fragment);
         TextView_dishDesc = convertView.findViewById(R.id.dish_details_fragment);
         TextView_dishPrice = convertView.findViewById(R.id.dish_price_fragment);
+        String name = getArguments().getString("name");
+        System.out.println("\n\n\nname="+name);
+        String desc = getArguments().getString("desc");
+        String price = getArguments().getString("price");
+        TextView_dishName.setText(name);
+        TextView_dishDesc.setText(desc);
+        TextView_dishPrice.setText(String.valueOf(price));
 
         if(mode_manager) {
             orderDishButton.setText("עדכן מנה");

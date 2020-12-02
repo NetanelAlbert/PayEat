@@ -1,6 +1,7 @@
 package com.example.payeat;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Menu {
     String category;
@@ -17,5 +18,9 @@ public class Menu {
     public Menu(String category, ArrayList<Dish> dishes) {
         this.category = category;
         this.dishes = dishes;
+    }
+
+    public List<Dish> getDishes() {
+        return dishes;
     }
 }

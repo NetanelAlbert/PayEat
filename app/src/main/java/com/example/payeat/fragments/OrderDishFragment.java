@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -63,9 +64,9 @@ public class OrderDishFragment extends DialogFragment implements View.OnClickLis
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         // Inflate the layout for this fragment
         final View convertView = inflater.inflate(R.layout.fragment_order_dish, container, false);
-
         Button orderButton = convertView.findViewById(R.id.confirm_order_button);
         orderButton.setOnClickListener(this);
 
