@@ -75,24 +75,9 @@ public class OrderDishFragment extends DialogFragment implements View.OnClickLis
         final View convertView = inflater.inflate(R.layout.fragment_order_dish, container, false);
         Button orderButton = convertView.findViewById(R.id.confirm_order_button);
         orderButton.setOnClickListener(this);
-        final EditText editText = convertView.findViewById(R.id.order_dish_fragment_costumer_request);
+         editText = convertView.findViewById(R.id.order_dish_fragment_costumer_request);
+//        editText.setOnClickListener(this);
 
-//        String name = getArguments().getString("name");
-//        String desc = getArguments().getString("desc");
-//        double price = getArguments().getDouble("price");
-//        long dish_id = getArguments().getLong("dish_id");
-//        boolean in_stock=getArguments().getBoolean("in_stock");
-//        System.out.println(name+ desc+ price+ dish_id+ in_stock);
-//        dishToOrder= new Dish( dish_id,  name,  price,  desc,  in_stock, 0, "");
-
-//        editText.requestFocus();
-//        editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-//            @Override
-//            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
-//                button.callOnClick();
-//                return true;
-//            }
-//        });
         return convertView;
 
     }

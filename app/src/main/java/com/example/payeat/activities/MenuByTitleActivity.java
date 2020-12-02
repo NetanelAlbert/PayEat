@@ -35,7 +35,7 @@ public class MenuByTitleActivity extends AppCompatActivity implements AdapterVie
     private DishDetailsFragment dishDetailsFragment;
     private boolean mode_manager;
     private Button goToCart;
-    private String category;
+    private String String_category;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,15 +46,14 @@ public class MenuByTitleActivity extends AppCompatActivity implements AdapterVie
                 (Database.getMenuByCategory(Database.getCategoryNameByNumber(categoryId)).getDishes()));
 
         TextView category = findViewById(R.id.category_name_text);
-        category.setText(Database.getCategoryNameByNumber(categoryId));
-
+        String_category=Database.getCategoryNameByNumber(categoryId);
+        category.setText(String_category);
         TextView tableNumTextView = findViewById(R.id.table_number_in_menu);
         //String tableNum=getIntent().getStringExtra("tableNum", 0);
        // category.setText("מספר שולחן: ");
         SharedPreferences preferences = getSharedPreferences(getString(R.string.shared_preferences_key), MODE_PRIVATE);
         int tableNum = preferences.getInt(getString(R.string.client_table_number),-1);
         tableNumTextView.setText("שולחן "+tableNum);
-
        ListView DishListView = findViewById(R.id.category_menu_list);
         DishListView.setAdapter(adapter);
         DishListView.setOnItemClickListener(this);
@@ -146,6 +145,7 @@ public class MenuByTitleActivity extends AppCompatActivity implements AdapterVie
 
                 dishDetailsFragment = DishDetailsFragment.newInstance();
                 Bundle bundle = new Bundle();
+                bundle.putString("category", String_category);
                 bundle.putString("name", name);
                 bundle.putString("desc", desc);
                 bundle.putDouble("price", price);

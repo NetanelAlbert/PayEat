@@ -36,6 +36,8 @@ public class DishDetailsFragment extends DialogFragment  implements View.OnClick
     private String dish_desc;
     private long dish_id;
     private boolean in_stock;
+    private String category;
+
 
     private ImageView dish_image;
 
@@ -89,6 +91,7 @@ public class DishDetailsFragment extends DialogFragment  implements View.OnClick
         dish_price = getArguments().getDouble("price");
         dish_id = getArguments().getLong("dish_id");
         in_stock=getArguments().getBoolean("in_stock");
+        category=getArguments().getString("category");
 
         TextView_dishName.setText(dish_name);
         TextView_dishDesc.setText(dish_desc);
@@ -113,6 +116,7 @@ public class DishDetailsFragment extends DialogFragment  implements View.OnClick
                     bundle.putString("desc", dish_desc);
                     bundle.putDouble("price", dish_price);
                     bundle.putBoolean("mode_manager", mode_manager);
+                    bundle.putString("category", category);
 
                     editDishFragment.setArguments(bundle);
                     FragmentManager fm = getFragmentManager();
@@ -132,6 +136,7 @@ public class DishDetailsFragment extends DialogFragment  implements View.OnClick
                     bundle.putDouble("price", dish_price);
                     bundle.putBoolean("in_stock", in_stock);
                     bundle.putLong("dish_id", dish_id);
+
                     System.out.println("details frag!!!!!!!!"+ dish_id+" "+ in_stock);
                     Dish d= new Dish( dish_id,  dish_name,  dish_price,  dish_desc,  in_stock, 0, "");
                     orderFragment.setDishToOrder(d);
