@@ -219,20 +219,26 @@ public class ExistOrdersActivity extends AppCompatActivity implements DataChange
                 convertView = inflater.inflate(R.layout.order_topics_list, null);
             }
 
+            TextView dish_number = convertView.findViewById(R.id.textView_dish_number);
+            dish_number.setText((childPosition+1) + ")");
+
             EditText dish_name = convertView.findViewById(R.id.editText_dish_name);
             dish_name.setText(topicTitle.getName());
 
-            EditText cost = convertView.findViewById(R.id.editText_cost);
+            final EditText cost = convertView.findViewById(R.id.editText_cost);
             cost.setText("" + topicTitle.getPrice());
 
             EditText description = convertView.findViewById(R.id.editText_description);
             description.setText(topicTitle.getDesc());
 
+            EditText notes = convertView.findViewById(R.id.editText_notes);
+            notes.setText(topicTitle.getNotes());
+
             Button editCostButton = convertView.findViewById(R.id.button_edit_cost);
             editCostButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    costFragment = UpdateCostFragment.newInstance(groupPosition, childPosition);
+                    costFragment = UpdateCostFragment.newInstance(groupPosition, childPosition, cost);
                     costFragment.show(FmBase, "UpdateCostFragment");
                 }
             });
