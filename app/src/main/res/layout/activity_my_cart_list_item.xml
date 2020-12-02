@@ -10,12 +10,10 @@
 
     <Button
         android:id="@+id/cancel_dish_button"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="2dp"
-
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_margin="10dp"
         android:layout_marginBottom="20dp"
         android:background="@drawable/round_button_background"
         android:text="בטל מנה"
@@ -24,40 +22,34 @@
         android:textSize="10sp" />
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="right"
-        android:layout_marginRight="10dp"
-        android:layout_marginLeft="10dp">
+        android:layout_weight="8"
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal"
-            android:gravity="right">
+            android:layoutDirection="rtl">
 
             <TextView
                 android:id="@+id/price_of_dish_text"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
+                android:layout_weight="1"
+                android:gravity="center"
                 android:text="מחיר"
-                android:textAlignment="center"
                 android:textSize="24sp" />
-
-            <Space
-                android:layout_width="60dp"
-                android:layout_height="10dp" />
 
             <TextView
                 android:id="@+id/name_of_dish_text"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="4dp"
+                android:layout_weight="1"
+                android:gravity="center"
                 android:text="שם המנה"
-                android:textAlignment="viewEnd"
-                android:textSize="20dp" />
+                android:textSize="24sp" />
 
 
         </LinearLayout>
@@ -66,9 +58,10 @@
             android:id="@+id/detailes_of_dish_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
 
             android:text="תיאור המנה"
-            android:textAlignment="center" />
+            android:gravity="right" />
     </LinearLayout>
 
 
