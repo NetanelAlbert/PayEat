@@ -87,18 +87,7 @@ public class MenuByTitleActivity extends AppCompatActivity implements AdapterVie
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-//        Intent intent = null;
-//        switch (view.getId()) {
-//            case R.id.expand_dish_button:
-//                fragment = DishDetailsFragment.newInstance((View.OnClickListener) this); //HELP!!
-//                fragment.show(getSupportFragmentManager(), "DishDetailsFragment");
-//                break;
-//        }
-//        Toast.makeText(this, "onItemClick - " + adapterView.getItemAtPosition(i), Toast.LENGTH_SHORT).show();
 
-       // Intent intent = new Intent(this, MenuByTitleActivity.class); //Activity Dish
-        //intent.putExtra(getResources().getString(R.string.intent_extras_menu_id),i); // TODO change 'i' to the real id according to database.
-        //startActivity(intent);
     }
 
     @Override
@@ -122,23 +111,33 @@ public class MenuByTitleActivity extends AppCompatActivity implements AdapterVie
             if (convertView == null) {
                 convertView = LayoutInflater.from(getContext()).inflate(R.layout.activity_menu_by_title_list_item, parent, false);
             }
-
+            final String name=getItem(position).getName();
+            final String desc=getItem(position).getDesc();
+            final String price =getItem(position).getPrice()+"";
             TextView dishName = convertView.findViewById(R.id.dish_name_text);
-            dishName.setText(getItem(position).getName());
+            dishName.setText(name);
 
             TextView description = convertView.findViewById(R.id.dish_detailes_text);
             //TODO chang to information about this specific order dish (i.e. the chosen topics on a pizza)
-            description.setText(getItem(position).getDesc());
+            description.setText(desc);
 
-            TextView price = convertView.findViewById(R.id.dish_price_text);
-            price.setText(String.valueOf(getItem(position).getPrice()));
-
+            TextView Dishprice = convertView.findViewById(R.id.dish_price_text);
+            Dishprice.setText(String.valueOf(price));
             Button expandDishButton =  convertView.findViewById(R.id.expand_dish_button);
             expandDishButton.setVisibility(View.VISIBLE);
             expandDishButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+
+
                 fragment1 = DishDetailsFragment.newInstance(mode_manager);
+                        Bundle bundle = new Bundle();
+                        bundle.putString("name", name);
+                        bundle.putString("desc", desc);
+                        bundle.putString("price", price+"");
+                        fragment1.setArguments(bundle);
+
+                        System.out.println("\n\n\nname from bundle="+name);
                 fragment1.show(getSupportFragmentManager(), "DishDetailsFragment");
                     }
                 });
