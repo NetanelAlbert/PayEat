@@ -1,6 +1,7 @@
 package com.example.payeat.fragments;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -17,6 +18,7 @@ import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import com.example.payeat.Database;
 import com.example.payeat.Dish;
 import com.example.payeat.R;
 
@@ -36,7 +38,7 @@ public class OrderDishFragment extends DialogFragment implements View.OnClickLis
     private static Dish dishToOrder;
     private View.OnClickListener dishDetailsFragment;
     private EditText editText;
-
+    private int tableNum;
 
     public OrderDishFragment() {
         // Required empty public constructor
@@ -82,8 +84,9 @@ public class OrderDishFragment extends DialogFragment implements View.OnClickLis
 
     }
 
-    public void setDishToOrder(Dish d){
+    public void setDishToOrder(Dish d, int table){
         dishToOrder=d;
+        tableNum=table;
         System.out.println("dish is set"+ d.getName());
 
     }
@@ -98,24 +101,10 @@ public class OrderDishFragment extends DialogFragment implements View.OnClickLis
             case R.id.confirm_order_button:
                 String notes = getNotes();
                 dishToOrder.setNotes(notes);
-                //ToDo add to cart!!
-//                editText.requestFocus();
-//                editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-//                    @Override
-//                    public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
-////                //button.callOnClick();
-////                System.out.println("lister text");
                 System.out.println(dishToOrder.getNotes());
-//
-//                        return true;
-//                    }
-//                });
-//                String text;
-//                if(editText == null)
-//                    text="";
-//                else text= editText.getText().toString();
-//                dishToOrder.setNotes(text);
-//                System.out.println(text);
+
+
+                Database.addDishToOrder(tableNum, dishToOrder);
                 Toast.makeText(getActivity(), "סגור, הזמנתי!", Toast.LENGTH_SHORT ).show();
                 dismiss();
                 break;
