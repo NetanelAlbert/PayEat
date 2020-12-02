@@ -150,8 +150,22 @@ public class Database extends android.app.Application implements ValueEventListe
         return new Menu(category,dishes);
     }
 
-    public static boolean addDishToOrder(int table_number, Dish dish) { // edut and ido
+    public static boolean addDishToOrder(int table_number, Dish dish) {
+        ArrayList<Order> result = new ArrayList<>();
+        Iterable<DataSnapshot> order_iter = dataSnapshot.child("orders_in_progress").getChildren();
+        for (DataSnapshot order_snap: order_iter) {
+            Iterable<DataSnapshot> dish_iter = order_snap.child("dishes").getChildren();
+            int counter=0;
+            for (DataSnapshot dish_snap: dish_iter) {
+                counter++;
+            }
+          //  if(order_snap.child("table_number").getValue()==table_number)
+                System.out.println("wowwwwwwwwwwwwwwwwwwwwww");
+                firebaseReference.child("order_in_progress").child(order_snap.getKey()).child("dishes").child(counter+"").setValue(dish);
+            }
+
         return false;
+
     } //edut & eden
 
     public static boolean deleteDishFromOrder(int table_number, Dish dish) { // eden and ido

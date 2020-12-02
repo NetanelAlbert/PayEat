@@ -126,6 +126,8 @@ public class MenuByTitleActivity extends AppCompatActivity implements AdapterVie
             final String name=getItem(position).getName();
             final String desc=getItem(position).getDesc();
             final double price =getItem(position).getPrice();
+            final long dish_id=getItem(position).getID();
+            final boolean in_stock =getItem(position).isIn_stock();
             TextView dishName = convertView.findViewById(R.id.dish_name_text);
             dishName.setText(name);
 
@@ -147,7 +149,10 @@ public class MenuByTitleActivity extends AppCompatActivity implements AdapterVie
                 bundle.putString("name", name);
                 bundle.putString("desc", desc);
                 bundle.putDouble("price", price);
+                bundle.putBoolean("in_stock", in_stock);
+                bundle.putLong("dish_ID", dish_id);
                 bundle.putBoolean("mode_manager", mode_manager);
+
                 dishDetailsFragment.setArguments(bundle);
 
                 System.out.println("\n\n\nname from bundle="+name);

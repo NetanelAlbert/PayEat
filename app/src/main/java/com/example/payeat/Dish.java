@@ -67,6 +67,7 @@ public class Dish {
     public String getNotes() {
         return notes;
     }
+    public long getID() { return dishID;}
 
     @Override
     public String toString() {
@@ -86,5 +87,10 @@ public class Dish {
     }
     public synchronized void decreaseShares(){
         --shares;
+    }
+
+
+    public void setNotes(String text) {
+        notes=text;
     }
 }
