@@ -31,7 +31,7 @@ package com.example.payeat.activities;
         import java.util.List;
 
 public class MenuByTitleActivity extends AppCompatActivity implements AdapterView.OnItemClickListener ,View.OnClickListener {
-    private DishDetailsFragment fragment1;
+    private DishDetailsFragment dishDetailsFragment;
     private boolean mode_manager;
     private Button goToCart;
     private String category;
@@ -120,7 +120,7 @@ public class MenuByTitleActivity extends AppCompatActivity implements AdapterVie
             }
             final String name=getItem(position).getName();
             final String desc=getItem(position).getDesc();
-            final String price =getItem(position).getPrice()+"";
+            final double price =getItem(position).getPrice();
             TextView dishName = convertView.findViewById(R.id.dish_name_text);
             dishName.setText(name);
 
@@ -137,15 +137,16 @@ public class MenuByTitleActivity extends AppCompatActivity implements AdapterVie
                     public void onClick(View v) {
 
 
-                fragment1 = DishDetailsFragment.newInstance(mode_manager);
-                        Bundle bundle = new Bundle();
-                        bundle.putString("name", name);
-                        bundle.putString("desc", desc);
-                        bundle.putString("price", price+"");
-                        fragment1.setArguments(bundle);
+                dishDetailsFragment = DishDetailsFragment.newInstance();
+                Bundle bundle = new Bundle();
+                bundle.putString("name", name);
+                bundle.putString("desc", desc);
+                bundle.putDouble("price", price);
+                bundle.putBoolean("mode_manager", mode_manager);
+                dishDetailsFragment.setArguments(bundle);
 
-                        System.out.println("\n\n\nname from bundle="+name);
-                fragment1.show(getSupportFragmentManager(), "DishDetailsFragment");
+                System.out.println("\n\n\nname from bundle="+name);
+                dishDetailsFragment.show(getSupportFragmentManager(), "DishDetailsFragment");
                     }
                 });
 
