@@ -102,17 +102,8 @@ public class Database extends android.app.Application implements ValueEventListe
         return result;
     }
 
-    public static ArrayList<Dish> getDishesByCategory(String category) {
-        ArrayList<Dish> result = new ArrayList<>();
-        Iterable<DataSnapshot> dish_iter = dataSnapshot.child("menu").child(category).getChildren();
-        for (DataSnapshot dish_snap: dish_iter) {
-                Dish temp_dish = convertDataSnapShotToDish(dish_snap);
-                result.add(temp_dish);
-            }
-        return result;
-    }
-    public static String getCategoryNameByNumber(int id) {
 
+    public static String getCategoryNameByNumber(int id) {
         Iterable<DataSnapshot> categories_iter = dataSnapshot.child("menu").getChildren();
         int i=0;
         for (DataSnapshot category_snap: categories_iter) {
@@ -141,16 +132,27 @@ public class Database extends android.app.Application implements ValueEventListe
     }
 
     public static ArrayList<String> getCategories() { // nati
-        return null;
+        ArrayList<String> categories=new ArrayList<>();
+        Iterable<DataSnapshot> categories_iter = dataSnapshot.child("menu").getChildren();
+        for (DataSnapshot category_snap: categories_iter) {
+               categories.add(category_snap.getKey());
+        }
+        return categories;
     }
 
     public static Menu getMenuByCategory(String category) { // edut
-        return null;
+        ArrayList<Dish> dishes = new ArrayList<>();
+        Iterable<DataSnapshot> dish_iter = dataSnapshot.child("menu").child(category).getChildren();
+        for (DataSnapshot dish_snap: dish_iter) {
+            Dish temp_dish = convertDataSnapShotToDish(dish_snap);
+            dishes.add(temp_dish);
+        }
+        return new Menu(category,dishes);
     }
 
     public static boolean addDishToOrder(int table_number, Dish dish) { // edut and ido
         return false;
-    }
+    } //edut & eden
 
     public static boolean deleteDishFromOrder(int table_number, Dish dish) { // eden and ido
         return false;
@@ -162,23 +164,23 @@ public class Database extends android.app.Application implements ValueEventListe
 
     public static boolean deleteOrder(int order_id) {
         return false;
-    }
+    }//manager
 
     public static boolean setDishStock(Dish dish, boolean in_stock) {
         return false;
-    }
+    }//manager
 
     public static boolean setPrice(Dish dish, int new_price) { //TODO maybe to remove this option
         return false;
-    }
+    }//manager
 
     public static boolean addDishToMenuByCategory(Dish dish, String category) {
         return false;
-    }
+    } //manager
 
     public static boolean deleteDishFromMenuByCategory(Dish dish, String category) {
         return false;
-    }
+    }//manger
 
     private static Dish convertDataSnapShotToDish(DataSnapshot dish_snap) {
         String description = dish_snap.child("description").getValue(String.class);

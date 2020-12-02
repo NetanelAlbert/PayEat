@@ -42,7 +42,14 @@ public class MenuByTitleActivity extends AppCompatActivity implements AdapterVie
         int categoryId=getIntent().getIntExtra("menu id", 0);
         setContentView(R.layout.activity_menu_by_title);
         DishAdapter adapter = new DishAdapter(this, R.layout.activity_menu_by_title_list_item,
-                (Database.getDishesByCategory(Database.getCategoryNameByNumber(categoryId))));
+                (Database.getMenuByCategory(Database.getCategoryNameByNumber(categoryId)).getDishes()));
+
+        TextView category = findViewById(R.id.category_name_text);
+        category.setText(Database.getCategoryNameByNumber(categoryId));
+
+        //TextView table = findViewById(R.id.table_number_in_menu);
+        //String tableNum=getIntent().getStringExtra("tableNum", 0);
+       // category.setText("מספר שולחן: ");
 
         ListView DishListView = findViewById(R.id.category_menu_list);
         DishListView.setAdapter(adapter);
