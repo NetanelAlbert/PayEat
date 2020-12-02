@@ -7,7 +7,6 @@ package com.example.payeat.activities;
 
         import android.content.Context;
         import android.content.Intent;
-        import android.content.SharedPreferences;
         import android.os.Bundle;
         import android.view.LayoutInflater;
         import android.view.MenuItem;
@@ -32,7 +31,7 @@ package com.example.payeat.activities;
         import java.util.List;
 
 public class MenuByTitleActivity extends AppCompatActivity implements AdapterView.OnItemClickListener ,View.OnClickListener {
-    private DishDetailsFragment dishDetailsFragment;
+    private DishDetailsFragment fragment1;
     private boolean mode_manager;
     private Button goToCart;
     private String category;
@@ -48,23 +47,19 @@ public class MenuByTitleActivity extends AppCompatActivity implements AdapterVie
         TextView category = findViewById(R.id.category_name_text);
         category.setText(Database.getCategoryNameByNumber(categoryId));
 
-        TextView tableNumTextView = findViewById(R.id.table_number_in_menu);
+        //TextView table = findViewById(R.id.table_number_in_menu);
         //String tableNum=getIntent().getStringExtra("tableNum", 0);
        // category.setText("מספר שולחן: ");
-        SharedPreferences preferences = getSharedPreferences(getString(R.string.shared_preferences_key), MODE_PRIVATE);
-        int tableNum = preferences.getInt(getString(R.string.client_table_number),-1);
-        tableNumTextView.setText("שולחן "+tableNum);
 
-       ListView DishListView = findViewById(R.id.category_menu_list);
+        ListView DishListView = findViewById(R.id.category_menu_list);
         DishListView.setAdapter(adapter);
         DishListView.setOnItemClickListener(this);
         mode_manager = getIntent().getBooleanExtra("mode manager", false);
         goToCart = (Button) findViewById(R.id.go_to_my_cart_button);
+
         //Setting listeners to button
         goToCart.setOnClickListener((View.OnClickListener) this);
-        if(mode_manager) {
-            tableNumTextView.setVisibility(View.GONE);
-        }
+
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setSelectedItemId(R.id.menu);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -142,16 +137,16 @@ public class MenuByTitleActivity extends AppCompatActivity implements AdapterVie
                     public void onClick(View v) {
 
 
-                dishDetailsFragment = DishDetailsFragment.newInstance();
+                fragment1 = DishDetailsFragment.newInstance();
                 Bundle bundle = new Bundle();
                 bundle.putString("name", name);
                 bundle.putString("desc", desc);
                 bundle.putDouble("price", price);
                 bundle.putBoolean("mode_manager", mode_manager);
-                dishDetailsFragment.setArguments(bundle);
+                fragment1.setArguments(bundle);
 
-                System.out.println("\n\n\nname from bundle="+name);
-                dishDetailsFragment.show(getSupportFragmentManager(), "DishDetailsFragment");
+                        System.out.println("\n\n\nname from bundle="+name);
+                fragment1.show(getSupportFragmentManager(), "DishDetailsFragment");
                     }
                 });
 
