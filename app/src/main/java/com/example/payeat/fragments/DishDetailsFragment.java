@@ -37,7 +37,7 @@ public class DishDetailsFragment extends DialogFragment  implements View.OnClick
     private long dish_id;
     private boolean in_stock;
     private String category;
-
+    private int tableNum;
 
     private ImageView dish_image;
 
@@ -136,10 +136,11 @@ public class DishDetailsFragment extends DialogFragment  implements View.OnClick
                     bundle.putDouble("price", dish_price);
                     bundle.putBoolean("in_stock", in_stock);
                     bundle.putLong("dish_id", dish_id);
+                    bundle.putInt("table_number", tableNum);
 
                     System.out.println("details frag!!!!!!!!"+ dish_id+" "+ in_stock);
                     Dish d= new Dish( dish_id,  dish_name,  dish_price,  dish_desc,  in_stock, 0, "");
-                    orderFragment.setDishToOrder(d);
+                    orderFragment.setDishToOrder(d, tableNum);
                     FragmentManager fm = getFragmentManager();
                     fm.beginTransaction()
                             .setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
