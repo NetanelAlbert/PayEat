@@ -73,8 +73,8 @@ public class Dish {
     public String toString() {
         return
                 "שם מנה: '" + name + '\'' +
-                        ", מחיר: " + price +
-                        ", תיאור: '" + description + '\'';
+                ", מחיר: " + price +
+                ", תיאור: '" + description + '\'';
     }
 
     // For bill splitting

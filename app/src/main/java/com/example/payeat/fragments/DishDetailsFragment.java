@@ -13,6 +13,7 @@ import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import com.example.payeat.Dish;
 import com.example.payeat.R;
 
 public class DishDetailsFragment extends DialogFragment  implements View.OnClickListener {
@@ -33,6 +34,8 @@ public class DishDetailsFragment extends DialogFragment  implements View.OnClick
     private String dish_name;
     private double dish_price;
     private String dish_desc;
+    private long dish_id;
+    private boolean in_stock;
 
     private ImageView dish_image;
 
@@ -84,6 +87,8 @@ public class DishDetailsFragment extends DialogFragment  implements View.OnClick
         dish_name = getArguments().getString("name");
         dish_desc = getArguments().getString("desc");
         dish_price = getArguments().getDouble("price");
+        dish_id = getArguments().getLong("dish_id");
+        in_stock=getArguments().getBoolean("in_stock");
 
         TextView_dishName.setText(dish_name);
         TextView_dishDesc.setText(dish_desc);
@@ -97,34 +102,6 @@ public class DishDetailsFragment extends DialogFragment  implements View.OnClick
 
         return convertView;
     }
-//
-//    @Override
-//    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-//        name = view.findViewById(R.id.dish_name_text_fragment);
-//        desc=view.findViewById(R.id.dish_detailes_text);
-//        price=view.findViewById(R.id.dish_price_text);
-//        final Button orderButton = view.findViewById(R.id.order_dish_fragment_button);
-//        orderButton.setVisibility(View.VISIBLE);
-//        //does not work ???????
-//            orderButton.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//
-//                    orderFragment = OrderDishFragment.newInstance((View.OnClickListener) this);
-//                    FragmentManager fm = getFragmentManager();
-//                    fm.beginTransaction()
-//                            .setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
-//                            .show(orderFragment)
-//                            .commit();
-////                    orderFragment.show(getActivity().getSupportFragmentManager()
-////                            , "OrderDishFragment");
-//
-//                }
-//            });
-//
-//        super.onViewCreated(view, savedInstanceState);
-//    }
-
     @Override
     public void onClick(View v) {
         switch(v.getId()) {
@@ -136,6 +113,7 @@ public class DishDetailsFragment extends DialogFragment  implements View.OnClick
                     bundle.putString("desc", dish_desc);
                     bundle.putDouble("price", dish_price);
                     bundle.putBoolean("mode_manager", mode_manager);
+
                     editDishFragment.setArguments(bundle);
                     FragmentManager fm = getFragmentManager();
                     fm.beginTransaction()
@@ -147,8 +125,16 @@ public class DishDetailsFragment extends DialogFragment  implements View.OnClick
                 }
                 else {
                     // do whatever you want when you press on "הזמן מנה"
-
                     orderFragment = OrderDishFragment.newInstance((View.OnClickListener) this);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("name", dish_name);
+                    bundle.putString("desc", dish_desc);
+                    bundle.putDouble("price", dish_price);
+                    bundle.putBoolean("in_stock", in_stock);
+                    bundle.putLong("dish_id", dish_id);
+                    System.out.println("details frag!!!!!!!!"+ dish_id+" "+ in_stock);
+                    Dish d= new Dish( dish_id,  dish_name,  dish_price,  dish_desc,  in_stock, 0, "");
+                    orderFragment.setDishToOrder(d);
                     FragmentManager fm = getFragmentManager();
                     fm.beginTransaction()
                             .setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
@@ -156,6 +142,11 @@ public class DishDetailsFragment extends DialogFragment  implements View.OnClick
                             .commit();
                     orderFragment.show(getActivity().getSupportFragmentManager()
                             , "OrderDishFragment");
+
+                    //ToDo add dish and notes to cart
+
+
+
                 }
                 dismiss();
                 break;
