@@ -83,15 +83,6 @@ public class RestaurantOccupancyActivity extends AppCompatActivity implements Da
 //            int table_number = order.getTable_number();
 //            is_occupied_list.set(table_number -1 , "תפוס");
 //        }
-
-        CapacityListAdapter capacityListAdapter = new CapacityListAdapter(this, table_number_list, is_occupied_list);
-        listView_capacity.setAdapter(capacityListAdapter);
-        listView_capacity.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    Toast.makeText(RestaurantOccupancyActivity.this, "click", Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 
     @Override
@@ -123,6 +114,14 @@ public class RestaurantOccupancyActivity extends AppCompatActivity implements Da
             int table_number = order.getTable_number();
             is_occupied_list.set(table_number -1 , "תפוס");
         }
+        CapacityListAdapter capacityListAdapter = new CapacityListAdapter(this, table_number_list, is_occupied_list);
+        listView_capacity.setAdapter(capacityListAdapter);
+        listView_capacity.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(RestaurantOccupancyActivity.this, "click", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     class CapacityListAdapter extends ArrayAdapter<String> {

@@ -84,9 +84,9 @@ public class ExistOrdersActivity extends AppCompatActivity implements DataChange
         expandableListView = findViewById(R.id.listView_orders);
         idOrderList = new ArrayList<String>(); // id Order (the title of the Order whatever)
         all_orders = new HashMap<String, Order>(); // each raw in the Order. what is the Order info.
-        notifyOnChange();
         listViewAdapter = new ExpandableListViewAdapter(this, idOrderList, all_orders, getSupportFragmentManager());
         expandableListView.setAdapter(listViewAdapter);
+        notifyOnChange();
 
         searchView = findViewById(R.id.SearchView_orders);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -138,6 +138,7 @@ public class ExistOrdersActivity extends AppCompatActivity implements DataChange
             all_orders.put(idOrderList.get(i), order);
             i++;
         }
+        listViewAdapter.notifyDataSetChanged();
     }
 
     class ExpandableListViewAdapter extends BaseExpandableListAdapter {
