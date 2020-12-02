@@ -102,16 +102,41 @@ public class Database extends android.app.Application implements ValueEventListe
         return result;
     }
 
+    public static ArrayList<Dish> getDishesByCategory(String category) {
+        ArrayList<Dish> result = new ArrayList<>();
+        Iterable<DataSnapshot> dish_iter = dataSnapshot.child("menu").child(category).getChildren();
+        for (DataSnapshot dish_snap: dish_iter) {
+                Dish temp_dish = convertDataSnapShotToDish(dish_snap);
+                result.add(temp_dish);
+            }
+        return result;
+    }
+    public static String getCategoryNameByNumber(int id) {
+
+        Iterable<DataSnapshot> categories_iter = dataSnapshot.child("menu").getChildren();
+        int i=0;
+        for (DataSnapshot category_snap: categories_iter) {
+            if(i!=id)
+                i++;
+            else
+                return category_snap.getKey();
+        }
+    }
+
+
     public static Order getOrder(int table_number) { // edut and eden
         return null;
     }
 
+
     public static Dish getDishFromMenu(String category, int dish_id) { // edut and ido
-        return null;
+        DataSnapshot d= dataSnapshot.child("menu").child(category).child(dish_id+"");
+        return convertDataSnapShotToDish(d);
     }
 
     public static Dish getDishFromOrders(int order_id, int dish_id) { // edut and ido
-        return null;
+        DataSnapshot d= dataSnapshot.child("live_orders").child(order_id+"").child("dishes").child(dish_id+"");
+        return convertDataSnapShotToDish(d);
     }
 
     public static ArrayList<String> getCategories() { // nati
