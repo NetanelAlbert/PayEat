@@ -121,6 +121,7 @@ public class Database extends android.app.Application implements ValueEventListe
             else
                 return category_snap.getKey();
         }
+        return "error";
     }
 
 
