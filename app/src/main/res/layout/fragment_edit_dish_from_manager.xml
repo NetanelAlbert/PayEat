@@ -86,7 +86,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="עדכן"
-                android:background="@color/colorButton"/>
+                android:background="@color/colorButton"
+                android:textColor="@color/colorTextOnButton" />
 
             <Space
                 android:layout_width="20dp"
@@ -98,7 +99,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="בטל"
-                android:background="@color/colorButton"/>
+                android:background="@color/colorButton"
+                android:textColor="@color/colorTextOnButton" />
         </LinearLayout>
 
     </LinearLayout>

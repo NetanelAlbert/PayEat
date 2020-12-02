@@ -20,6 +20,7 @@ import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.payeat.DataChangeListener;
 import com.example.payeat.Database;
 import com.example.payeat.fragments.DeleteDishFragment;
 import com.example.payeat.Dish;
@@ -37,7 +38,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class ExistOrdersActivity extends AppCompatActivity {
+public class ExistOrdersActivity extends AppCompatActivity implements DataChangeListener {
 
     private ExpandableListViewAdapter listViewAdapter;
     private ExpandableListView expandableListView;
@@ -83,7 +84,7 @@ public class ExistOrdersActivity extends AppCompatActivity {
         expandableListView = findViewById(R.id.listView_orders);
         idOrderList = new ArrayList<String>(); // id Order (the title of the Order whatever)
         all_orders = new HashMap<String, Order>(); // each raw in the Order. what is the Order info.
-        makeList();
+        notifyOnChange();
         listViewAdapter = new ExpandableListViewAdapter(this, idOrderList, all_orders, getSupportFragmentManager());
         expandableListView.setAdapter(listViewAdapter);
 
@@ -115,18 +116,21 @@ public class ExistOrdersActivity extends AppCompatActivity {
         });
     }
 
-    private void makeList() {
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Database.addListener(this);
+    }
 
-//        final ArrayList<Order> orders = new ArrayList<>();
+    @Override
+    protected void onPause() {
+        Database.removeListener(this);
+        super.onPause();
+    }
+
+    @Override
+    public void notifyOnChange() {
         final ArrayList<Order> orders = Database.getOrders();
-
-        // when firebase will be ready hear we are going to do the quary
-
-//        idOrderList.add("שולחן 1");
-//        idOrderList.add("שולחן 2");
-//
-//        all_orders.put(idOrderList.get(0), orders.get(0));
-//        all_orders.put(idOrderList.get(1), orders.get(1));
         int i = 0;
         for (Order order: orders) {
             int table_number = order.getTable_number();
