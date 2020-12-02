@@ -111,6 +111,17 @@ public class Database extends android.app.Application implements ValueEventListe
             }
         return result;
     }
+    public static String getCategoryNameByNumber(int id) {
+
+        Iterable<DataSnapshot> categories_iter = dataSnapshot.child("menu").getChildren();
+        int i=0;
+        for (DataSnapshot category_snap: categories_iter) {
+            if(i!=id)
+                i++;
+            else
+                return category_snap.getKey();
+        }
+    }
 
 
     public static Order getOrder(int table_number) { // edut and eden
