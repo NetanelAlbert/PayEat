@@ -42,7 +42,7 @@ public class MenuByTitleActivity extends AppCompatActivity implements AdapterVie
         int categoryId=getIntent().getIntExtra("menu id", 0);
         setContentView(R.layout.activity_menu_by_title);
         DishAdapter adapter = new DishAdapter(this, R.layout.activity_menu_by_title_list_item,
-                (Database.getDishesByCategory("breakfast")));
+                (Database.getDishesByCategory(Database.getCategoryNameByNumber(categoryId))));
 
         ListView DishListView = findViewById(R.id.category_menu_list);
         DishListView.setAdapter(adapter);
