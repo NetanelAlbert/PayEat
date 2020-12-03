@@ -21,6 +21,7 @@ package com.example.payeat.activities;
         import android.widget.TextView;
         import android.widget.Toast;
 
+        import com.example.payeat.DataChangeListener;
         import com.example.payeat.Database;
         import com.example.payeat.Dish;
         import com.example.payeat.fragments.DishDetailsFragment;
@@ -28,35 +29,33 @@ package com.example.payeat.activities;
         import com.example.payeat.fragments.OrderDishFragment;
         import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+        import java.util.ArrayList;
         import java.util.Arrays;
         import java.util.List;
 
-public class MenuByTitleActivity extends AppCompatActivity implements AdapterView.OnItemClickListener ,View.OnClickListener {
+public class MenuByTitleActivity extends AppCompatActivity implements AdapterView.OnItemClickListener ,View.OnClickListener, DataChangeListener {
     private DishDetailsFragment dishDetailsFragment;
     private boolean mode_manager;
     private Button goToCart;
     private String String_category;
+    private int categoryId;
     private int tableNum;
+    private DishAdapter adapter;
+    ListView DishListView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        int categoryId=getIntent().getIntExtra("menu id", 0);
+        categoryId=getIntent().getIntExtra("menu id", 0);
         setContentView(R.layout.activity_menu_by_title);
-        DishAdapter adapter = new DishAdapter(this, R.layout.activity_menu_by_title_list_item,
-                (Database.getMenuByCategory(Database.getCategoryNameByNumber(categoryId)).getDishes()));
-
         TextView category = findViewById(R.id.category_name_text);
         String_category=Database.getCategoryNameByNumber(categoryId);
         category.setText(String_category);
         TextView tableNumTextView = findViewById(R.id.table_number_in_menu);
-        //String tableNum=getIntent().getStringExtra("tableNum", 0);
-       // category.setText("מספר שולחן: ");
         SharedPreferences preferences = getSharedPreferences(getString(R.string.shared_preferences_key), MODE_PRIVATE);
         tableNum = preferences.getInt(getString(R.string.client_table_number),-1);
         tableNumTextView.setText("שולחן "+tableNum);
-       ListView DishListView = findViewById(R.id.category_menu_list);
-        DishListView.setAdapter(adapter);
-        DishListView.setOnItemClickListener(this);
+        DishListView = findViewById(R.id.category_menu_list);
         mode_manager = getIntent().getBooleanExtra("mode manager", false);
         goToCart = (Button) findViewById(R.id.go_to_my_cart_button);
         //Setting listeners to button
@@ -94,12 +93,14 @@ public class MenuByTitleActivity extends AppCompatActivity implements AdapterVie
         else {
             bottomNavigationView.setVisibility(View.GONE);
         }
+        notifyOnChange();
     }
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
     }
+
 
     @Override
     public void onClick(View v) {
@@ -108,7 +109,25 @@ public class MenuByTitleActivity extends AppCompatActivity implements AdapterVie
             Intent intent = new Intent(this, MyCartActivity.class);
             startActivity(intent);
         }
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Database.addListener(this);
+    }
 
+    @Override
+    protected void onPause() {
+        Database.removeListener(this);
+        super.onPause();
+    }
+
+    @Override
+    public void notifyOnChange() {
+        ArrayList<Dish> dishes = (ArrayList<Dish>) Database.getMenuByCategory(Database.getCategoryNameByNumber(categoryId)).getDishes();
+        adapter = new DishAdapter(this, R.layout.activity_menu_by_title_list_item,dishes);
+        DishListView.setAdapter(adapter);
+        DishListView.setOnItemClickListener(this);
     }
 
     private class DishAdapter extends ArrayAdapter<Dish>{
@@ -125,7 +144,6 @@ public class MenuByTitleActivity extends AppCompatActivity implements AdapterVie
             final String name=getItem(position).getName();
             final String desc=getItem(position).getDescription();
             final double price =getItem(position).getPrice();
-//            final long dish_id=getItem(position).getID();
             final boolean in_stock =getItem(position).isIn_stock();
             TextView dishName = convertView.findViewById(R.id.dish_name_text);
             dishName.setText(name);
@@ -148,7 +166,6 @@ public class MenuByTitleActivity extends AppCompatActivity implements AdapterVie
                 bundle.putString("desc", desc);
                 bundle.putDouble("price", price);
                 bundle.putBoolean("in_stock", in_stock);
-//                bundle.putLong("dish_ID", dish_id);
                 bundle.putBoolean("mode_manager", mode_manager);
                 bundle.putInt("tableNum", tableNum);
 
