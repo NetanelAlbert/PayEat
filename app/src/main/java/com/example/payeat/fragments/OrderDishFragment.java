@@ -102,8 +102,8 @@ public class OrderDishFragment extends DialogFragment implements View.OnClickLis
                 String notes = getNotes();
                 dishToOrder.setNotes(notes);
                 System.out.println(dishToOrder.getNotes());
-
-
+                System.out.println(dishToOrder.getID());
+                System.out.println(tableNum);
                 Database.addDishToOrder(tableNum, dishToOrder);
                 Toast.makeText(getActivity(), "סגור, הזמנתי!", Toast.LENGTH_SHORT ).show();
                 dismiss();

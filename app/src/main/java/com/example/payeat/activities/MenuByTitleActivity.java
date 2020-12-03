@@ -36,7 +36,7 @@ public class MenuByTitleActivity extends AppCompatActivity implements AdapterVie
     private boolean mode_manager;
     private Button goToCart;
     private String String_category;
-
+    private int tableNum;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,7 +52,7 @@ public class MenuByTitleActivity extends AppCompatActivity implements AdapterVie
         //String tableNum=getIntent().getStringExtra("tableNum", 0);
        // category.setText("מספר שולחן: ");
         SharedPreferences preferences = getSharedPreferences(getString(R.string.shared_preferences_key), MODE_PRIVATE);
-        int tableNum = preferences.getInt(getString(R.string.client_table_number),-1);
+        tableNum = preferences.getInt(getString(R.string.client_table_number),-1);
         tableNumTextView.setText("שולחן "+tableNum);
        ListView DishListView = findViewById(R.id.category_menu_list);
         DishListView.setAdapter(adapter);
@@ -141,8 +141,6 @@ public class MenuByTitleActivity extends AppCompatActivity implements AdapterVie
             expandDishButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
-
                 dishDetailsFragment = DishDetailsFragment.newInstance();
                 Bundle bundle = new Bundle();
                 bundle.putString("category", String_category);
@@ -152,6 +150,7 @@ public class MenuByTitleActivity extends AppCompatActivity implements AdapterVie
                 bundle.putBoolean("in_stock", in_stock);
                 bundle.putLong("dish_ID", dish_id);
                 bundle.putBoolean("mode_manager", mode_manager);
+                bundle.putInt("tableNum", tableNum);
 
                 dishDetailsFragment.setArguments(bundle);
 
