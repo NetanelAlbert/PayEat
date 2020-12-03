@@ -73,12 +73,10 @@ public class OrderDishFragment extends DialogFragment implements View.OnClickLis
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        // Inflate the layout for this fragment
         final View convertView = inflater.inflate(R.layout.fragment_order_dish, container, false);
         Button orderButton = convertView.findViewById(R.id.confirm_order_button);
         orderButton.setOnClickListener(this);
-         editText = convertView.findViewById(R.id.order_dish_fragment_costumer_request);
-//        editText.setOnClickListener(this);
+        editText = convertView.findViewById(R.id.order_dish_fragment_costumer_request);
 
         return convertView;
 
@@ -102,7 +100,6 @@ public class OrderDishFragment extends DialogFragment implements View.OnClickLis
                 String notes = getNotes();
                 dishToOrder.setNotes(notes);
                 System.out.println(dishToOrder.getNotes());
-//                System.out.println(dishToOrder.getID());
                 System.out.println(tableNum);
                 Database.addDishToOrder(tableNum, dishToOrder);
                 Toast.makeText(getActivity(), "סגור, הזמנתי!", Toast.LENGTH_SHORT ).show();
