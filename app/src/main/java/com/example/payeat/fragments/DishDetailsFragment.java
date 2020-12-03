@@ -141,7 +141,7 @@ public class DishDetailsFragment extends DialogFragment  implements View.OnClick
 //                    bundle.putInt("table_number", tableNum);
 //                    System.out.println("bundle===="+bundle);
                     System.out.println("details frag!!!!!!!!"+ dish_id+" "+ in_stock);
-                    Dish d= new Dish( dish_id,  dish_name,  dish_price,  dish_desc,  in_stock, 0, "");
+                    Dish d= new Dish(dish_name,  dish_price,  dish_desc,  in_stock, 0, "");
                     orderFragment.setDishToOrder(d, tableNum);
                     FragmentManager fm = getFragmentManager();
                     fm.beginTransaction()
