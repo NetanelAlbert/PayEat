@@ -52,14 +52,14 @@ public class SplitBillActivity extends AppCompatActivity implements OnFragmentDi
         SharedPreferences preferences = getSharedPreferences(getString(R.string.shared_preferences_key), MODE_PRIVATE);
         int tableNum = preferences.getInt(getString(R.string.client_table_number),-1);
         TextView tableNumTextView = findViewById(R.id.activity_split_bill_table_number_textView);
-        tableNumTextView.setText("שולחן "+tableNum);
+        tableNumTextView.setText(String.format(getString(R.string.table_number_format), tableNum));
 
 
         // Set up the list
         // TODO get the real order (maybe with other dish object to represent the add ones)
-        Dish[] dishes = {new Dish("Toast", 21.9, "Great toast"),
-                        new Dish("Lemonade", 12, "Cold lemonade"),
-                        new Dish("Big french fries", 18.5, "Big and tasty bole of chips")};
+        Dish[] dishes = {new Dish("Toast", 20, "Great toast"),
+                        new Dish("Lemonade", 10, "Cold lemonade"),
+                        new Dish("Big french fries", 30, "Big and tasty bole of chips")};
         order = new Order(dishes, 2);
 
         ListView listView = findViewById(R.id.activity_split_bill_listView);
@@ -114,7 +114,9 @@ public class SplitBillActivity extends AppCompatActivity implements OnFragmentDi
             NamesFragment namesFragment = NamesFragment.newInstance(names, this);
             namesFragment.show(getSupportFragmentManager(), "Names Fragment");
         } else if (v.getId() == R.id.activity_split_bill_final_bill_button) {
-            FinalBillFragment fragment = FinalBillFragment.newInstance("1", "2");
+            SharedPreferences preferences = getSharedPreferences(getString(R.string.shared_preferences_key), MODE_PRIVATE);
+            int tableNum = preferences.getInt(getString(R.string.client_table_number),-1);
+            FinalBillFragment fragment = FinalBillFragment.newInstance(names, tableNum);
             fragment.show(getSupportFragmentManager(), "FinalBillFragment");
         }
     }
@@ -173,15 +175,7 @@ public class SplitBillActivity extends AppCompatActivity implements OnFragmentDi
             price.setText(String.valueOf(getItem(position).getPrice()));
 
             final ToggleButton onOff = convertView.findViewById(R.id.split_bill_list_item_toggle);
-//            onOff.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//                @Override
-//                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//                    boolean hasPerson = toggleListener.onToggleClick(position, isChecked);
-//                    if(!hasPerson){
-//                        buttonView.setChecked(false);
-//                    }
-//                }
-//            });
+
             final ArrayAdapter<Dish> adapter = this;
             onOff.setOnClickListener(new View.OnClickListener() {
                 @Override

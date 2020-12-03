@@ -41,13 +41,13 @@ public class MainMenuActivity extends AppCompatActivity implements AdapterView.O
         menusGridView.setAdapter(adapter);
         menusGridView.setOnItemClickListener(this);
 
-        mode_manager = getIntent().getBooleanExtra("mode manager", false);
         TextView tableNumTextView = findViewById(R.id.activity_main_menu_table_number_textView);
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setSelectedItemId(R.id.menu);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
 
+        mode_manager = getIntent().getBooleanExtra("mode manager", false);
         if(mode_manager) {
             tableNumTextView.setVisibility(View.GONE);
         }
@@ -57,7 +57,7 @@ public class MainMenuActivity extends AppCompatActivity implements AdapterView.O
             // Set the table number
             SharedPreferences preferences = getSharedPreferences(getString(R.string.shared_preferences_key), MODE_PRIVATE);
             int tableNum = preferences.getInt(getString(R.string.client_table_number),-1);
-            tableNumTextView.setText("שולחן "+tableNum);
+            tableNumTextView.setText(String.format(getString(R.string.table_number_format), tableNum));
         }
 
     }

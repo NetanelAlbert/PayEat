@@ -9,6 +9,7 @@ public class DinnerPerson {
 
     private String name;
     private ArrayList<Dish> sharingDishes;
+    private int tipPercent;
 
     public DinnerPerson(String name) {
         this.name = name;
@@ -41,5 +42,13 @@ public class DinnerPerson {
 
     public boolean isShare(Dish dish){
         return sharingDishes.contains(dish);
+    }
+
+    public int getTipPercent() {
+        return tipPercent;
+    }
+
+    public void setTipPercent(int tipPercent) {
+        this.tipPercent = tipPercent;
     }
 }
