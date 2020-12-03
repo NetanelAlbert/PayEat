@@ -230,7 +230,7 @@ public class ExistOrdersActivity extends AppCompatActivity implements DataChange
             cost.setText("" + topicTitle.getPrice());
 
             EditText description = convertView.findViewById(R.id.editText_description);
-            description.setText(topicTitle.getDesc());
+            description.setText(topicTitle.getDescription());
 
             EditText notes = convertView.findViewById(R.id.editText_notes);
             notes.setText(topicTitle.getNotes());

@@ -90,7 +90,7 @@ public class Database extends android.app.Application implements ValueEventListe
         ArrayList<Order> result = new ArrayList<>();
         Iterable<DataSnapshot> order_iter = dataSnapshot.child("live_orders").getChildren();
         for (DataSnapshot order_snap: order_iter) {
-            System.out.println("order key: -->" + order_snap.getKey());
+            System.out.println("order key (table_number): -->" + order_snap.getKey());
             System.out.println("order value: -->" + order_snap.getValue());
             //get dishes
             ArrayList<Dish> dishesOfOrder = new ArrayList<>();
@@ -98,15 +98,11 @@ public class Database extends android.app.Application implements ValueEventListe
             for (DataSnapshot dish_snap: dish_iter) {
                 System.out.println("dish key: -->" + dish_snap.getKey());
                 System.out.println("dish value: -->" + dish_snap.getValue());
-
-//                Object dish_from_database = dish_snap.getValue(List<Object>.class);
-
-//                Dish temp_dish = dish_snap.getValue(Dish.class);
-                Dish temp_dish = convertDataSnapShotToDish(dish_snap);
+                Dish temp_dish = dish_snap.getValue(Dish.class);
                 dishesOfOrder.add(temp_dish);
             }
-            int table_number = order_snap.child("table_number").getValue(Integer.class);
-            String timeFromDatabase = order_snap.child("timestamp").getValue(String.class);
+            int table_number = Integer.parseInt(order_snap.getKey());
+            String timeFromDatabase = order_snap.child("time-stamp").getValue(String.class);
             Calendar timestamp = Calendar.getInstance();
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
             try {
@@ -141,12 +137,12 @@ public class Database extends android.app.Application implements ValueEventListe
 
     public static Dish getDishFromMenu(String category, int dish_id) { // edut and ido
         DataSnapshot d= dataSnapshot.child("menu").child(category).child(dish_id+"");
-        return convertDataSnapShotToDish(d);
+        return d.getValue(Dish.class);
     }
 
     public static Dish getDishFromOrders(int order_id, int dish_id) { // edut and ido
         DataSnapshot d= dataSnapshot.child("live_orders").child(order_id+"").child("dishes").child(dish_id+"");
-        return convertDataSnapShotToDish(d);
+        return d.getValue(Dish.class);
     }
 
     public static ArrayList<String> getCategories() { // nati
@@ -162,7 +158,7 @@ public class Database extends android.app.Application implements ValueEventListe
         ArrayList<Dish> dishes = new ArrayList<>();
         Iterable<DataSnapshot> dish_iter = dataSnapshot.child("menu").child(category).getChildren();
         for (DataSnapshot dish_snap: dish_iter) {
-            Dish temp_dish = convertDataSnapShotToDish(dish_snap);
+            Dish temp_dish = dish_snap.getValue(Dish.class);
             dishes.add(temp_dish);
         }
         return new Menu(category,dishes);
@@ -225,7 +221,7 @@ public class Database extends android.app.Application implements ValueEventListe
         Iterable<DataSnapshot> dish_iter = dataSnapshot.child("orders_in_progress").child(String.valueOf(tableNum)).child("dishes").getChildren();
         for (DataSnapshot dish_snap : dish_iter) {
             System.out.println(dish_snap);
-            Dish temp_dish = convertDataSnapShotToDish(dish_snap);
+            Dish temp_dish = dish_snap.getValue(Dish.class);
             System.out.println(temp_dish.getName());
             dishes.add(temp_dish);
         }
@@ -273,28 +269,4 @@ public class Database extends android.app.Application implements ValueEventListe
         }
         return true;
     }//manger
-
-    private static Dish convertDataSnapShotToDish(DataSnapshot dish_snap) {
-        if (dish_snap != null) {
-            String description = dish_snap.child("description").getValue(String.class);
-            long dishID;
-            //todo find out why it is written id and not dishID!!!!
-            try{
-                dishID = dish_snap.child("dishID").getValue(Long.class);
-            }
-            catch (RuntimeException e){
-                dishID=dish_snap.child("id").getValue(Long.class);
-            }
-
-            boolean in_stock = dish_snap.child("in_stock").getValue(Boolean.class);
-            String name = dish_snap.child("name").getValue(String.class);
-            String notes = dish_snap.child("notes").getValue(String.class);
-            int price = dish_snap.child("price").getValue(Integer.class);
-            int shares = dish_snap.child("shares").getValue(Integer.class);
-
-            return new Dish(dishID, name, price, description, in_stock, shares, notes);
-        }
-        throw new RuntimeException("dish is null");
-    }
-
 }

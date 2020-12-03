@@ -66,7 +66,7 @@ public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
          TextView description = convertView.findViewById(R.id.detailes_of_dish_text);
          //TODO chang to information about this specific order dish (i.e. the chosen topics on a pizza)
-          description.setText(getItem(position).getDesc());
+          description.setText(getItem(position).getDescription());
 
            TextView price = convertView.findViewById(R.id.price_of_dish_text);
            price.setText(String.valueOf(getItem(position).getPrice()));
