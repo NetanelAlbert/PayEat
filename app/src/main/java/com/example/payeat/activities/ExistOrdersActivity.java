@@ -131,6 +131,8 @@ public class ExistOrdersActivity extends AppCompatActivity implements DataChange
     @Override
     public void notifyOnChange() {
         final ArrayList<Order> orders = Database.getOrders();
+        idOrderList.clear();
+        all_orders.clear();
         int i = 0;
         for (Order order: orders) {
             int table_number = order.getTable_number();
@@ -239,7 +241,13 @@ public class ExistOrdersActivity extends AppCompatActivity implements DataChange
             editCostButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    costFragment = UpdateCostFragment.newInstance(groupPosition, childPosition, cost);
+                    String chapterTitle = (String) getGroup(groupPosition);
+                    String table_number = chapterTitle.split(" ")[1];
+                    costFragment = UpdateCostFragment.newInstance(cost);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("table_number", table_number);
+                    bundle.putInt("child_position", childPosition);
+                    costFragment.setArguments(bundle);
                     costFragment.show(FmBase, "UpdateCostFragment");
                 }
             });
@@ -247,7 +255,13 @@ public class ExistOrdersActivity extends AppCompatActivity implements DataChange
             deleteDishButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    deleteDishFragment = DeleteDishFragment.newInstance(groupPosition, childPosition);
+                    String chapterTitle = (String) getGroup(groupPosition);
+                    String table_number = chapterTitle.split(" ")[1];
+                    deleteDishFragment = DeleteDishFragment.newInstance();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("table_number", table_number);
+                    bundle.putInt("child_position", childPosition);
+                    costFragment.setArguments(bundle);
                     deleteDishFragment.show(FmBase, "DeleteFragment");
                 }
             });
