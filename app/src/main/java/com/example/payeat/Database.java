@@ -277,7 +277,15 @@ public class Database extends android.app.Application implements ValueEventListe
     private static Dish convertDataSnapShotToDish(DataSnapshot dish_snap) {
         if (dish_snap != null) {
             String description = dish_snap.child("description").getValue(String.class);
-            long dishID = dish_snap.child("dishID").getValue(Long.class);
+            long dishID;
+            //todo find out why it is written id and not dishID!!!!
+            try{
+                dishID = dish_snap.child("dishID").getValue(Long.class);
+            }
+            catch (RuntimeException e){
+                dishID=dish_snap.child("id").getValue(Long.class);
+            }
+
             boolean in_stock = dish_snap.child("in_stock").getValue(Boolean.class);
             String name = dish_snap.child("name").getValue(String.class);
             String notes = dish_snap.child("notes").getValue(String.class);
