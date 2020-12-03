@@ -18,13 +18,15 @@ import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import com.example.payeat.DataChangeListener;
 import com.example.payeat.Database;
 import com.example.payeat.Dish;
 import com.example.payeat.R;
+import com.example.payeat.activities.MyCartActivity;
 
 import javax.xml.transform.sax.SAXSource;
 
-public class OrderDishFragment extends DialogFragment implements View.OnClickListener {
+public class ChangeNotesFragment extends DialogFragment implements View.OnClickListener  {
     /**
      * A simple {@link Fragment} subclass.
      * Use the {@link ChooseTableFragment#newInstance} factory method to
@@ -32,15 +34,15 @@ public class OrderDishFragment extends DialogFragment implements View.OnClickLis
      */
 
     private Context context;
-//    private TextView name;
-//    private TextView desc;
-//    private TextView price;
     private static Dish dishToOrder;
-    private View.OnClickListener dishDetailsFragment;
+    private View.OnClickListener MyCartActivity;
     private EditText editText;
     private int tableNum;
+    private int position;
+    private String originNotes;
 
-    public OrderDishFragment() {
+
+    public ChangeNotesFragment() {
         // Required empty public constructor
     }
 
@@ -51,15 +53,13 @@ public class OrderDishFragment extends DialogFragment implements View.OnClickLis
      * @param clicker - A listener to the button, should be MainActivity.
      * @return A new instance of fragment ChooseTableFragment.
      */
-    public static OrderDishFragment newInstance(View.OnClickListener clicker) {
-        OrderDishFragment fragment = new OrderDishFragment();
-        fragment.setOnClickListener(clicker);
-
+    public static ChangeNotesFragment newInstance(View.OnClickListener clicker) {
+        ChangeNotesFragment fragment = new ChangeNotesFragment();
         return fragment;
     }
 
     private void setOnClickListener(View.OnClickListener clicker) {
-        this.dishDetailsFragment = clicker;
+        this.MyCartActivity = clicker;
     }
 
     @Override
@@ -72,20 +72,20 @@ public class OrderDishFragment extends DialogFragment implements View.OnClickLis
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-        final View convertView = inflater.inflate(R.layout.fragment_order_dish, container, false);
-        Button orderButton = convertView.findViewById(R.id.confirm_order_button);
-        orderButton.setOnClickListener(this);
-        editText = convertView.findViewById(R.id.order_dish_fragment_costumer_request);
-
+        final View convertView = inflater.inflate(R.layout.fragment_change_notes, container, false);
+        Button changeButton = convertView.findViewById(R.id.confirm_notes_button);
+        changeButton.setOnClickListener(this);
+        editText = convertView.findViewById(R.id.change_notes_fragment_editText);
+        editText.setText(originNotes);
         return convertView;
 
     }
 
-    public void setDishToOrder(Dish d, int table){
+    public void setDishToOrder(Dish d, int table, int position, String OriginNotes){
         dishToOrder=d;
         tableNum=table;
-        System.out.println("dish is set"+ d.getName());
+        this.position=position;
+        originNotes=OriginNotes;
 
     }
     public String getNotes() {
@@ -93,16 +93,16 @@ public class OrderDishFragment extends DialogFragment implements View.OnClickLis
             return "no notes";
         return editText.getText().toString();
     }
+
     @Override
     public void onClick(View v) {
         switch(v.getId()) {
-            case R.id.confirm_order_button:
+            case R.id.confirm_notes_button:
                 String notes = getNotes();
                 dishToOrder.setNotes(notes);
-                System.out.println(dishToOrder.getNotes());
-                System.out.println(tableNum);
-                Database.addDishToOrderInProgress(tableNum, dishToOrder);
-                Toast.makeText(getActivity(), "סגור, הזמנתי!", Toast.LENGTH_SHORT ).show();
+                System.out.println("position "+position+" notes= "+notes);
+                ((com.example.payeat.activities.MyCartActivity)getActivity()).setNotes(position, notes);
+                Toast.makeText(getActivity(), "שיניתי מאמי", Toast.LENGTH_SHORT ).show();
                 dismiss();
                 break;
         }
