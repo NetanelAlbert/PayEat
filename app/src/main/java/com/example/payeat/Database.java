@@ -166,59 +166,18 @@ public class Database extends android.app.Application implements ValueEventListe
     }
 
 
-    public static boolean addDishToOrder(int table_number, Dish dish) {
-//        ArrayList<Order> result = new ArrayList<>();
-//        Iterable<DataSnapshot> order_iter = dataSnapshot.child("orders_in_progress").child(String.valueOf(table_number)).getChildren();
-//        int orders_counter=0;
-//        for (DataSnapshot order_snap: order_iter) {
-//            orders_counter++;
-//            if(order_snap.child("table_number").getValue().toString()==""+table_number) {
-//
-//                Iterable<DataSnapshot> dish_iter = order_snap.child("dishes").getChildren();
-//                int counter = 0;
-//                for (DataSnapshot dish_snap : dish_iter) {
-//                    counter++;
-//                }
-//                firebaseReference.child("orders_in_progress").child(order_snap.getKey()).child("dishes").child(counter+"").setValue(dish);
-//                break;
-//            }
-//
-//        }
-//            //todo bug with table number !!
-//            System.out.println("wowwwwwwwwwwwwwwwwwwwwww");
-//            firebaseReference.child("orders_in_progress").child(orders_counter+"").child("dishes").child(0+"").setValue(dish);
-//            firebaseReference.child("orders_in_progress").child(orders_counter+"").child("table_number").setValue(table_number);
+    public static boolean addDishToOrderInProgress(int table_number, Dish dish) {
         long numOfDishesInOrder = dataSnapshot.child("orders_in_progress").child(String.valueOf(table_number)).child("dishes").getChildrenCount();
         firebaseReference.child("orders_in_progress").child(String.valueOf(table_number)).child("dishes").child(String.valueOf(numOfDishesInOrder)).setValue(dish);
-
         return false;
-
-    } //edut & eden
+    }
+    public static boolean addDishToLiveOrder(int table_number, Dish dish) {
+        long numOfDishesInOrder = dataSnapshot.child("live_orders").child(String.valueOf(table_number)).child("dishes").getChildrenCount();
+        firebaseReference.child("live_orders").child(String.valueOf(table_number)).child("dishes").child(String.valueOf(numOfDishesInOrder)).setValue(dish);
+        return false;
+    }
 
     public static ArrayList<Dish> getOrderInProgress(int tableNum) {
-//        System.out.println("tableNum=  "+tableNum);
-//        ArrayList<Dish> dishes = new ArrayList<>();
-//        Iterable<DataSnapshot> order_iter = dataSnapshot.child("orders_in_progress").getChildren();
-//        String orderNum="";
-//        for (DataSnapshot order_snap: order_iter) {
-//            System.out.println("tablenum '"+ order_snap.child("table_number").getValue().toString()+"'");
-//            //ToDo fix the compering bug!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
-//            if(order_snap.child("table_number").getValue().toString()==(String.valueOf(tableNum))) {
-//                orderNum = order_snap.getKey();
-//                System.out.println("found!!!!  "+tableNum+"\n"+order_snap);
-//            }
-//        }
-//        if(orderNum=="") {
-//            System.out.println("couldnt find number " + tableNum);
-//            return dishes;
-//        }
-//        Iterable<DataSnapshot> dish_iter = dataSnapshot.child("orders_in_progress").child(orderNum).getChildren();
-//        for (DataSnapshot dish_snap: dish_iter) {
-//            System.out.println(dish_snap);
-//            Dish temp_dish = convertDataSnapShotToDish(dish_snap);
-//            System.out.println(temp_dish.getName());
-//            dishes.add(temp_dish);
-//        }
         ArrayList<Dish> dishes = new ArrayList<>();
         Iterable<DataSnapshot> dish_iter = dataSnapshot.child("orders_in_progress").child(String.valueOf(tableNum)).child("dishes").getChildren();
         for (DataSnapshot dish_snap : dish_iter) {
@@ -236,8 +195,9 @@ public class Database extends android.app.Application implements ValueEventListe
         return true;
     }
     public static boolean addOrderToLiveOrders(int table_number, ArrayList<Dish> dishes) { // eden and ido
-        firebaseReference.child("live_orders").child("" + table_number).child("dishes").setValue(dishes);
-        firebaseReference.child("live_orders").child("" + table_number).child("timestamp").setValue("now");
+        for (Dish dish: dishes){
+            addDishToLiveOrder(table_number, dish);
+        }
         return true;
     }
 
@@ -258,6 +218,26 @@ public class Database extends android.app.Application implements ValueEventListe
         return true;
     }
 
+    public static boolean ChangeNotes(int dishPosition, String Notes, int tableNum) { // eden and ido
+        //ArrayList<Dish> dishes = new ArrayList<>();
+        System.out.println(dishPosition+"   "+Notes+"   "+tableNum);
+        Iterable<DataSnapshot> dish_iter = dataSnapshot.child("orders_in_progress").child(String.valueOf(tableNum)).child("dishes").getChildren();
+        int counter=0;
+        String key;
+        for (DataSnapshot dish_snap : dish_iter) {
+            if(counter==dishPosition) {
+                System.out.println(dish_snap);
+                key = dish_snap.getKey();
+                dataSnapshot.child("orders_in_progress").child(tableNum+"").child("dishes").child(key).child("notes").getRef().setValue(Notes);
+                break;
+            }
+            counter++;
+        }
+        
+       // firebaseReference.child("orders_in_progress").child("" + tableNum).child("dishes").child("" + dish_id).removeValue();
+        return true;
+    }
+    
     public static boolean appendOrder(Order order) {
         return false;
     }

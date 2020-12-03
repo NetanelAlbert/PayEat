@@ -24,6 +24,7 @@ import com.example.payeat.Database;
 import com.example.payeat.Dish;
 import com.example.payeat.Order;
 import com.example.payeat.R;
+import com.example.payeat.fragments.ChangeNotesFragment;
 import com.example.payeat.fragments.DishDetailsFragment;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
@@ -39,6 +40,7 @@ public class MyCartActivity extends AppCompatActivity implements AdapterView.OnI
 
     private int tableNum;
     private DishAdapter adapter;
+    private ChangeNotesFragment changeNotesFragment;
 
     ListView DishListView;
 
@@ -96,7 +98,7 @@ public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
          dishName.setText(getItem(position).getName());
 
          TextView notes = convertView.findViewById(R.id.notes_of_dish_text);
-         //TODO chang to information about this specific order dish (i.e. the chosen topics on a pizza)
+         //TODO change to information about this specific order dish (i.e. the chosen topics on a pizza)
           notes.setText(getItem(position).getNotes());
 
            TextView price = convertView.findViewById(R.id.price_of_dish_text);
@@ -116,14 +118,19 @@ public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
             editNotesButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                   // Database.deleteDishFromOrderInProgress(tableNum, position);
-                    //todo oooooooo
+                    changeNotesFragment = ChangeNotesFragment.newInstance(this);
+                    changeNotesFragment.setDishToOrder(getItem(position), tableNum , position, getItem(position).getNotes());
+                    changeNotesFragment.show(getSupportFragmentManager(), "DishDetailsFragment");
                     Toast.makeText(getContext(), "עכשיו נבקש הערות חדשות וכו בלה בלה!", Toast.LENGTH_SHORT).show();
                 }
             });
 
             return convertView;
     }
+    }
+
+    public  void setNotes(int position, String notes){
+        Database.ChangeNotes(position,notes,tableNum);
     }
 
     @Override
@@ -135,7 +142,6 @@ public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Toast.makeText(this, "מייד מגיע!", Toast.LENGTH_SHORT).show();
                 Database.sendOrder(tableNum);
                 intent = new Intent(this, BonAppetitActivity.class);
-
                 break;
 
             default:
