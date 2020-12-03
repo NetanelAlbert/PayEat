@@ -10,13 +10,25 @@
 
     <Button
         android:id="@+id/cancel_dish_button"
-        android:layout_width="0dp"
+        android:layout_width="23dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         android:layout_margin="10dp"
         android:layout_marginBottom="20dp"
+        android:layout_weight="1"
         android:background="@drawable/round_button_background"
         android:text="בטל מנה"
+        android:textAlignment="center"
+        android:textColor="@color/colorTextOnButton"
+        android:textSize="10sp" />
+    <Button
+        android:id="@+id/edit_dish_button"
+        android:layout_width="23dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:layout_marginBottom="20dp"
+        android:layout_weight="1"
+        android:background="@drawable/round_button_background"
+        android:text="ערוך הערות"
         android:textAlignment="center"
         android:textColor="@color/colorTextOnButton"
         android:textSize="10sp" />
@@ -55,12 +67,11 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/detailes_of_dish_text"
+            android:id="@+id/notes_of_dish_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginRight="20dp"
-
-            android:text="תיאור המנה"
+            android:text="הערות"
             android:gravity="right" />
     </LinearLayout>
 

@@ -22,6 +22,7 @@ import android.widget.Toast;
 import com.example.payeat.DataChangeListener;
 import com.example.payeat.Database;
 import com.example.payeat.Dish;
+import com.example.payeat.Order;
 import com.example.payeat.R;
 import com.example.payeat.fragments.DishDetailsFragment;
 import com.firebase.client.DataSnapshot;
@@ -29,15 +30,17 @@ import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class MyCartActivity extends AppCompatActivity implements AdapterView.OnItemClickListener ,View.OnClickListener, DataChangeListener {
     private Button orderYourOrder;
+
     private int tableNum;
-    Firebase firebaseReference;
     private DishAdapter adapter;
 
+    ListView DishListView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,46 +48,37 @@ public class MyCartActivity extends AppCompatActivity implements AdapterView.OnI
         SharedPreferences preferences = getSharedPreferences(getString(R.string.shared_preferences_key), MODE_PRIVATE);
         tableNum = preferences.getInt(getString(R.string.client_table_number),-1);
         setContentView(R.layout.activity_my_cart);
-        adapter = new MyCartActivity.DishAdapter(this, R.layout.activity_my_cart_list_item,
-        Database.getOrderInProgress(tableNum));
-        ListView DishListView = findViewById(R.id.my_cart_list);
-        DishListView.setAdapter(adapter);
-        DishListView.setOnItemClickListener(this);
+        DishListView = findViewById(R.id.my_cart_list);
         orderYourOrder = (Button) findViewById(R.id.order_after_viewing_cart_button);
         orderYourOrder.setOnClickListener(this);
-        firebaseReference = Database.getDataBaseInstance();
-
-        firebaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @SuppressLint("SetTextI18n")
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                adapter = new MyCartActivity.DishAdapter(super, R.layout.activity_my_cart_list_item,
-                        Database.getOrderInProgress(tableNum));
-                ListView DishListView = findViewById(R.id.my_cart_list);
-                DishListView.setAdapter(adapter);
-                DishListView.setOnItemClickListener(super.);
-            }
-
-            @Override
-            public void onCancelled(FirebaseError firebaseError) {
-                Toast.makeText(getApplicationContext(),firebaseError.getMessage(),Toast.LENGTH_LONG).show();
-            }
-        });
+        TextView tableNumTextView = findViewById(R.id.table_number_text_my_cart);
+        tableNumTextView.setText("שולחן "+tableNum);
+        notifyOnChange();
 
     }
 
 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
 }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Database.addListener(this);
+    }
 
     @Override
+    protected void onPause() {
+        Database.removeListener(this);
+        super.onPause();
+    }
+    @Override
     public void notifyOnChange() {
-        adapter = new MyCartActivity.DishAdapter(this, R.layout.activity_my_cart_list_item,
-                Database.getOrderInProgress(tableNum));
-        ListView DishListView = findViewById(R.id.my_cart_list);
+        ArrayList<Dish> dishes = Database.getOrderInProgress(tableNum);
+        adapter = new MyCartActivity.DishAdapter(this, R.layout.activity_my_cart_list_item,dishes );
         DishListView.setAdapter(adapter);
         DishListView.setOnItemClickListener(this);
     }
+
 
     private class DishAdapter extends ArrayAdapter<Dish> {
         public DishAdapter(@NonNull Context context, int resource, @NonNull List<Dish> objects) {
@@ -101,9 +95,9 @@ public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
          TextView dishName = convertView.findViewById(R.id.name_of_dish_text);
          dishName.setText(getItem(position).getName());
 
-         TextView description = convertView.findViewById(R.id.detailes_of_dish_text);
+         TextView notes = convertView.findViewById(R.id.notes_of_dish_text);
          //TODO chang to information about this specific order dish (i.e. the chosen topics on a pizza)
-          description.setText(getItem(position).getDescription());
+          notes.setText(getItem(position).getNotes());
 
            TextView price = convertView.findViewById(R.id.price_of_dish_text);
            price.setText(String.valueOf(getItem(position).getPrice()));
@@ -117,6 +111,16 @@ public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Toast.makeText(getContext(), "ביטלתי!", Toast.LENGTH_SHORT).show();
             }
         });
+            Button editNotesButton =  convertView.findViewById(R.id.edit_dish_button);
+            editNotesButton.setVisibility(View.VISIBLE);
+            editNotesButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                   // Database.deleteDishFromOrderInProgress(tableNum, position);
+                    //todo oooooooo
+                    Toast.makeText(getContext(), "עכשיו נבקש הערות חדשות וכו בלה בלה!", Toast.LENGTH_SHORT).show();
+                }
+            });
 
             return convertView;
     }
@@ -129,9 +133,11 @@ public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         switch (v.getId()){
             case R.id.order_after_viewing_cart_button :
                 Toast.makeText(this, "מייד מגיע!", Toast.LENGTH_SHORT).show();
+                Database.sendOrder(tableNum);
                 intent = new Intent(this, BonAppetitActivity.class);
 
                 break;
+
             default:
 
 

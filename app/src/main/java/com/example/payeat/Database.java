@@ -130,6 +130,7 @@ public class Database extends android.app.Application implements ValueEventListe
     }
 
 
+
     public static Order getOrder(int table_number) { // edut and eden
         return null;
     }
@@ -164,6 +165,7 @@ public class Database extends android.app.Application implements ValueEventListe
         return new Menu(category,dishes);
     }
 
+
     public static boolean addDishToOrder(int table_number, Dish dish) {
 //        ArrayList<Order> result = new ArrayList<>();
 //        Iterable<DataSnapshot> order_iter = dataSnapshot.child("orders_in_progress").child(String.valueOf(table_number)).getChildren();
@@ -193,7 +195,7 @@ public class Database extends android.app.Application implements ValueEventListe
 
     } //edut & eden
 
-    public static List<Dish> getOrderInProgress(int tableNum) {
+    public static ArrayList<Dish> getOrderInProgress(int tableNum) {
 //        System.out.println("tableNum=  "+tableNum);
 //        ArrayList<Dish> dishes = new ArrayList<>();
 //        Iterable<DataSnapshot> order_iter = dataSnapshot.child("orders_in_progress").getChildren();
@@ -229,8 +231,30 @@ public class Database extends android.app.Application implements ValueEventListe
 
     }
 
+    public static boolean deleteOrderFromProgress(int table_number) { // eden and ido
+        firebaseReference.child("orders_in_progress").child("" + table_number).removeValue();
+        return true;
+    }
+    public static boolean addOrderToLiveOrders(int table_number, ArrayList<Dish> dishes) { // eden and ido
+        firebaseReference.child("live_orders").child("" + table_number).child("dishes").setValue(dishes);
+        firebaseReference.child("live_orders").child("" + table_number).child("timestamp").setValue("now");
+        return true;
+    }
+
+    public static boolean sendOrder(int table_number) { // eden and ido
+        ArrayList<Dish> dishes =Database.getOrderInProgress(table_number);
+        deleteOrderFromProgress(table_number);
+        addOrderToLiveOrders(table_number,dishes);
+        return true;
+    }
+
     public static boolean deleteDishFromOrder(int table_number, int dish_id) { // eden and ido
         firebaseReference.child("live_orders").child("" + table_number).child("dishes").child("" + dish_id).removeValue();
+        return true;
+    }
+
+    public static boolean deleteDishFromOrderInProgress(int order_id, int dish_id) { // eden and ido
+        firebaseReference.child("orders_in_progress").child("" + order_id).child("dishes").child("" + dish_id).removeValue();
         return true;
     }
 
