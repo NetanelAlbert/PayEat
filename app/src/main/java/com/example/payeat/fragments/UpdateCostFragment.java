@@ -22,10 +22,7 @@ import com.example.payeat.R;
  */
 public class UpdateCostFragment extends DialogFragment implements View.OnClickListener {
 
-    private static String ORDER_NUMBER;
-    private static String DISH_NUMBER;
-
-    private int order_number;
+    private String table_number;
     private int dish_number;
 
     private static EditText editTextNumber_old_cost;
@@ -38,29 +35,20 @@ public class UpdateCostFragment extends DialogFragment implements View.OnClickLi
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
-     * @param PgroupPosition order number.
-     * @param PchildPosition dish number.
      * @return A new instance of fragment UpdateCostFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static UpdateCostFragment newInstance(int PgroupPosition, int PchildPosition, EditText editText_cost) {
+    public static UpdateCostFragment newInstance(EditText editText_cost) {
         UpdateCostFragment fragment = new UpdateCostFragment();
         editTextNumber_old_cost = editText_cost;
-        Bundle args = new Bundle();
-        args.putInt(ORDER_NUMBER, PgroupPosition);
-        args.putInt(DISH_NUMBER, PchildPosition);
-        fragment.setArguments(args);
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            order_number = getArguments().getInt(ORDER_NUMBER);
-            dish_number = getArguments().getInt(DISH_NUMBER);
-        }
-//        editText_cost=com.example.payeat.ExpandableListViewAdapter.cost;
+        table_number = getArguments().getString("table_number");
+        dish_number = getArguments().getInt("child_position");
     }
 
     @Override
@@ -97,7 +85,7 @@ public class UpdateCostFragment extends DialogFragment implements View.OnClickLi
                 if(new_costS == null || new_costS.length() == 0)
                     return;
                 double new_cost = Double.valueOf(new_costS);
-                if(Database.setPrice(order_number , dish_number , new_cost)) {
+                if(Database.setPrice(table_number, dish_number , new_cost)) {
                     editTextNumber_old_cost.setText(""+new_cost);
                 }
 

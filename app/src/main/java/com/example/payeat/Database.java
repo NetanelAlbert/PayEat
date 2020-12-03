@@ -229,8 +229,8 @@ public class Database extends android.app.Application implements ValueEventListe
 
     }
 
-    public static boolean deleteDishFromOrder(int order_id, int dish_id) { // eden and ido
-        firebaseReference.child("live_orders").child("" + order_id).child("dishes").child("" + dish_id).removeValue();
+    public static boolean deleteDishFromOrder(int table_number, int dish_id) { // eden and ido
+        firebaseReference.child("live_orders").child("" + table_number).child("dishes").child("" + dish_id).removeValue();
         return true;
     }
 
@@ -246,8 +246,8 @@ public class Database extends android.app.Application implements ValueEventListe
         return false;
     }//manager
 
-    public static boolean setPrice(int order_id, int dish_id, double new_price) {
-        firebaseReference.child("live_orders").child(""+order_id).child("dishes").child(""+dish_id).child("price").setValue(new_price, completionListener);
+    public static boolean setPrice(String table_number, int dish_id, double new_price) {
+        firebaseReference.child("live_orders").child(table_number).child("dishes").child(""+dish_id).child("price").setValue(new_price, completionListener);
         return true;
     }//manager
 
