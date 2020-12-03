@@ -39,28 +39,8 @@ public class ManagerOptionsActivity extends AppCompatActivity implements View.On
         textViewRestaurantName = (TextView) findViewById(R.id.textView_restaurant_name);
         imageViewRestaurantLogo = (ImageView) findViewById(R.id.imageView_restaurant_logo);
 
-//        firebaseReference = new Firebase("https://payeat-4a103.firebaseio.com/");
-        firebaseReference = Database.getDataBaseInstance();
+        notifyOnChange();
 
-        textViewManagerName.setText("שלום, " + Database.getManagerName());
-        textViewRestaurantName.setText("מסעדת: " + Database.getRestaurantName());
-
-        firebaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @SuppressLint("SetTextI18n")
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                String manager = dataSnapshot.child("manager_name").getValue(String.class);
-                String restaurant = dataSnapshot.child("restaurant_name").getValue(String.class);
-
-                textViewManagerName.setText("שלום, " + manager);
-                textViewRestaurantName.setText("מסעדת: " + restaurant);
-            }
-
-            @Override
-            public void onCancelled(FirebaseError firebaseError) {
-                Toast.makeText(getApplicationContext(),firebaseError.getMessage(),Toast.LENGTH_LONG).show();
-            }
-        });
     }
 
     @Override
