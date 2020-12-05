@@ -234,7 +234,7 @@ public class FinalBillFragment extends DialogFragment {
 
                 TextView description = convertView.findViewById(R.id.fragment_final_bill_sublist_item_dish_adds_textView);
                 //TODO chang to information about this specific order dish (i.e. the chosen topics on a pizza)
-                description.setText(getItem(position).getDesc());
+                description.setText(getItem(position).getDescription());
 
                 TextView price = convertView.findViewById(R.id.fragment_final_bill_sublist_item_dish_price_textView);
                 price.setText(String.valueOf(getItem(position).getPrice()));
