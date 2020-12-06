@@ -30,22 +30,25 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="אישור"
+            android:text="כן, בטל"
             android:background="@color/colorButton"
-            android:textColor="@color/colorTextOnButton" />
+            android:textColor="@color/colorTextOnButton"
+            android:gravity="center"/>
 
         <Space
             android:layout_width="20dp"
-            android:layout_height="10dp" />
+            android:layout_height="10dp"
+            android:layout_gravity="center"/>
 
         <Button
             android:id="@+id/button_delete_dish_cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="בטל"
+            android:text="לא, התחרטתי"
             android:background="@color/colorButton"
-            android:textColor="@color/colorTextOnButton" />
+            android:textColor="@color/colorTextOnButton"
+            android:gravity="center" />
     </LinearLayout>
 
 </FrameLayout>
