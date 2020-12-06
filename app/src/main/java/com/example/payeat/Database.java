@@ -160,7 +160,50 @@ public class Database extends android.app.Application implements ValueEventListe
         }
         return categories;
     }
+    public static boolean addDishToLiveOrder(int table_number, Dish dish, int id) {
+        firebaseReference.child("live_orders").child(table_number + "").child("dishes").child(id+"").setValue(dish);
+        System.out.println("id="+id+"   name="+dish.getName());
+        return true;
 
+    }
+
+
+    public static boolean addOrderToLiveOrders(int table_number, ArrayList<Dish> dishes) { // eden and ido
+        int id;
+        if(dataSnapshot.child("live_orders").child(""+ table_number).child("dishes").getChildrenCount()==0)
+            id=0;
+        else
+            id=getMaxId(table_number);
+        for (Dish dish: dishes){
+            addDishToLiveOrder(table_number, dish, id);
+            System.out.println("id="+id+"   name= "+dish.getName());
+            id++;
+        }
+        Calendar calendar = Calendar.getInstance(); // Returns instance with current date and time set
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
+        dataSnapshot.child("live_orders").child(table_number + "").child("time-stamp").getRef().setValue(formatter.format(calendar.getTime()));
+
+        return true;
+    }
+
+    private static int getMaxId(int table_number) {
+        Iterable<DataSnapshot> dish_iter = dataSnapshot.child("live_orders").child(table_number + "").child("dishes").getChildren();
+        long numOfDishes = dataSnapshot.child("live_orders").child(table_number + "").child("dishes").getChildrenCount();
+        int counter = 0;
+        System.out.println("numOfDishes in " + table_number + " = " + numOfDishes);
+        for (DataSnapshot dish_snap : dish_iter) {
+            System.out.println("counter= " + counter);
+            if (counter == numOfDishes - 1) {
+                String key = dish_snap.getKey();
+                System.out.println("biggest key="+key);
+                System.out.println("int convert="+Integer.parseInt(key));
+                int newKey = Integer.parseInt(key) + 1;
+                return newKey;
+            }
+            counter++;
+        }
+        return -1;
+    }
     public static Menu getMenuByCategory(String category) { // edut
         ArrayList<Dish> dishes = new ArrayList<>();
         Iterable<DataSnapshot> dish_iter = dataSnapshot.child("menu").child(category).getChildren();
@@ -178,11 +221,7 @@ public class Database extends android.app.Application implements ValueEventListe
         return false;
     }
 
-    public static boolean addDishToLiveOrder(int table_number, Dish dish) {
-        long numOfDishesInOrder = dataSnapshot.child("live_orders").child(String.valueOf(table_number)).child("dishes").getChildrenCount();
-        firebaseReference.child("live_orders").child(String.valueOf(table_number)).child("dishes").child(String.valueOf(numOfDishesInOrder)).setValue(dish);
-        return false;
-    }
+
 
     public static ArrayList<Dish> getOrderInProgress(int tableNum) {
         ArrayList<Dish> dishes = new ArrayList<>();
@@ -201,12 +240,7 @@ public class Database extends android.app.Application implements ValueEventListe
         firebaseReference.child("orders_in_progress").child("" + table_number).removeValue();
         return true;
     }
-    public static boolean addOrderToLiveOrders(int table_number, ArrayList<Dish> dishes) { // eden and ido
-        for (Dish dish: dishes){
-            addDishToLiveOrder(table_number, dish);
-        }
-        return true;
-    }
+
 
     public static boolean sendOrder(int table_number) { // eden and ido
         ArrayList<Dish> dishes =Database.getOrderInProgress(table_number);

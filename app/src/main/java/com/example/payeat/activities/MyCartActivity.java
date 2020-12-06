@@ -73,6 +73,7 @@ public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         Database.removeListener(this);
         super.onPause();
     }
+
     @Override
     public void notifyOnChange() {
         ArrayList<Dish> dishes = Database.getOrderInProgress(tableNum);
