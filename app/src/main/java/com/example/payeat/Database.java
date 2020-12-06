@@ -107,7 +107,7 @@ public class Database extends android.app.Application implements ValueEventListe
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
             try {
                 timestamp.setTime(sdf.parse(timeFromDatabase));// all done
-            } catch (ParseException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
             Order order = new Order(dishesOfOrder, table_number, timestamp);
@@ -255,9 +255,27 @@ public class Database extends android.app.Application implements ValueEventListe
         return true;
     }//manager
 
+    public static boolean updateDishDetails(int dishPosition, Dish dish, String category) {
+//        System.out.println(dishPosition+"   "+Notes+"   "+tableNum);
+        Iterable<DataSnapshot> dish_iter = dataSnapshot.child("menu").child(category).getChildren();
+        int counter=0;
+        String key;
+        for (DataSnapshot dish_snap : dish_iter) {
+            if(counter==dishPosition) {
+                System.out.println(dish_snap);
+                key = dish_snap.getKey();
+                dataSnapshot.child("menu").child(category).child(key).getRef().setValue(dish, completionListener);
+                return true;
+            }
+            counter++;
+        }
+        return false;
+    }
+
     public static boolean addDishToMenuByCategory(Dish dish, String category) { // we have here a serious problem
         // everything seeing to be ok and the addition works but when we refresh the menu it throw null pointer exception
         long number_of_dishes = dataSnapshot.child("menu").child(category).getChildrenCount();
+        System.out.println("key:-->" + dataSnapshot.child("menu").child(category).getKey());
         firebaseReference.child("menu").child(category).child(""+number_of_dishes).setValue(dish, completionListener);
         return true;
     } //manager
@@ -268,9 +286,9 @@ public class Database extends android.app.Application implements ValueEventListe
             String name = dish_snap.child("name").getValue(String.class);
             if(name.compareTo(dish.getName()) == 0) {
                 dish_snap.getRef().removeValue();
-                break;
+                return true;
             }
         }
-        return true;
+        return false;
     }//manger
 }

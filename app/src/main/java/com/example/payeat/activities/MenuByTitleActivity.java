@@ -137,7 +137,7 @@ public class MenuByTitleActivity extends AppCompatActivity implements AdapterVie
 
         @NonNull
         @Override
-        public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+        public View getView(final int position, @Nullable View convertView, @NonNull ViewGroup parent) {
             if (convertView == null) {
                 convertView = LayoutInflater.from(getContext()).inflate(R.layout.activity_menu_by_title_list_item, parent, false);
             }
@@ -167,8 +167,12 @@ public class MenuByTitleActivity extends AppCompatActivity implements AdapterVie
                 bundle.putDouble("price", price);
                 bundle.putBoolean("in_stock", in_stock);
                 bundle.putBoolean("mode_manager", mode_manager);
-                bundle.putInt("tableNum", tableNum);
-
+                if(mode_manager) {
+                    bundle.putInt("tableNum", position);
+                }
+                else {
+                    bundle.putInt("tableNum", tableNum);
+                }
                 dishDetailsFragment.setArguments(bundle);
 
                 System.out.println("\n\n\nname from bundle="+name);
