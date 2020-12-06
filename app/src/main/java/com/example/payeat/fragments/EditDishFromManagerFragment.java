@@ -104,11 +104,9 @@ public class EditDishFromManagerFragment extends DialogFragment implements View.
                 dish_desc = ""+editText_new_desc.getText();
 
                 String category = getArguments().getString("category");
-                System.out.println(category);
+                int position = getArguments().getInt("dish_position");
                 Dish new_dish = new Dish(dish_name, dish_price, dish_desc, true, 0, "");
-                // send name,price,desc to the database
-                Database.deleteDishFromMenuByCategory(new_dish, category);
-                Database.addDishToMenuByCategory(new_dish, category);
+                Database.updateDishDetails(position, new_dish, category);
                 dismiss();
                 break;
             case R.id.button_cancel_update_dish:
