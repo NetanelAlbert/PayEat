@@ -131,7 +131,7 @@ public class ExistOrdersActivity extends AppCompatActivity implements DataChange
 
     @Override
     public void notifyOnChange() {
-        final ArrayList<Order> orders = Database.getOrders();
+        final ArrayList<Order> orders = Database.getOrders("live_orders");
         idOrderList.clear();
         all_orders.clear();
         int i = 0;
@@ -267,7 +267,7 @@ public class ExistOrdersActivity extends AppCompatActivity implements DataChange
                     bundle.putString("table_number", table_number);
                     bundle.putInt("dish_position", childPosition);
                     bundle.putString("deleteFrom" , "live_orders");
-                    costFragment.setArguments(bundle);
+                    deleteDishFragment.setArguments(bundle);
                     deleteDishFragment.show(FmBase, "DeleteDishFragment");
                 }
             });

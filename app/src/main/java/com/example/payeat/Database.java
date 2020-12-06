@@ -90,9 +90,9 @@ public class Database extends android.app.Application implements ValueEventListe
     }
 
 
-    public static ArrayList<Order> getOrders() { // ido
+    public static ArrayList<Order> getOrders(String fromWhere) { // ido
         ArrayList<Order> result = new ArrayList<>();
-        Iterable<DataSnapshot> order_iter = dataSnapshot.child("live_orders").getChildren();
+        Iterable<DataSnapshot> order_iter = dataSnapshot.child(fromWhere).getChildren();
         for (DataSnapshot order_snap: order_iter) {
             System.out.println("order key (table_number): -->" + order_snap.getKey());
             System.out.println("order value: -->" + order_snap.getValue());
@@ -120,7 +120,6 @@ public class Database extends android.app.Application implements ValueEventListe
         return result;
     }
 
-
     public static String getCategoryNameByNumber(int id) {
         System.out.println("id= "+id);
         Iterable<DataSnapshot> categories_iter = dataSnapshot.child("menu").getChildren();
@@ -134,13 +133,6 @@ public class Database extends android.app.Application implements ValueEventListe
         }
         return "error";
     }
-
-
-
-    public static Order getOrder(int table_number) { // edut and eden
-        return null;
-    }
-
 
     public static Dish getDishFromMenu(String category, int dish_id) { // edut and ido
         DataSnapshot d= dataSnapshot.child("menu").child(category).child(dish_id+"");
@@ -177,6 +169,7 @@ public class Database extends android.app.Application implements ValueEventListe
         firebaseReference.child("orders_in_progress").child(String.valueOf(table_number)).child("dishes").child(String.valueOf(numOfDishesInOrder)).setValue(dish);
         return false;
     }
+
     public static boolean addDishToLiveOrder(int table_number, Dish dish) {
         long numOfDishesInOrder = dataSnapshot.child("live_orders").child(String.valueOf(table_number)).child("dishes").getChildrenCount();
         firebaseReference.child("live_orders").child(String.valueOf(table_number)).child("dishes").child(String.valueOf(numOfDishesInOrder)).setValue(dish);
