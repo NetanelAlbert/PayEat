@@ -21,7 +21,7 @@ import com.example.payeat.R;
  */
 public class DeleteDishFragment extends DialogFragment implements View.OnClickListener {
 
-    private int table_number; // It can be also dish position
+    private String table_number; // It can be also dish position
     private String category;
     private String deleteFrom;
     private int position;
@@ -44,7 +44,7 @@ public class DeleteDishFragment extends DialogFragment implements View.OnClickLi
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        table_number = getArguments().getInt("table_number");
+        table_number = getArguments().getString("table_number");
         position = getArguments().getInt("dish_position");
         category = getArguments().getString("category");
         deleteFrom = getArguments().getString("deleteFrom");
@@ -74,10 +74,10 @@ public class DeleteDishFragment extends DialogFragment implements View.OnClickLi
                 // need to update the order in the database
 
                 if(deleteFrom.compareTo("menu") == 0) {
-                    Database.deleteDish(deleteFrom, position, category);
+                    Database.deleteDishFromMenu(position, category);
                 }
                 else if(deleteFrom.compareTo("live_orders") == 0) { //this case is not working TODO
-                    Database.deleteDish(deleteFrom, position, ""+table_number);
+                    Database.deleteDishFromLiveOrders(position, table_number);
                 }
 
                 dismiss();

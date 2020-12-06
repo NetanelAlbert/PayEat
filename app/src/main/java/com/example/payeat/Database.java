@@ -231,18 +231,6 @@ public class Database extends android.app.Application implements ValueEventListe
        // firebaseReference.child("orders_in_progress").child("" + tableNum).child("dishes").child("" + dish_id).removeValue();
         return true;
     }
-    
-    public static boolean appendOrder(Order order) {
-        return false;
-    }
-
-    public static boolean deleteOrder(int order_id) {
-        return false;
-    }
-
-    public static boolean setDishStock(Dish dish, boolean in_stock) {
-        return false;
-    }//manager
 
     public static boolean setPrice(String table_number, int dish_id, double new_price) {
         firebaseReference.child("live_orders").child(table_number).child("dishes").child(""+dish_id).child("price").setValue(new_price, completionListener);
@@ -290,20 +278,33 @@ public class Database extends android.app.Application implements ValueEventListe
 
     /**
      * this function delete dish from the database
-     * @param deleteFrom where? from menu or from live_orders
      * @param dishPosition the positon of the dish to delete in the list
-     * @param focalize if delete from menu so focalize is category else if delete from is live_orders focalize is table_number
-     * @return
+     * @param category the category of the dish
+     * @return true if ok
      */
-    public static boolean deleteDish(String deleteFrom ,int dishPosition, String focalize) {
-        Iterable<DataSnapshot> dish_iter = dataSnapshot.child(deleteFrom).child(focalize).getChildren();
+    public static boolean deleteDishFromMenu(int dishPosition, String category) {
+        Iterable<DataSnapshot> dish_iter = dataSnapshot.child("menu").child(category).getChildren();
         int counter=0;
         String key;
         for (DataSnapshot dish_snap : dish_iter) {
             if(counter==dishPosition) {
-                System.out.println(dish_snap);
                 key = dish_snap.getKey();
-                dataSnapshot.child(deleteFrom).child(focalize).child(key).getRef().removeValue(completionListener);
+                dataSnapshot.child("menu").child(category).child(key).getRef().removeValue(completionListener);
+                return true;
+            }
+            counter++;
+        }
+        return false;
+    }//manger
+
+    public static boolean deleteDishFromLiveOrders(int dishPosition, String table_number) {
+        Iterable<DataSnapshot> dish_iter = dataSnapshot.child("live_orders").child(table_number).child("dishes").getChildren();
+        int counter=0;
+        String key;
+        for (DataSnapshot dish_snap : dish_iter) {
+            if(counter==dishPosition) {
+                key = dish_snap.getKey();
+                dataSnapshot.child("live_orders").child(table_number).child("dishes").child(key).getRef().removeValue(completionListener);
                 return true;
             }
             counter++;
