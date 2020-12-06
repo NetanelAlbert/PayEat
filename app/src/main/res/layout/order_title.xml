@@ -2,26 +2,33 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:orientation="horizontal"
     android:gravity="center"
     android:padding="4dp"
     android:background="@color/colorBackground">
 
     <TextView
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/title_order"
-        android:text="title order TextView"
+        android:text="title order"
         android:textColor="@android:color/black"
         android:textSize="38sp"
         android:gravity="center" />
 
-<!--    <Button-->
-<!--        android:id="@+id/button_add_dish"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_weight="1"-->
-<!--        android:text="הוסף מנה" />-->
+    <Space
+        android:layout_width="20dp"
+        android:layout_height="20dp" />
+
+    <TextView
+        android:id="@+id/textView_timeStamp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="זמן: "
+        android:textSize="28sp"
+        android:textColor="@android:color/black" />
+
 
 </LinearLayout>
 

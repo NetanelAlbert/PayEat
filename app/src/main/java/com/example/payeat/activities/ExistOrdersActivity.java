@@ -34,6 +34,7 @@ import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -130,7 +131,7 @@ public class ExistOrdersActivity extends AppCompatActivity implements DataChange
 
     @Override
     public void notifyOnChange() {
-        final ArrayList<Order> orders = Database.getOrders();
+        final ArrayList<Order> orders = Database.getOrders("live_orders");
         idOrderList.clear();
         all_orders.clear();
         int i = 0;
@@ -209,6 +210,9 @@ public class ExistOrdersActivity extends AppCompatActivity implements DataChange
             TextView orderInfo = convertView.findViewById(R.id.title_order);
             orderInfo.setText(chapterTitle);
 
+            TextView timeStamp = convertView.findViewById(R.id.textView_timeStamp);
+            timeStamp.setText(_listChildData.get(chapterTitle).getTimeStamp().getTime() + "");
+
             return convertView;
         }
 
@@ -251,6 +255,7 @@ public class ExistOrdersActivity extends AppCompatActivity implements DataChange
                     costFragment.show(FmBase, "UpdateCostFragment");
                 }
             });
+
             Button deleteDishButton = convertView.findViewById(R.id.button_delete_dish);
             deleteDishButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -260,27 +265,17 @@ public class ExistOrdersActivity extends AppCompatActivity implements DataChange
                     deleteDishFragment = DeleteDishFragment.newInstance();
                     Bundle bundle = new Bundle();
                     bundle.putString("table_number", table_number);
-                    bundle.putInt("child_position", childPosition);
-                    costFragment.setArguments(bundle);
-                    deleteDishFragment.show(FmBase, "DeleteFragment");
+                    bundle.putInt("dish_position", childPosition);
+                    bundle.putString("deleteFrom" , "live_orders");
+                    deleteDishFragment.setArguments(bundle);
+                    deleteDishFragment.show(FmBase, "DeleteDishFragment");
                 }
             });
-
-//        if(isLastChild) {
-//            LinearLayout buttonContainer = (LinearLayout) convertView.findViewById(R.id.layout_order_topics);
-//            Button myButton = new Button(_context);
-//            myButton.setText("Press Me");
-//
-//            buttonContainer.addView(myButton);
-//
-//        }
-
             return convertView;
         }
 
         @Override
         public boolean isChildSelectable(int groupPosition, int childPosition) {
-//        Toast.makeText(,"you press: " + childPosition + " in: " + groupPosition, Toast.LENGTH_SHORT).show();
             return true;
         }
     }

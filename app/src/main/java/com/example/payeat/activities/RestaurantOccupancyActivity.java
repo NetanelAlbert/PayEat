@@ -25,6 +25,8 @@ import com.example.payeat.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 public class RestaurantOccupancyActivity extends AppCompatActivity implements DataChangeListener {
 
@@ -69,20 +71,6 @@ public class RestaurantOccupancyActivity extends AppCompatActivity implements Da
         is_occupied_list = new ArrayList<>();
         notifyOnChange();
 
-//        int max_table_number = Database.getMaxTableNumber();
-//        table_number_list = new ArrayList<>();
-//        for(int i=1; i<=max_table_number; i++) {
-//            table_number_list.add("שולחן " + i);
-//        }
-//        is_occupied_list = new ArrayList<>();
-//        for(int i=1; i<=max_table_number; i++) {
-//            is_occupied_list.add("פנוי");
-//        }
-//        ArrayList<Order> orders = Database.getOrders();
-//        for (Order order: orders) {
-//            int table_number = order.getTable_number();
-//            is_occupied_list.set(table_number -1 , "תפוס");
-//        }
     }
 
     @Override
@@ -109,7 +97,14 @@ public class RestaurantOccupancyActivity extends AppCompatActivity implements Da
         for(int i=1; i<=max_table_number; i++) {
             is_occupied_list.add("פנוי");
         }
-        ArrayList<Order> orders = Database.getOrders();
+        ArrayList<Order> orders_in_progress = Database.getOrders("orders_in_progress");
+        ArrayList<Order> orders_in_live_orders = Database.getOrders("live_orders");
+
+        HashSet<Order> hashSet = new HashSet<>();
+        hashSet.addAll(orders_in_progress);
+        hashSet.addAll(orders_in_live_orders);
+        ArrayList<Order> orders = new ArrayList<>(hashSet);
+
         for (Order order: orders) {
             int table_number = order.getTable_number();
             is_occupied_list.set(table_number -1 , "תפוס");

@@ -41,6 +41,7 @@ public class EditDishFromManagerFragment extends DialogFragment implements View.
     private String dish_desc;
 
     private ImageView dish_image;
+    private boolean newDish;
 
     public EditDishFromManagerFragment() {
         // Required empty public constructor
@@ -73,8 +74,8 @@ public class EditDishFromManagerFragment extends DialogFragment implements View.
         // Inflate the layout for this fragment
         View convertView = inflater.inflate(R.layout.fragment_edit_dish_from_manager, container, false);
 
-        Button updateCostButton = convertView.findViewById(R.id.button_update_dish);
-        updateCostButton.setOnClickListener(this);
+        Button sendButton = convertView.findViewById(R.id.button_update_dish);
+        sendButton.setOnClickListener(this);
 
         Button cancelCostButton = convertView.findViewById(R.id.button_cancel_update_dish);
         cancelCostButton.setOnClickListener(this);
@@ -86,6 +87,12 @@ public class EditDishFromManagerFragment extends DialogFragment implements View.
         dish_name = getArguments().getString("name");
         dish_desc = getArguments().getString("desc");
         dish_price = getArguments().getDouble("price");
+
+        newDish = false;
+        if(dish_name == null) {
+            newDish = true;
+            sendButton.setText("הוסף");
+        }
 
         editText_new_name.setText(dish_name);
         editText_new_price.setText(String.valueOf(dish_price));
@@ -103,12 +110,16 @@ public class EditDishFromManagerFragment extends DialogFragment implements View.
                 dish_price = Double.parseDouble(""+editText_new_price.getText());
                 dish_desc = ""+editText_new_desc.getText();
 
-                String category = getArguments().getString("category");
-                System.out.println(category);
                 Dish new_dish = new Dish(dish_name, dish_price, dish_desc, true, 0, "");
-                // send name,price,desc to the database
-                Database.deleteDishFromMenuByCategory(new_dish, category);
-                Database.addDishToMenuByCategory(new_dish, category);
+                String category = getArguments().getString("category");
+
+                if(newDish) {
+                    Database.addDishToMenuByCategory(new_dish, category);
+                }
+                else {
+                    int position = getArguments().getInt("dish_position");
+                    Database.updateDishDetails(position, new_dish, category);
+                }
                 dismiss();
                 break;
             case R.id.button_cancel_update_dish:

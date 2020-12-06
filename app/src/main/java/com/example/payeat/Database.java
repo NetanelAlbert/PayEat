@@ -93,10 +93,14 @@ public class Database extends android.app.Application implements ValueEventListe
     public static int getMaxTableNumber() {
         return dataSnapshot.child("max_table_number").getValue(Integer.class);
     }
+    public static String getPassword() {
+        return dataSnapshot.child("password").getValue(String.class);
+    }
 
-    public static ArrayList<Order> getOrders() { // ido
+
+    public static ArrayList<Order> getOrders(String fromWhere) { // ido
         ArrayList<Order> result = new ArrayList<>();
-        Iterable<DataSnapshot> order_iter = dataSnapshot.child("live_orders").getChildren();
+        Iterable<DataSnapshot> order_iter = dataSnapshot.child(fromWhere).getChildren();
         for (DataSnapshot order_snap: order_iter) {
             System.out.println("order key (table_number): -->" + order_snap.getKey());
             System.out.println("order value: -->" + order_snap.getValue());
@@ -115,7 +119,7 @@ public class Database extends android.app.Application implements ValueEventListe
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
             try {
                 timestamp.setTime(sdf.parse(timeFromDatabase));// all done
-            } catch (ParseException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
             Order order = new Order(dishesOfOrder, table_number, timestamp);
@@ -124,11 +128,12 @@ public class Database extends android.app.Application implements ValueEventListe
         return result;
     }
 
-
     public static String getCategoryNameByNumber(int id) {
+        System.out.println("id= "+id);
         Iterable<DataSnapshot> categories_iter = dataSnapshot.child("menu").getChildren();
         int i=0;
         for (DataSnapshot category_snap: categories_iter) {
+            System.out.println(i+"    "+category_snap.getKey());
             if(i!=id)
                 i++;
             else
@@ -136,13 +141,6 @@ public class Database extends android.app.Application implements ValueEventListe
         }
         return "error";
     }
-
-
-
-    public static Order getOrder(int table_number) { // edut and eden
-        return null;
-    }
-
 
     public static Dish getDishFromMenu(String category, int dish_id) { // edut and ido
         DataSnapshot d= dataSnapshot.child("menu").child(category).child(dish_id+"");
@@ -179,6 +177,7 @@ public class Database extends android.app.Application implements ValueEventListe
         firebaseReference.child("orders_in_progress").child(String.valueOf(table_number)).child("dishes").child(String.valueOf(numOfDishesInOrder)).setValue(dish);
         return false;
     }
+
     public static boolean addDishToLiveOrder(int table_number, Dish dish) {
         long numOfDishesInOrder = dataSnapshot.child("live_orders").child(String.valueOf(table_number)).child("dishes").getChildrenCount();
         firebaseReference.child("live_orders").child(String.valueOf(table_number)).child("dishes").child(String.valueOf(numOfDishesInOrder)).setValue(dish);
@@ -213,11 +212,6 @@ public class Database extends android.app.Application implements ValueEventListe
         ArrayList<Dish> dishes =Database.getOrderInProgress(table_number);
         deleteOrderFromProgress(table_number);
         addOrderToLiveOrders(table_number,dishes);
-        return true;
-    }
-
-    public static boolean deleteDishFromOrder(int table_number, int dish_id) { // eden and ido
-        firebaseReference.child("live_orders").child("" + table_number).child("dishes").child("" + dish_id).removeValue();
         return true;
     }
 
@@ -263,23 +257,66 @@ public class Database extends android.app.Application implements ValueEventListe
         return true;
     }//manager
 
+    public static boolean updateDishDetails(int dishPosition, Dish dish, String category) {
+//        System.out.println(dishPosition+"   "+Notes+"   "+tableNum);
+        Iterable<DataSnapshot> dish_iter = dataSnapshot.child("menu").child(category).getChildren();
+        int counter=0;
+        String key;
+        for (DataSnapshot dish_snap : dish_iter) {
+            if(counter==dishPosition) {
+                System.out.println(dish_snap);
+                key = dish_snap.getKey();
+                dataSnapshot.child("menu").child(category).child(key).getRef().setValue(dish, completionListener);
+                return true;
+            }
+            counter++;
+        }
+        return false;
+    }
+
     public static boolean addDishToMenuByCategory(Dish dish, String category) { // we have here a serious problem
         // everything seeing to be ok and the addition works but when we refresh the menu it throw null pointer exception
+        Iterable<DataSnapshot> dish_iter = dataSnapshot.child("menu").child(category).getChildren();
         long number_of_dishes = dataSnapshot.child("menu").child(category).getChildrenCount();
-        firebaseReference.child("menu").child(category).child(""+number_of_dishes).setValue(dish, completionListener);
+        int counter=0;
+        String key="";
+        for (DataSnapshot dish_snap : dish_iter) {
+            if (counter == number_of_dishes - 1) {
+                key = dish_snap.getKey();
+            }
+            counter++;
+        }
+        int newKey=Integer.parseInt(key)+1;
+        firebaseReference.child("menu").child(category).child(newKey+"").setValue(dish, completionListener);
+
+        //firebaseReference.child("menu").child(category).child(""+number_of_dishes).setValue(dish, completionListener);
+
+       // System.out.println("key:-->" + dataSnapshot.child("menu").child(category).getKey());
+        //firebaseReference.child("menu").child(category).child(""+number_of_dishes).setValue(dish, completionListener);
         return true;
     } //manager
 
-    public static boolean deleteDishFromMenuByCategory(Dish dish, String category) {
-        Iterable<DataSnapshot> dish_iter = dataSnapshot.child("menu").child(category).getChildren();
-        for (DataSnapshot dish_snap: dish_iter) {
-            String name = dish_snap.child("name").getValue(String.class);
-            if(name.compareTo(dish.getName()) == 0) {
-                dish_snap.getRef().removeValue();
-                break;
+    /**
+     * this function delete dish from the database
+     * @param deleteFrom where? from menu or from live_orders
+     * @param dishPosition the positon of the dish to delete in the list
+     * @param focalize if delete from menu so focalize is category else if delete from is live_orders focalize is table_number
+     * @return
+     */
+    public static boolean deleteDish(String deleteFrom ,int dishPosition, String focalize) {
+        Iterable<DataSnapshot> dish_iter = dataSnapshot.child(deleteFrom).child(focalize).getChildren();
+        int counter=0;
+        String key;
+        for (DataSnapshot dish_snap : dish_iter) {
+            if(counter==dishPosition) {
+                System.out.println(dish_snap);
+                key = dish_snap.getKey();
+                dataSnapshot.child(deleteFrom).child(focalize).child(key).getRef().removeValue(completionListener);
+                return true;
             }
+            counter++;
         }
-        return true;
+        return false;
     }//manger
 
     public static String getMenuImageURL(String menuName){

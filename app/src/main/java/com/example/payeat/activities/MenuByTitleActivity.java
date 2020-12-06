@@ -10,6 +10,8 @@ package com.example.payeat.activities;
         import android.content.SharedPreferences;
         import android.os.Bundle;
         import android.view.LayoutInflater;
+        import android.view.Menu;
+        import android.view.MenuInflater;
         import android.view.MenuItem;
         import android.view.View;
         import android.view.ViewGroup;
@@ -24,8 +26,10 @@ package com.example.payeat.activities;
         import com.example.payeat.DataChangeListener;
         import com.example.payeat.Database;
         import com.example.payeat.Dish;
+        import com.example.payeat.fragments.DeleteDishFragment;
         import com.example.payeat.fragments.DishDetailsFragment;
         import com.example.payeat.R;
+        import com.example.payeat.fragments.EditDishFromManagerFragment;
         import com.example.payeat.fragments.OrderDishFragment;
         import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -33,8 +37,10 @@ package com.example.payeat.activities;
         import java.util.Arrays;
         import java.util.List;
 
-public class MenuByTitleActivity extends AppCompatActivity implements AdapterView.OnItemClickListener ,View.OnClickListener, DataChangeListener {
+public class MenuByTitleActivity extends AppCompatActivity implements View.OnClickListener, DataChangeListener {
     private DishDetailsFragment dishDetailsFragment;
+    private DeleteDishFragment deleteDishFragment;
+    private EditDishFromManagerFragment addNewDish;
     private boolean mode_manager;
     private Button goToCart;
     private String String_category;
@@ -59,7 +65,7 @@ public class MenuByTitleActivity extends AppCompatActivity implements AdapterVie
         mode_manager = getIntent().getBooleanExtra("mode manager", false);
         goToCart = (Button) findViewById(R.id.go_to_my_cart_button);
         //Setting listeners to button
-        goToCart.setOnClickListener((View.OnClickListener) this);
+        goToCart.setOnClickListener(this);
         if(mode_manager) {
             tableNumTextView.setVisibility(View.GONE);
         }
@@ -97,10 +103,24 @@ public class MenuByTitleActivity extends AppCompatActivity implements AdapterVie
     }
 
     @Override
-    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
+    public boolean onCreateOptionsMenu(Menu menu) {
+//        return super.onCreateOptionsMenu(menu);
+        if(mode_manager){
+            getMenuInflater().inflate(R.menu.menu_add_new_dish, menu);
+        }
+        return true;
     }
 
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        addNewDish = EditDishFromManagerFragment.newInstance();
+        Bundle bundle = new Bundle();
+        bundle.putString("category", String_category);
+        addNewDish.setArguments(bundle);
+        addNewDish.show(getSupportFragmentManager(), "EditDishFromManagerFragment");
+        return true;
+    }
 
     @Override
     public void onClick(View v) {
@@ -127,7 +147,6 @@ public class MenuByTitleActivity extends AppCompatActivity implements AdapterVie
         ArrayList<Dish> dishes = (ArrayList<Dish>) Database.getMenuByCategory(Database.getCategoryNameByNumber(categoryId)).getDishes();
         adapter = new DishAdapter(this, R.layout.activity_menu_by_title_list_item,dishes);
         DishListView.setAdapter(adapter);
-        DishListView.setOnItemClickListener(this);
     }
 
     private class DishAdapter extends ArrayAdapter<Dish>{
@@ -137,14 +156,31 @@ public class MenuByTitleActivity extends AppCompatActivity implements AdapterVie
 
         @NonNull
         @Override
-        public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+        public View getView(final int position, @Nullable View convertView, @NonNull ViewGroup parent) {
             if (convertView == null) {
                 convertView = LayoutInflater.from(getContext()).inflate(R.layout.activity_menu_by_title_list_item, parent, false);
             }
+            convertView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    System.out.println("view.getId():-->" + v.getId());
+                    if(mode_manager) {
+                        deleteDishFragment = DeleteDishFragment.newInstance();
+                        Bundle bundle = new Bundle();
+                        bundle.putString("category", String_category);
+                        bundle.putInt("dish_position", position);
+                        bundle.putString("deleteFrom", "menu");
+                        deleteDishFragment.setArguments(bundle);
+                        deleteDishFragment.show(getSupportFragmentManager(), "DeleteDishFragment");
+                    }
+                    return true;
+                }
+            });
+
             final String name=getItem(position).getName();
             final String desc=getItem(position).getDescription();
             final double price =getItem(position).getPrice();
-            final boolean in_stock =getItem(position).isIn_stock();
+
             TextView dishName = convertView.findViewById(R.id.dish_name_text);
             dishName.setText(name);
 
@@ -165,16 +201,21 @@ public class MenuByTitleActivity extends AppCompatActivity implements AdapterVie
                 bundle.putString("name", name);
                 bundle.putString("desc", desc);
                 bundle.putDouble("price", price);
-                bundle.putBoolean("in_stock", in_stock);
                 bundle.putBoolean("mode_manager", mode_manager);
-                bundle.putInt("tableNum", tableNum);
-
+                if(mode_manager) {
+                    bundle.putInt("tableNum", position);
+                }
+                else {
+                    bundle.putInt("tableNum", tableNum);
+                }
                 dishDetailsFragment.setArguments(bundle);
 
                 System.out.println("\n\n\nname from bundle="+name);
                 dishDetailsFragment.show(getSupportFragmentManager(), "DishDetailsFragment");
                     }
                 });
+
+
 
             return convertView;
         }
