@@ -7,7 +7,6 @@ public class Dish {
     private String name;
     private double price;
     private String description;
-    private boolean in_stock;
 
     // For orders
     private int shares = 0;
@@ -21,7 +20,6 @@ public class Dish {
         this.name = name;
         this.price = price;
         this.description = description;
-        this.in_stock = true;
         this.shares = 0;
         this.notes = "";
     }
@@ -30,7 +28,6 @@ public class Dish {
         this.name = name;
         this.price = price;
         this.description = description;
-        this.in_stock = in_stock;
         this.shares = 0;
         this.notes = "";
     }
@@ -39,7 +36,6 @@ public class Dish {
         this.name = name;
         this.price = price;
         this.description = description;
-        this.in_stock = in_stock;
         this.shares = shares;
         this.notes = "";
     }
@@ -48,7 +44,6 @@ public class Dish {
         this.name = name;
         this.price = price;
         this.description = description;
-        this.in_stock = in_stock;
         this.shares = shares;
         this.notes = notes;
     }
@@ -77,14 +72,6 @@ public class Dish {
         this.description = description;
     }
 
-    public boolean isIn_stock() {
-        return in_stock;
-    }
-
-    public void setIn_stock(boolean in_stock) {
-        this.in_stock = in_stock;
-    }
-
     public int getShares() {
         return shares;
     }
@@ -107,7 +94,6 @@ public class Dish {
                 "name='" + name + '\'' +
                 ", price=" + price +
                 ", description='" + description + '\'' +
-                ", in_stock=" + in_stock +
                 ", shares=" + shares +
                 ", notes='" + notes + '\'' +
                 '}';

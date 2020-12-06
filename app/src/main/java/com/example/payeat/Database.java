@@ -275,9 +275,23 @@ public class Database extends android.app.Application implements ValueEventListe
 
     public static boolean addDishToMenuByCategory(Dish dish, String category) { // we have here a serious problem
         // everything seeing to be ok and the addition works but when we refresh the menu it throw null pointer exception
+        Iterable<DataSnapshot> dish_iter = dataSnapshot.child("menu").child(category).getChildren();
         long number_of_dishes = dataSnapshot.child("menu").child(category).getChildrenCount();
-        System.out.println("key:-->" + dataSnapshot.child("menu").child(category).getKey());
-        firebaseReference.child("menu").child(category).child(""+number_of_dishes).setValue(dish, completionListener);
+        int counter=0;
+        String key="";
+        for (DataSnapshot dish_snap : dish_iter) {
+            if (counter == number_of_dishes - 1) {
+                key = dish_snap.getKey();
+            }
+            counter++;
+        }
+        int newKey=Integer.parseInt(key)+1;
+        firebaseReference.child("menu").child(category).child(newKey+"").setValue(dish, completionListener);
+
+        //firebaseReference.child("menu").child(category).child(""+number_of_dishes).setValue(dish, completionListener);
+
+       // System.out.println("key:-->" + dataSnapshot.child("menu").child(category).getKey());
+        //firebaseReference.child("menu").child(category).child(""+number_of_dishes).setValue(dish, completionListener);
         return true;
     } //manager
 

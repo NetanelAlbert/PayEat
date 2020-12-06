@@ -10,6 +10,8 @@ package com.example.payeat.activities;
         import android.content.SharedPreferences;
         import android.os.Bundle;
         import android.view.LayoutInflater;
+        import android.view.Menu;
+        import android.view.MenuInflater;
         import android.view.MenuItem;
         import android.view.View;
         import android.view.ViewGroup;
@@ -27,6 +29,7 @@ package com.example.payeat.activities;
         import com.example.payeat.fragments.DeleteDishFragment;
         import com.example.payeat.fragments.DishDetailsFragment;
         import com.example.payeat.R;
+        import com.example.payeat.fragments.EditDishFromManagerFragment;
         import com.example.payeat.fragments.OrderDishFragment;
         import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -37,6 +40,7 @@ package com.example.payeat.activities;
 public class MenuByTitleActivity extends AppCompatActivity implements View.OnClickListener, DataChangeListener {
     private DishDetailsFragment dishDetailsFragment;
     private DeleteDishFragment deleteDishFragment;
+    private EditDishFromManagerFragment addNewDish;
     private boolean mode_manager;
     private Button goToCart;
     private String String_category;
@@ -44,11 +48,6 @@ public class MenuByTitleActivity extends AppCompatActivity implements View.OnCli
     private int tableNum;
     private DishAdapter adapter;
     ListView DishListView;
-
-    private String name;
-    private String desc;
-    private double price;
-    private boolean in_stock;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,6 +100,26 @@ public class MenuByTitleActivity extends AppCompatActivity implements View.OnCli
             bottomNavigationView.setVisibility(View.GONE);
         }
         notifyOnChange();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+//        return super.onCreateOptionsMenu(menu);
+        if(mode_manager){
+            getMenuInflater().inflate(R.menu.menu_add_new_dish, menu);
+        }
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        addNewDish = EditDishFromManagerFragment.newInstance();
+        Bundle bundle = new Bundle();
+        bundle.putString("category", String_category);
+        addNewDish.setArguments(bundle);
+        addNewDish.show(getSupportFragmentManager(), "EditDishFromManagerFragment");
+        return true;
     }
 
     @Override
@@ -158,10 +177,9 @@ public class MenuByTitleActivity extends AppCompatActivity implements View.OnCli
                 }
             });
 
-            name=getItem(position).getName();
-            desc=getItem(position).getDescription();
-            price =getItem(position).getPrice();
-            in_stock =getItem(position).isIn_stock();
+            final String name=getItem(position).getName();
+            final String desc=getItem(position).getDescription();
+            final double price =getItem(position).getPrice();
 
             TextView dishName = convertView.findViewById(R.id.dish_name_text);
             dishName.setText(name);
@@ -183,7 +201,6 @@ public class MenuByTitleActivity extends AppCompatActivity implements View.OnCli
                 bundle.putString("name", name);
                 bundle.putString("desc", desc);
                 bundle.putDouble("price", price);
-                bundle.putBoolean("in_stock", in_stock);
                 bundle.putBoolean("mode_manager", mode_manager);
                 if(mode_manager) {
                     bundle.putInt("tableNum", position);
