@@ -34,6 +34,7 @@ import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -208,6 +209,9 @@ public class ExistOrdersActivity extends AppCompatActivity implements DataChange
 
             TextView orderInfo = convertView.findViewById(R.id.title_order);
             orderInfo.setText(chapterTitle);
+
+            TextView timeStamp = convertView.findViewById(R.id.textView_timeStamp);
+            timeStamp.setText(_listChildData.get(chapterTitle).getTimeStamp().getTime() + "");
 
             return convertView;
         }
