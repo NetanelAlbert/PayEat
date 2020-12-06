@@ -6,26 +6,36 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
+import com.example.payeat.Database;
 import com.example.payeat.R;
 import com.example.payeat.fragments.ChooseTableFragment;
 
 public class ManagerLoginActivity extends AppCompatActivity implements  View.OnClickListener{
 
         private Button goToManagerOptions;
+        private EditText password;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manager_login);
         goToManagerOptions = (Button) findViewById(R.id.activity_manager_login_button);
         goToManagerOptions.setOnClickListener((View.OnClickListener) this);
+        password=(EditText) findViewById(R.id.manager_password_text);
+        //password.setText("password");
     }
     @Override
     public void onClick(View v) {
         Intent intent = null;
         switch (v.getId()){
             case R.id.activity_manager_login_button :
-                intent = new Intent(this, ManagerOptionsActivity.class);
+                String Text=getText();
+                if(Text.contentEquals(Database.getPassword()))
+                    intent = new Intent(this, ManagerOptionsActivity.class);
+                else
+                    Toast.makeText(this, "סיסמה שגויה", Toast.LENGTH_SHORT ).show();
                 break;
             default:
 
@@ -33,5 +43,12 @@ public class ManagerLoginActivity extends AppCompatActivity implements  View.OnC
         }
         if(intent != null)
             startActivity(intent);
+    }
+
+    private String getText(){
+        if( password== null)
+            return "no notes";
+        return password.getText().toString();
+
     }
 }

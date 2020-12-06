@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.example.payeat.Database;
+import com.example.payeat.Dish;
 import com.example.payeat.R;
 
 /**
@@ -19,11 +21,10 @@ import com.example.payeat.R;
  */
 public class DeleteDishFragment extends DialogFragment implements View.OnClickListener {
 
-    private static String ORDER_NUMBER;
-    private static String DISH_NUMBER;
-
-    private int order_number;
-    private int dish_number;
+    private String table_number; // It can be also dish position
+    private String category;
+    private String deleteFrom;
+    private int position;
 
     public DeleteDishFragment() {
         // Required empty public constructor
@@ -32,28 +33,21 @@ public class DeleteDishFragment extends DialogFragment implements View.OnClickLi
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
-     *
-     * @param PgroupPosition order number.
-     * @param PchildPosition dish number.
      * @return A new instance of fragment DeleteDishFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static DeleteDishFragment newInstance(int PgroupPosition, int PchildPosition) {
+    public static DeleteDishFragment newInstance() {
         DeleteDishFragment fragment = new DeleteDishFragment();
-        Bundle args = new Bundle();
-        args.putInt(ORDER_NUMBER, PgroupPosition);
-        args.putInt(DISH_NUMBER, PchildPosition);
-        fragment.setArguments(args);
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            order_number = getArguments().getInt(ORDER_NUMBER);
-            dish_number = getArguments().getInt(DISH_NUMBER);
-        }
+        table_number = getArguments().getString("table_number");
+        position = getArguments().getInt("dish_position");
+        category = getArguments().getString("category");
+        deleteFrom = getArguments().getString("deleteFrom");
     }
 
     @Override
@@ -78,6 +72,13 @@ public class DeleteDishFragment extends DialogFragment implements View.OnClickLi
 
                 // get the dish item using order_number and dish_number and then:
                 // need to update the order in the database
+
+                if(deleteFrom.compareTo("menu") == 0) {
+                    Database.deleteDishFromMenu(position, category);
+                }
+                else if(deleteFrom.compareTo("live_orders") == 0) { //this case is not working TODO
+                    Database.deleteDishFromLiveOrders(position, table_number);
+                }
 
                 dismiss();
                 break;

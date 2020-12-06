@@ -21,7 +21,7 @@
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.76" />
+        app:layout_constraintVertical_bias="0.883" />
 
     <ImageView
         android:id="@+id/activity_main_logo_imagview"
@@ -30,20 +30,28 @@
         android:layout_marginTop="16dp"
         android:src="@drawable/app_logo"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.508"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@drawable/app_logo" />
 
+
     <EditText
         android:id="@+id/manager_password_text"
-        android:layout_width="209dp"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="416dp"
-        android:hint="סיסמא סודית בחיים לא תגלו"
-        android:textIsSelectable="false"
+        android:layout_marginStart="100dp"
+        android:layout_marginEnd="100dp"
+        android:layout_marginBottom="32dp"
+        android:gravity="center"
+        android:hint="סיסמה"
+        android:maxLines="1"
+        android:password="true"
+        app:layout_constraintBottom_toTopOf="@+id/activity_manager_login_button"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/activity_main_logo_imagview"
+        app:layout_constraintVertical_bias="0.0" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

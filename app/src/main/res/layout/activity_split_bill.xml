@@ -95,11 +95,11 @@
         android:layout_weight="1">
 
     <Button
-        android:id="@+id/activity_split_bill_get_check_button"
+        android:id="@+id/activity_split_bill_final_bill_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="0"
-        android:textSize="30sp"
+        android:textSize="40sp"
         android:padding="5dp"
         android:background="@color/colorButton"
         android:textColor="@color/colorTextOnButton"

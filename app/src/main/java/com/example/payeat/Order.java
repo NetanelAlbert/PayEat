@@ -5,6 +5,7 @@ import com.firebase.client.Firebase;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Objects;
 
 public class Order {
 
@@ -12,44 +13,67 @@ public class Order {
     private int table_number; // the identifier of the order.
     private Calendar timeStamp;
 
-
-    public Order(Dish[] order_info, int table_number) {
+    public Order(ArrayList<Dish> orderInfo, int table_number, Calendar timeStamp) {
         this.orderInfo = new ArrayList<>();
-        this.orderInfo.addAll(Arrays.asList(order_info));
-
+        this.orderInfo.addAll(orderInfo);
         this.table_number = table_number;
+        this.timeStamp = timeStamp;
     }
 
-    public Order(ArrayList<Dish> order_info, int table_number, Calendar timeStamp) {
+    public Order(Dish[] dishes, int table_number) {
         this.orderInfo = new ArrayList<>();
-        this.orderInfo.addAll(order_info);
-
+        this.orderInfo.addAll(Arrays.asList(dishes));
         this.table_number = table_number;
+        this.timeStamp = null;
+    }
 
-        this.timeStamp = timeStamp;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Order)) return false;
+        Order order = (Order) o;
+        return getTable_number() == order.getTable_number();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getTable_number());
     }
 
     public ArrayList<Dish> getOrderInfo() {
         return orderInfo;
     }
 
-    public boolean add(Dish dish) {
-        return orderInfo.add(dish);
+    public void setOrderInfo(ArrayList<Dish> orderInfo) {
+        this.orderInfo = orderInfo;
+    }
+
+    public int getTable_number() {
+        return table_number;
+    }
+
+    public void setTable_number(int table_number) {
+        this.table_number = table_number;
+    }
+
+    public Calendar getTimeStamp() {
+        return timeStamp;
+    }
+
+    public void setTimeStamp(Calendar timeStamp) {
+        this.timeStamp = timeStamp;
     }
 
     public int size() {
         return this.orderInfo.size();
     }
+
     public Dish get(int childPosition) {
         return this.orderInfo.get(childPosition);
     }
 
     public Dish deleteDish(int index) {
         return orderInfo.remove(index);
-    }
-
-    public int getTable_number() {
-        return table_number;
     }
 
     public int calculateOrder() {
@@ -59,4 +83,6 @@ public class Order {
         }
         return sum;
     }
+
+
 }

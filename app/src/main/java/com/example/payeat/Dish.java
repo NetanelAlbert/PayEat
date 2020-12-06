@@ -4,11 +4,9 @@ import java.util.Calendar;
 
 public class Dish {
     // For menu
-    private long dishID;
     private String name;
     private double price;
     private String description;
-    private boolean in_stock;
 
     // For orders
     private int shares = 0;
@@ -17,22 +15,12 @@ public class Dish {
     public Dish() {
 
     }
-    // change order of the params
-    public Dish(long dishID, String name, double price, String description, boolean in_stock, int shares, String notes) {
-        this.dishID = dishID;
-        this.name = name;
-        this.price = price;
-        this.description = description;
-        this.in_stock = in_stock;
-        this.shares = shares;
-        this.notes = notes;
-    }
 
     public Dish(String name, double price, String description) {
         this.name = name;
         this.price = price;
         this.description = description;
-        this.in_stock = true;
+        this.shares = 0;
         this.notes = "";
     }
 
@@ -40,57 +28,81 @@ public class Dish {
         this.name = name;
         this.price = price;
         this.description = description;
-        this.in_stock = in_stock;
+        this.shares = 0;
         this.notes = "";
     }
 
-    public Dish(String name, double price, String description, boolean in_stock, String notes) {
+    public Dish(String name, double price, String description, boolean in_stock, int shares) {
         this.name = name;
         this.price = price;
         this.description = description;
-        this.in_stock = in_stock;
+        this.shares = shares;
+        this.notes = "";
+    }
+
+    public Dish(String name, double price, String description, boolean in_stock, int shares, String notes) {
+        this.name = name;
+        this.price = price;
+        this.description = description;
+        this.shares = shares;
         this.notes = notes;
     }
 
-    public String getName(){
+    public String getName() {
         return name;
     }
-    public String getDesc(){
-        return description;
+
+    public void setName(String name) {
+        this.name = name;
     }
-    public double getPrice(){
+
+    public double getPrice() {
         return price;
     }
-    public boolean isIn_stock() {
-        return in_stock;
-    }
-    public String getNotes() {
-        return notes;
-    }
-    public long getID() { return dishID;}
 
-    @Override
-    public String toString() {
-        return
-                "שם מנה: '" + name + '\'' +
-                        ", מחיר: " + price +
-                        ", תיאור: '" + description + '\'';
+    public void setPrice(double price) {
+        this.price = price;
     }
 
-    // For bill splitting
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
     public int getShares() {
         return shares;
     }
+
+    public void setShares(int shares) {
+        this.shares = shares;
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
+    }
+
+    @Override
+    public String toString() {
+        return "Dish{" +
+                "name='" + name + '\'' +
+                ", price=" + price +
+                ", description='" + description + '\'' +
+                ", shares=" + shares +
+                ", notes='" + notes + '\'' +
+                '}';
+    }
+
     public synchronized void increaseShares(){
         ++shares;
     }
     public synchronized void decreaseShares(){
         --shares;
-    }
-
-
-    public void setNotes(String text) {
-        notes=text;
     }
 }

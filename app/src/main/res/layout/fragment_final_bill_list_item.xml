@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/fragment_final_bill_list_item_name_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="שם הלקוח"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <ImageButton
+        android:id="@+id/fragment_final_bill_list_item_plus_imageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="2dp"
+        android:background="@color/colorToggleTrue"
+        android:padding="3dp"
+        app:layout_constraintStart_toEndOf="@+id/textView8"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/icon_plus" />
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="%"
+        android:textSize="26sp"
+        app:layout_constraintStart_toEndOf="@+id/fragment_final_bill_list_item_tip_editText"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <EditText
+        android:id="@+id/fragment_final_bill_list_item_tip_editText"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:digits="0123456789"
+        android:gravity="right"
+        android:inputType="number"
+        android:selectAllOnFocus="true"
+        android:textSize="26sp"
+        app:layout_constraintEnd_toStartOf="@+id/fragment_final_bill_list_item_name_textView"
+        app:layout_constraintHorizontal_bias="0.39"
+        app:layout_constraintStart_toEndOf="@+id/fragment_final_bill_list_item__NIS_textView"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/fragment_final_bill_list_item_minus_imageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:layout_marginEnd="5dp"
+        android:background="@color/colorToggleFalse"
+        android:padding="3dp"
+        app:layout_constraintEnd_toStartOf="@+id/fragment_final_bill_list_item_tip_editText"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/icon_minus" />
+
+    <TextView
+        android:id="@+id/fragment_final_bill_list_item__NIS_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="NIS"
+        android:textSize="30sp"
+        app:layout_constraintStart_toEndOf="@+id/fragment_final_bill_list_item_sum_textView"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/fragment_final_bill_list_item_sum_textView"
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:text="9999"
+        android:textColor="@android:color/black"
+        android:textSize="30sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/fragment_final_bill_list_item_inner_layout"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/fragment_final_bill_list_item_name_textView"
+        android:visibility="gone">
+
+        <ListView
+            android:id="@+id/fragment_final_bill_list_item_sub_listView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </ListView>
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

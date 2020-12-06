@@ -34,6 +34,7 @@ import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -84,9 +85,9 @@ public class ExistOrdersActivity extends AppCompatActivity implements DataChange
         expandableListView = findViewById(R.id.listView_orders);
         idOrderList = new ArrayList<String>(); // id Order (the title of the Order whatever)
         all_orders = new HashMap<String, Order>(); // each raw in the Order. what is the Order info.
-        notifyOnChange();
         listViewAdapter = new ExpandableListViewAdapter(this, idOrderList, all_orders, getSupportFragmentManager());
         expandableListView.setAdapter(listViewAdapter);
+        notifyOnChange();
 
         searchView = findViewById(R.id.SearchView_orders);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -130,7 +131,9 @@ public class ExistOrdersActivity extends AppCompatActivity implements DataChange
 
     @Override
     public void notifyOnChange() {
-        final ArrayList<Order> orders = Database.getOrders();
+        final ArrayList<Order> orders = Database.getOrders("live_orders");
+        idOrderList.clear();
+        all_orders.clear();
         int i = 0;
         for (Order order: orders) {
             int table_number = order.getTable_number();
@@ -138,6 +141,7 @@ public class ExistOrdersActivity extends AppCompatActivity implements DataChange
             all_orders.put(idOrderList.get(i), order);
             i++;
         }
+        listViewAdapter.notifyDataSetChanged();
     }
 
     class ExpandableListViewAdapter extends BaseExpandableListAdapter {
@@ -206,6 +210,9 @@ public class ExistOrdersActivity extends AppCompatActivity implements DataChange
             TextView orderInfo = convertView.findViewById(R.id.title_order);
             orderInfo.setText(chapterTitle);
 
+            TextView timeStamp = convertView.findViewById(R.id.textView_timeStamp);
+            timeStamp.setText(_listChildData.get(chapterTitle).getTimeStamp().getTime() + "");
+
             return convertView;
         }
 
@@ -229,7 +236,7 @@ public class ExistOrdersActivity extends AppCompatActivity implements DataChange
             cost.setText("" + topicTitle.getPrice());
 
             EditText description = convertView.findViewById(R.id.editText_description);
-            description.setText(topicTitle.getDesc());
+            description.setText(topicTitle.getDescription());
 
             EditText notes = convertView.findViewById(R.id.editText_notes);
             notes.setText(topicTitle.getNotes());
@@ -238,34 +245,37 @@ public class ExistOrdersActivity extends AppCompatActivity implements DataChange
             editCostButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    costFragment = UpdateCostFragment.newInstance(groupPosition, childPosition, cost);
+                    String chapterTitle = (String) getGroup(groupPosition);
+                    String table_number = chapterTitle.split(" ")[1];
+                    costFragment = UpdateCostFragment.newInstance(cost);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("table_number", table_number);
+                    bundle.putInt("child_position", childPosition);
+                    costFragment.setArguments(bundle);
                     costFragment.show(FmBase, "UpdateCostFragment");
                 }
             });
+
             Button deleteDishButton = convertView.findViewById(R.id.button_delete_dish);
             deleteDishButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    deleteDishFragment = DeleteDishFragment.newInstance(groupPosition, childPosition);
-                    deleteDishFragment.show(FmBase, "DeleteFragment");
+                    String chapterTitle = (String) getGroup(groupPosition);
+                    String table_number = chapterTitle.split(" ")[1];
+                    deleteDishFragment = DeleteDishFragment.newInstance();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("table_number", table_number);
+                    bundle.putInt("dish_position", childPosition);
+                    bundle.putString("deleteFrom" , "live_orders");
+                    deleteDishFragment.setArguments(bundle);
+                    deleteDishFragment.show(FmBase, "DeleteDishFragment");
                 }
             });
-
-//        if(isLastChild) {
-//            LinearLayout buttonContainer = (LinearLayout) convertView.findViewById(R.id.layout_order_topics);
-//            Button myButton = new Button(_context);
-//            myButton.setText("Press Me");
-//
-//            buttonContainer.addView(myButton);
-//
-//        }
-
             return convertView;
         }
 
         @Override
         public boolean isChildSelectable(int groupPosition, int childPosition) {
-//        Toast.makeText(,"you press: " + childPosition + " in: " + groupPosition, Toast.LENGTH_SHORT).show();
             return true;
         }
     }

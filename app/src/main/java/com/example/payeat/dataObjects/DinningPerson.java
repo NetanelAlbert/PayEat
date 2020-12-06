@@ -5,14 +5,16 @@ import com.example.payeat.Dish;
 import java.util.ArrayList;
 
 
-public class DinnerPerson {
+public class DinningPerson {
 
     private String name;
     private ArrayList<Dish> sharingDishes;
+    private int tipPercent;
 
-    public DinnerPerson(String name) {
+    public DinningPerson(String name) {
         this.name = name;
-        sharingDishes = new ArrayList<>();
+        this.sharingDishes = new ArrayList<>();
+        this.tipPercent = 10;
     }
 
     public void addDish(Dish dish){
@@ -41,5 +43,19 @@ public class DinnerPerson {
 
     public boolean isShare(Dish dish){
         return sharingDishes.contains(dish);
+    }
+
+    public int getTipPercent() {
+        return tipPercent;
+    }
+
+    public void setTipPercent(int tipPercent) {
+        this.tipPercent = tipPercent;
+    }
+
+    public void notifyRemove(){
+        for (Dish dish : sharingDishes) {
+            dish.decreaseShares();
+        }
     }
 }
