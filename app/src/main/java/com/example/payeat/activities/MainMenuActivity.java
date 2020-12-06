@@ -36,7 +36,7 @@ public class MainMenuActivity extends AppCompatActivity implements AdapterView.O
 
         // Set the list of menus
         MenusAdapter adapter = new MenusAdapter(this, R.layout.activity_main_menu_gridview,
-                Arrays.asList("alcohol","breakfast","deserts","soft drinks"));
+                Arrays.asList("ארוחת בוקר","משקאות קלים","קינוחים","אלכוהול"));
         GridView menusGridView = findViewById(R.id.activity_main_menu_gridview);
         menusGridView.setAdapter(adapter);
         menusGridView.setOnItemClickListener(this);
