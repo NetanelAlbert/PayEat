@@ -34,6 +34,7 @@ import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -130,7 +131,7 @@ public class ExistOrdersActivity extends AppCompatActivity implements DataChange
 
     @Override
     public void notifyOnChange() {
-        final ArrayList<Order> orders = Database.getOrders();
+        final ArrayList<Order> orders = Database.getOrders("live_orders");
         idOrderList.clear();
         all_orders.clear();
         int i = 0;
@@ -209,6 +210,9 @@ public class ExistOrdersActivity extends AppCompatActivity implements DataChange
             TextView orderInfo = convertView.findViewById(R.id.title_order);
             orderInfo.setText(chapterTitle);
 
+            TextView timeStamp = convertView.findViewById(R.id.textView_timeStamp);
+            timeStamp.setText(_listChildData.get(chapterTitle).getTimeStamp().getTime() + "");
+
             return convertView;
         }
 
@@ -263,7 +267,7 @@ public class ExistOrdersActivity extends AppCompatActivity implements DataChange
                     bundle.putString("table_number", table_number);
                     bundle.putInt("dish_position", childPosition);
                     bundle.putString("deleteFrom" , "live_orders");
-                    costFragment.setArguments(bundle);
+                    deleteDishFragment.setArguments(bundle);
                     deleteDishFragment.show(FmBase, "DeleteDishFragment");
                 }
             });

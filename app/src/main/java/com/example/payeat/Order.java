@@ -5,6 +5,7 @@ import com.firebase.client.Firebase;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Objects;
 
 public class Order {
 
@@ -24,6 +25,19 @@ public class Order {
         this.orderInfo.addAll(Arrays.asList(dishes));
         this.table_number = table_number;
         this.timeStamp = null;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Order)) return false;
+        Order order = (Order) o;
+        return getTable_number() == order.getTable_number();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getTable_number());
     }
 
     public ArrayList<Dish> getOrderInfo() {
