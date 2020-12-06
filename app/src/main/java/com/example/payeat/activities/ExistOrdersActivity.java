@@ -251,6 +251,7 @@ public class ExistOrdersActivity extends AppCompatActivity implements DataChange
                     costFragment.show(FmBase, "UpdateCostFragment");
                 }
             });
+
             Button deleteDishButton = convertView.findViewById(R.id.button_delete_dish);
             deleteDishButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -263,25 +264,14 @@ public class ExistOrdersActivity extends AppCompatActivity implements DataChange
                     bundle.putInt("dish_position", childPosition);
                     bundle.putString("deleteFrom" , "live_orders");
                     costFragment.setArguments(bundle);
-                    deleteDishFragment.show(FmBase, "DeleteFragment");
+                    deleteDishFragment.show(FmBase, "DeleteDishFragment");
                 }
             });
-
-//        if(isLastChild) {
-//            LinearLayout buttonContainer = (LinearLayout) convertView.findViewById(R.id.layout_order_topics);
-//            Button myButton = new Button(_context);
-//            myButton.setText("Press Me");
-//
-//            buttonContainer.addView(myButton);
-//
-//        }
-
             return convertView;
         }
 
         @Override
         public boolean isChildSelectable(int groupPosition, int childPosition) {
-//        Toast.makeText(,"you press: " + childPosition + " in: " + groupPosition, Toast.LENGTH_SHORT).show();
             return true;
         }
     }

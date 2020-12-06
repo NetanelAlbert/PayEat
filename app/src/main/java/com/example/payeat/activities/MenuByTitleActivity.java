@@ -10,6 +10,8 @@ package com.example.payeat.activities;
         import android.content.SharedPreferences;
         import android.os.Bundle;
         import android.view.LayoutInflater;
+        import android.view.Menu;
+        import android.view.MenuInflater;
         import android.view.MenuItem;
         import android.view.View;
         import android.view.ViewGroup;
@@ -101,6 +103,13 @@ public class MenuByTitleActivity extends AppCompatActivity implements View.OnCli
             bottomNavigationView.setVisibility(View.GONE);
         }
         notifyOnChange();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+//        return super.onCreateOptionsMenu(menu);
+        getMenuInflater().inflate(R.menu.menu_add_new_dish, menu);
+        return true;
     }
 
     @Override
