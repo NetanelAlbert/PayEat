@@ -3,6 +3,7 @@ package com.example.payeat;
 import android.app.Activity;
 import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
+import android.os.Looper;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -338,7 +339,9 @@ public class Database extends android.app.Application implements ValueEventListe
                             view.setImageDrawable(image);
                         }
                     });
+
                 } catch (Exception e) {
+                    Looper.prepare();
                     Toast.makeText(activity, "טעינת התמונה נכשלה", Toast.LENGTH_SHORT).show();
                 }
             }
