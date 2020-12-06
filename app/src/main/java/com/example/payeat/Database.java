@@ -1,7 +1,6 @@
 package com.example.payeat;
 
 import android.app.Activity;
-import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.os.Looper;
 import android.widget.ImageView;
@@ -11,17 +10,12 @@ import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
 
 import java.io.InputStream;
 import java.net.URL;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
-import java.util.Locale;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
@@ -29,25 +23,27 @@ public class Database extends android.app.Application implements ValueEventListe
     private static Firebase firebaseReference;
     private static DataSnapshot dataSnapshot;
     private static ArrayList<DataChangeListener> listeners;
-    public static final String dishes="dishes";
-    public static final String liveOrders="live_orders";
-    public static final String ordersInProgress="orders_in_progress";
-    public static final String mainMenuPictures="main_menu_pictures";
-    public static final String managerName="manager_name";
-    public static final String restaurantName="restaurant_name";
-    public static final String Password="password";
-    public static final String maxTableNumber="max_table_number";
-    public static final String timeStamp="time-stamp";
-    public static final String Price="price";
-    public static final String Notes="notes";
-    public static final String formatTimeStamp="dd/MM/yyyy - HH:mm:ss";
-    public static final String srcName="src name";
+
+
+    // public constants
+    public static final String DISHES = "dishes";
+    public static final String LIVE_ORDERS = "live_orders";
+    public static final String ORDERS_IN_PROGRESS = "orders_in_progress";
+    public static final String MAIN_MENU_PICTURES = "main_menu_pictures";
+    public static final String MANAGER_NAME = "manager_name";
+    public static final String RESTAURANT_NAME = "restaurant_name";
+    public static final String PASSWORD = "password";
+    public static final String MAX_TABLE_NUMBER = "max_table_number";
+    public static final String TIME_STAMP = "time-stamp";
+    public static final String PRICE = "price";
+    public static final String NOTES = "notes";
+    public static final String FORMAT_TIME_STAMP = "dd/MM/yyyy - HH:mm:ss";
+    public static final String SRC_NAME = "src name";
 
 
 
 
-
-
+    // private constants
     private static final String MENU="menu";
 
 
@@ -106,18 +102,18 @@ public class Database extends android.app.Application implements ValueEventListe
     public static Firebase getDataBaseInstance() { return firebaseReference;}
 
     public static String getManagerName() {
-        return dataSnapshot.child(managerName).getValue(String.class);
+        return dataSnapshot.child(MANAGER_NAME).getValue(String.class);
     }
 
     public static String getRestaurantName() {
-        return dataSnapshot.child(restaurantName).getValue(String.class);
+        return dataSnapshot.child(RESTAURANT_NAME).getValue(String.class);
     }
 
     public static int getMaxTableNumber() {
-        return dataSnapshot.child(maxTableNumber).getValue(Integer.class);
+        return dataSnapshot.child(MAX_TABLE_NUMBER).getValue(Integer.class);
     }
     public static String getPassword() {
-        return dataSnapshot.child(Password).getValue(String.class);
+        return dataSnapshot.child(PASSWORD).getValue(String.class);
     }
 
 
@@ -126,15 +122,15 @@ public class Database extends android.app.Application implements ValueEventListe
         Iterable<DataSnapshot> order_iter = dataSnapshot.child(fromWhere).getChildren();
         for (DataSnapshot order_snap: order_iter) {
             ArrayList<Dish> dishesOfOrder = new ArrayList<>();
-            Iterable<DataSnapshot> dish_iter = order_snap.child(dishes).getChildren();
+            Iterable<DataSnapshot> dish_iter = order_snap.child(DISHES).getChildren();
             for (DataSnapshot dish_snap: dish_iter) {
                 Dish temp_dish = dish_snap.getValue(Dish.class);
                 dishesOfOrder.add(temp_dish);
             }
             int table_number = Integer.parseInt(order_snap.getKey());
-            String timeFromDatabase = order_snap.child(timeStamp).getValue(String.class);
+            String timeFromDatabase = order_snap.child(TIME_STAMP).getValue(String.class);
             Calendar timestamp = Calendar.getInstance();
-            SimpleDateFormat sdf = new SimpleDateFormat(formatTimeStamp);
+            SimpleDateFormat sdf = new SimpleDateFormat(FORMAT_TIME_STAMP);
             try {
                 timestamp.setTime(sdf.parse(timeFromDatabase));// all done
             } catch (Exception e) {
@@ -166,7 +162,7 @@ public class Database extends android.app.Application implements ValueEventListe
     }
 
     public static Dish getDishFromOrders(int order_id, int dish_id) { // edut and ido
-        DataSnapshot d= dataSnapshot.child(liveOrders).child(order_id+"").child(dishes).child(dish_id+"");
+        DataSnapshot d= dataSnapshot.child(LIVE_ORDERS).child(order_id+"").child(DISHES).child(dish_id+"");
         return d.getValue(Dish.class);
     }
 
@@ -179,7 +175,7 @@ public class Database extends android.app.Application implements ValueEventListe
         return categories;
     }
     public static boolean addDishToLiveOrder(int table_number, Dish dish, int id) {
-        firebaseReference.child(liveOrders).child(table_number + "").child(dishes).child(id+"").setValue(dish);
+        firebaseReference.child(LIVE_ORDERS).child(table_number + "").child(DISHES).child(id+"").setValue(dish);
         return true;
 
     }
@@ -187,7 +183,7 @@ public class Database extends android.app.Application implements ValueEventListe
 
     public static boolean addOrderToLiveOrders(int table_number, ArrayList<Dish> dishesArray) { // eden and ido
         int id;
-        if(dataSnapshot.child(liveOrders).child(""+ table_number).child(dishes).getChildrenCount()==0)
+        if(dataSnapshot.child(LIVE_ORDERS).child(""+ table_number).child(DISHES).getChildrenCount()==0)
             id=0;
         else
             id=getMaxId(table_number);
@@ -196,15 +192,15 @@ public class Database extends android.app.Application implements ValueEventListe
             id++;
         }
         Calendar calendar = Calendar.getInstance(); // Returns instance with current date and time set
-        SimpleDateFormat formatter = new SimpleDateFormat(formatTimeStamp);
-        dataSnapshot.child(liveOrders).child(table_number + "").child(timeStamp).getRef().setValue(formatter.format(calendar.getTime()));
+        SimpleDateFormat formatter = new SimpleDateFormat(FORMAT_TIME_STAMP);
+        dataSnapshot.child(LIVE_ORDERS).child(table_number + "").child(TIME_STAMP).getRef().setValue(formatter.format(calendar.getTime()));
 
         return true;
     }
 
     private static int getMaxId(int table_number) {
-        Iterable<DataSnapshot> dish_iter = dataSnapshot.child(liveOrders).child(table_number + "").child(dishes).getChildren();
-        long numOfDishes = dataSnapshot.child(liveOrders).child(table_number + "").child(dishes).getChildrenCount();
+        Iterable<DataSnapshot> dish_iter = dataSnapshot.child(LIVE_ORDERS).child(table_number + "").child(DISHES).getChildren();
+        long numOfDishes = dataSnapshot.child(LIVE_ORDERS).child(table_number + "").child(DISHES).getChildrenCount();
         int counter = 0;
         for (DataSnapshot dish_snap : dish_iter) {
             if (counter == numOfDishes - 1) {
@@ -228,8 +224,8 @@ public class Database extends android.app.Application implements ValueEventListe
 
 
     public static boolean addDishToOrderInProgress(int table_number, Dish dish) {
-        long numOfDishesInOrder = dataSnapshot.child(ordersInProgress).child(String.valueOf(table_number)).child(dishes).getChildrenCount();
-        firebaseReference.child(ordersInProgress).child(String.valueOf(table_number)).child(dishes).child(String.valueOf(numOfDishesInOrder)).setValue(dish);
+        long numOfDishesInOrder = dataSnapshot.child(ORDERS_IN_PROGRESS).child(String.valueOf(table_number)).child(DISHES).getChildrenCount();
+        firebaseReference.child(ORDERS_IN_PROGRESS).child(String.valueOf(table_number)).child(DISHES).child(String.valueOf(numOfDishesInOrder)).setValue(dish);
         return false;
     }
 
@@ -237,7 +233,7 @@ public class Database extends android.app.Application implements ValueEventListe
 
     public static ArrayList<Dish> getOrderInProgress(int tableNum) {
         ArrayList<Dish> dishesArray = new ArrayList<>();
-        Iterable<DataSnapshot> dish_iter = dataSnapshot.child(ordersInProgress).child(String.valueOf(tableNum)).child(dishes).getChildren();
+        Iterable<DataSnapshot> dish_iter = dataSnapshot.child(ORDERS_IN_PROGRESS).child(String.valueOf(tableNum)).child(DISHES).getChildren();
         for (DataSnapshot dish_snap : dish_iter) {
             System.out.println(dish_snap);
             Dish temp_dish = dish_snap.getValue(Dish.class);
@@ -249,7 +245,7 @@ public class Database extends android.app.Application implements ValueEventListe
     }
 
     public static boolean deleteOrderFromProgress(int table_number) { // eden and ido
-        firebaseReference.child(ordersInProgress).child("" + table_number).removeValue();
+        firebaseReference.child(ORDERS_IN_PROGRESS).child("" + table_number).removeValue();
         return true;
     }
 
@@ -262,19 +258,19 @@ public class Database extends android.app.Application implements ValueEventListe
     }
 
     public static boolean deleteDishFromOrderInProgress(int order_id, int dish_id) { // eden and ido
-        firebaseReference.child(ordersInProgress).child("" + order_id).child(dishes).child("" + dish_id).removeValue();
+        firebaseReference.child(ORDERS_IN_PROGRESS).child("" + order_id).child(DISHES).child("" + dish_id).removeValue();
         return true;
     }
 
     public static boolean ChangeNotes(int dishPosition, String notes, int tableNum) { // eden and ido
-        Iterable<DataSnapshot> dish_iter = dataSnapshot.child(ordersInProgress).child(String.valueOf(tableNum)).child(dishes).getChildren();
+        Iterable<DataSnapshot> dish_iter = dataSnapshot.child(ORDERS_IN_PROGRESS).child(String.valueOf(tableNum)).child(DISHES).getChildren();
         int counter=0;
         String key;
         for (DataSnapshot dish_snap : dish_iter) {
             if(counter==dishPosition) {
                 System.out.println(dish_snap);
                 key = dish_snap.getKey();
-                dataSnapshot.child(ordersInProgress).child(tableNum+"").child(dishes).child(key).child(Notes).getRef().setValue(notes);
+                dataSnapshot.child(ORDERS_IN_PROGRESS).child(tableNum+"").child(DISHES).child(key).child(NOTES).getRef().setValue(notes);
                 break;
             }
             counter++;
@@ -284,7 +280,7 @@ public class Database extends android.app.Application implements ValueEventListe
     }
 
     public static boolean setPrice(String table_number, int dish_id, double new_price) {
-        firebaseReference.child(liveOrders).child(table_number).child(dishes).child(""+dish_id).child(Price).setValue(new_price, completionListener);
+        firebaseReference.child(LIVE_ORDERS).child(table_number).child(DISHES).child(""+dish_id).child(PRICE).setValue(new_price, completionListener);
         return true;
     }//manager
 
@@ -343,13 +339,13 @@ public class Database extends android.app.Application implements ValueEventListe
     }//manger
 
     public static boolean deleteDishFromLiveOrders(int dishPosition, String table_number) {
-        Iterable<DataSnapshot> dish_iter = dataSnapshot.child(liveOrders).child(table_number).child(dishes).getChildren();
+        Iterable<DataSnapshot> dish_iter = dataSnapshot.child(LIVE_ORDERS).child(table_number).child(DISHES).getChildren();
         int counter=0;
         String key;
         for (DataSnapshot dish_snap : dish_iter) {
             if(counter==dishPosition) {
                 key = dish_snap.getKey();
-                dataSnapshot.child(liveOrders).child(table_number).child(dishes).child(key).getRef().removeValue(completionListener);
+                dataSnapshot.child(LIVE_ORDERS).child(table_number).child(DISHES).child(key).getRef().removeValue(completionListener);
                 return true;
             }
             counter++;
@@ -358,7 +354,7 @@ public class Database extends android.app.Application implements ValueEventListe
     }//manger
 
     public static String getMenuImageURL(String menuName){
-        return dataSnapshot.child(mainMenuPictures).child(menuName).getValue(String.class);
+        return dataSnapshot.child(MAIN_MENU_PICTURES).child(menuName).getValue(String.class);
     }
 
     public static void LoadImageFromWeb(final ImageView view, final Activity activity, final String url) {
@@ -367,7 +363,7 @@ public class Database extends android.app.Application implements ValueEventListe
             public void run() {
                 try {
                     InputStream is = (InputStream) new URL(url).getContent();
-                    final Drawable image = Drawable.createFromStream(is, srcName);
+                    final Drawable image = Drawable.createFromStream(is, SRC_NAME);
 
                     activity.runOnUiThread(new Runnable() {
                         @Override
