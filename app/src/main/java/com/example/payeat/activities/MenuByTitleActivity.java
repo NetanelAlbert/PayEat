@@ -180,11 +180,6 @@ public class MenuByTitleActivity extends AppCompatActivity implements View.OnCli
             final String name=getItem(position).getName();
             final String desc=getItem(position).getDescription();
             final double price =getItem(position).getPrice();
-            final boolean in_stock =getItem(position).isIn_stock();
-
-            if (!in_stock) {
-//                return ;
-            }
 
             TextView dishName = convertView.findViewById(R.id.dish_name_text);
             dishName.setText(name);
@@ -206,7 +201,6 @@ public class MenuByTitleActivity extends AppCompatActivity implements View.OnCli
                 bundle.putString("name", name);
                 bundle.putString("desc", desc);
                 bundle.putDouble("price", price);
-                bundle.putBoolean("in_stock", in_stock);
                 bundle.putBoolean("mode_manager", mode_manager);
                 if(mode_manager) {
                     bundle.putInt("tableNum", position);
