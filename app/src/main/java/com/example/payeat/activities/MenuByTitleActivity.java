@@ -24,6 +24,7 @@ package com.example.payeat.activities;
         import com.example.payeat.DataChangeListener;
         import com.example.payeat.Database;
         import com.example.payeat.Dish;
+        import com.example.payeat.fragments.DeleteDishFragment;
         import com.example.payeat.fragments.DishDetailsFragment;
         import com.example.payeat.R;
         import com.example.payeat.fragments.OrderDishFragment;
@@ -33,8 +34,9 @@ package com.example.payeat.activities;
         import java.util.Arrays;
         import java.util.List;
 
-public class MenuByTitleActivity extends AppCompatActivity implements AdapterView.OnItemClickListener ,View.OnClickListener, DataChangeListener {
+public class MenuByTitleActivity extends AppCompatActivity implements View.OnClickListener, DataChangeListener {
     private DishDetailsFragment dishDetailsFragment;
+    private DeleteDishFragment deleteDishFragment;
     private boolean mode_manager;
     private Button goToCart;
     private String String_category;
@@ -42,6 +44,11 @@ public class MenuByTitleActivity extends AppCompatActivity implements AdapterVie
     private int tableNum;
     private DishAdapter adapter;
     ListView DishListView;
+
+    private String name;
+    private String desc;
+    private double price;
+    private boolean in_stock;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +66,7 @@ public class MenuByTitleActivity extends AppCompatActivity implements AdapterVie
         mode_manager = getIntent().getBooleanExtra("mode manager", false);
         goToCart = (Button) findViewById(R.id.go_to_my_cart_button);
         //Setting listeners to button
-        goToCart.setOnClickListener((View.OnClickListener) this);
+        goToCart.setOnClickListener(this);
         if(mode_manager) {
             tableNumTextView.setVisibility(View.GONE);
         }
@@ -97,12 +104,6 @@ public class MenuByTitleActivity extends AppCompatActivity implements AdapterVie
     }
 
     @Override
-    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
-    }
-
-
-    @Override
     public void onClick(View v) {
         if(v.getId()==R.id.go_to_my_cart_button) {
             Toast.makeText(this, "הולך לעגלה!", Toast.LENGTH_SHORT).show();
@@ -127,7 +128,6 @@ public class MenuByTitleActivity extends AppCompatActivity implements AdapterVie
         ArrayList<Dish> dishes = (ArrayList<Dish>) Database.getMenuByCategory(Database.getCategoryNameByNumber(categoryId)).getDishes();
         adapter = new DishAdapter(this, R.layout.activity_menu_by_title_list_item,dishes);
         DishListView.setAdapter(adapter);
-        DishListView.setOnItemClickListener(this);
     }
 
     private class DishAdapter extends ArrayAdapter<Dish>{
@@ -141,10 +141,28 @@ public class MenuByTitleActivity extends AppCompatActivity implements AdapterVie
             if (convertView == null) {
                 convertView = LayoutInflater.from(getContext()).inflate(R.layout.activity_menu_by_title_list_item, parent, false);
             }
-            final String name=getItem(position).getName();
-            final String desc=getItem(position).getDescription();
-            final double price =getItem(position).getPrice();
-            final boolean in_stock =getItem(position).isIn_stock();
+            convertView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    System.out.println("view.getId():-->" + v.getId());
+                    if(mode_manager) {
+                        deleteDishFragment = DeleteDishFragment.newInstance();
+                        Bundle bundle = new Bundle();
+                        bundle.putString("category", String_category);
+                        bundle.putInt("dish_position", position);
+                        bundle.putString("deleteFrom", "menu");
+                        deleteDishFragment.setArguments(bundle);
+                        deleteDishFragment.show(getSupportFragmentManager(), "DeleteDishFragment");
+                    }
+                    return true;
+                }
+            });
+
+            name=getItem(position).getName();
+            desc=getItem(position).getDescription();
+            price =getItem(position).getPrice();
+            in_stock =getItem(position).isIn_stock();
+
             TextView dishName = convertView.findViewById(R.id.dish_name_text);
             dishName.setText(name);
 
@@ -179,6 +197,8 @@ public class MenuByTitleActivity extends AppCompatActivity implements AdapterVie
                 dishDetailsFragment.show(getSupportFragmentManager(), "DishDetailsFragment");
                     }
                 });
+
+
 
             return convertView;
         }

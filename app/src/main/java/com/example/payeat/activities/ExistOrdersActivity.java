@@ -260,7 +260,8 @@ public class ExistOrdersActivity extends AppCompatActivity implements DataChange
                     deleteDishFragment = DeleteDishFragment.newInstance();
                     Bundle bundle = new Bundle();
                     bundle.putString("table_number", table_number);
-                    bundle.putInt("child_position", childPosition);
+                    bundle.putInt("dish_position", childPosition);
+                    bundle.putString("deleteFrom" , "live_orders");
                     costFragment.setArguments(bundle);
                     deleteDishFragment.show(FmBase, "DeleteFragment");
                 }

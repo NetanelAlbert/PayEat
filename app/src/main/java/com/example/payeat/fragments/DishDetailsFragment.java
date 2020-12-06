@@ -115,7 +115,6 @@ public class DishDetailsFragment extends DialogFragment  implements View.OnClick
                     bundle.putString("name", dish_name);
                     bundle.putString("desc", dish_desc);
                     bundle.putDouble("price", dish_price);
-                    bundle.putBoolean("mode_manager", mode_manager);
                     bundle.putString("category", category);
                     bundle.putInt("dish_position", tableNum);
 

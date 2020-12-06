@@ -208,11 +208,6 @@ public class Database extends android.app.Application implements ValueEventListe
         return true;
     }
 
-    public static boolean deleteDishFromOrder(int table_number, int dish_id) { // eden and ido
-        firebaseReference.child("live_orders").child("" + table_number).child("dishes").child("" + dish_id).removeValue();
-        return true;
-    }
-
     public static boolean deleteDishFromOrderInProgress(int order_id, int dish_id) { // eden and ido
         firebaseReference.child("orders_in_progress").child("" + order_id).child("dishes").child("" + dish_id).removeValue();
         return true;
@@ -280,14 +275,25 @@ public class Database extends android.app.Application implements ValueEventListe
         return true;
     } //manager
 
-    public static boolean deleteDishFromMenuByCategory(Dish dish, String category) {
-        Iterable<DataSnapshot> dish_iter = dataSnapshot.child("menu").child(category).getChildren();
-        for (DataSnapshot dish_snap: dish_iter) {
-            String name = dish_snap.child("name").getValue(String.class);
-            if(name.compareTo(dish.getName()) == 0) {
-                dish_snap.getRef().removeValue();
+    /**
+     * this function delete dish from the database
+     * @param deleteFrom where? from menu or from live_orders
+     * @param dishPosition the positon of the dish to delete in the list
+     * @param focalize if delete from menu so focalize is category else if delete from is live_orders focalize is table_number
+     * @return
+     */
+    public static boolean deleteDish(String deleteFrom ,int dishPosition, String focalize) {
+        Iterable<DataSnapshot> dish_iter = dataSnapshot.child(deleteFrom).child(focalize).getChildren();
+        int counter=0;
+        String key;
+        for (DataSnapshot dish_snap : dish_iter) {
+            if(counter==dishPosition) {
+                System.out.println(dish_snap);
+                key = dish_snap.getKey();
+                dataSnapshot.child(deleteFrom).child(focalize).child(key).getRef().removeValue(completionListener);
                 return true;
             }
+            counter++;
         }
         return false;
     }//manger
