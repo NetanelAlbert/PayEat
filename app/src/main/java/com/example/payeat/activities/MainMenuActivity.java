@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -15,14 +16,13 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
-import android.widget.LinearLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.example.payeat.Database;
 import com.example.payeat.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class MainMenuActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, BottomNavigationView.OnNavigationItemSelectedListener {
@@ -35,8 +35,8 @@ public class MainMenuActivity extends AppCompatActivity implements AdapterView.O
         setContentView(R.layout.activity_main_menu);
 
         // Set the list of menus
-        MenusAdapter adapter = new MenusAdapter(this, R.layout.activity_main_menu_gridview,
-                Arrays.asList("ארוחת בוקר","משקאות קלים","קינוחים","אלכוהול"));
+        MenusAdapter adapter = new MenusAdapter(this, this, R.layout.activity_main_menu_gridview,
+                Database.getCategories());
         GridView menusGridView = findViewById(R.id.activity_main_menu_gridview);
         menusGridView.setAdapter(adapter);
         menusGridView.setOnItemClickListener(this);
@@ -64,11 +64,9 @@ public class MainMenuActivity extends AppCompatActivity implements AdapterView.O
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        Toast.makeText(this, "onItemClick - " + adapterView.getItemAtPosition(i), Toast.LENGTH_SHORT).show();
-
         Intent intent = new Intent(this, MenuByTitleActivity.class);
         intent.putExtra("mode manager", mode_manager);
-        intent.putExtra(getResources().getString(R.string.intent_extras_menu_id),i); // TODO change 'i' to the real id according to database.
+        intent.putExtra(getResources().getString(R.string.intent_extras_menu_name),(String) adapterView.getItemAtPosition(i)); // TODO change 'i' to the real id according to database.
         startActivity(intent);
     }
 
@@ -92,8 +90,10 @@ public class MainMenuActivity extends AppCompatActivity implements AdapterView.O
     }
 
     private class MenusAdapter extends ArrayAdapter<String>{
-        public MenusAdapter(@NonNull Context context, int resource, @NonNull List<String> objects) {
+        private Activity activityParent;
+        public MenusAdapter(@NonNull Context context, Activity activity, int resource, @NonNull List<String> objects) {
             super(context, resource, objects);
+            this.activityParent = activity;
         }
 
         @NonNull
@@ -103,7 +103,18 @@ public class MainMenuActivity extends AppCompatActivity implements AdapterView.O
                 convertView = LayoutInflater.from(getContext()).inflate(R.layout.activity_main_menu_gridview, parent, false);
             }
             TextView title = convertView.findViewById(R.id.main_menu_item_textView);
-            title.setText(getItem(position));
+            String menuName = getItem(position);
+            title.setText(menuName);
+
+            ImageView imageView = convertView.findViewById(R.id.main_menu_item_imageView);
+            String menuImageURL = Database.getMenuImageURL(getItem(position));
+            Database.LoadImageFromWeb(imageView, activityParent, menuImageURL);
+//            if(image != null){
+//                imageView.setImageDrawable(image);
+//            } else {
+//                System.out.println("--> error setting image from aws");
+//            }
+
 
             return convertView;
         }
