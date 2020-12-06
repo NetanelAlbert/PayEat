@@ -21,7 +21,7 @@
     //Main menu activity strings
     <string name="activity_main_menu_gridview_imageView_description">Sub menu image</string>
 
-    <string name="intent_extras_menu_id">menu id</string>
+    <string name="intent_extras_menu_name">menu name</string>
     <string name="table_number_request">הכנס מספר שולחן</string>
     <string name="shared_preferences_key">spk</string>
     <string name="ok">אישור</string>

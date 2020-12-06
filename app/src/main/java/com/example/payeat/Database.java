@@ -1,5 +1,9 @@
 package com.example.payeat;
 
+import android.app.Activity;
+import android.content.res.Configuration;
+import android.graphics.drawable.Drawable;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.firebase.client.DataSnapshot;
@@ -9,12 +13,16 @@ import com.firebase.client.ValueEventListener;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 
+import java.io.InputStream;
+import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 public class Database extends android.app.Application implements ValueEventListener {
     private static Firebase firebaseReference;
@@ -273,4 +281,32 @@ public class Database extends android.app.Application implements ValueEventListe
         }
         return true;
     }//manger
+
+    public static String getMenuImageURL(String menuName){
+        return dataSnapshot.child("main_menu_pictures").child(menuName).getValue(String.class);
+    }
+
+    public static void LoadImageFromWeb(final ImageView view, final Activity activity, final String url) {
+        Runnable task = new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    InputStream is = (InputStream) new URL(url).getContent();
+                    final Drawable image = Drawable.createFromStream(is, "src name");
+
+                    activity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            view.setImageDrawable(image);
+                        }
+                    });
+                } catch (Exception e) {
+                    Toast.makeText(activity, "טעינת התמונה נכשלה", Toast.LENGTH_SHORT).show();
+                }
+            }
+        };
+
+        Executor executor = Executors.newSingleThreadExecutor();
+        executor.execute(task);
+    }
 }
