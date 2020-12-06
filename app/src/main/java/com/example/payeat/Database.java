@@ -28,19 +28,19 @@ public class Database extends android.app.Application implements ValueEventListe
     private static Firebase firebaseReference;
     private static DataSnapshot dataSnapshot;
     private static ArrayList<DataChangeListener> listeners;
-    private static final String dishes="dishes";
-    private static final String liveOrders="live_orders";
-    private static final String ordersInProgress="orders_in_progress";
-    private static final String mainMenuPictures="main_menu_pictures";
-    private static final String managerName="manager_name";
-    private static final String restaurantName="restaurant_name";
-    private static final String Password="password";
-    private static final String maxTableNumber="max_table_number";
-    private static final String timeStamp="time-stamp";
-    private static final String Price="price";
-    private static final String Notes="notes";
-    private static final String formatTimeStamp="dd/MM/yyyy - HH:mm:ss";
-    private static final String srcName="src name";
+    public static final String dishes="dishes";
+    public static final String liveOrders="live_orders";
+    public static final String ordersInProgress="orders_in_progress";
+    public static final String mainMenuPictures="main_menu_pictures";
+    public static final String managerName="manager_name";
+    public static final String restaurantName="restaurant_name";
+    public static final String Password="password";
+    public static final String maxTableNumber="max_table_number";
+    public static final String timeStamp="time-stamp";
+    public static final String Price="price";
+    public static final String Notes="notes";
+    public static final String formatTimeStamp="dd/MM/yyyy - HH:mm:ss";
+    public static final String srcName="src name";
 
 
 
