@@ -85,6 +85,10 @@ public class Database extends android.app.Application implements ValueEventListe
     public static int getMaxTableNumber() {
         return dataSnapshot.child("max_table_number").getValue(Integer.class);
     }
+    public static String getPassword() {
+        return dataSnapshot.child("password").getValue(String.class);
+    }
+
 
     public static ArrayList<Order> getOrders() { // ido
         ArrayList<Order> result = new ArrayList<>();
@@ -118,9 +122,11 @@ public class Database extends android.app.Application implements ValueEventListe
 
 
     public static String getCategoryNameByNumber(int id) {
+        System.out.println("id= "+id);
         Iterable<DataSnapshot> categories_iter = dataSnapshot.child("menu").getChildren();
         int i=0;
         for (DataSnapshot category_snap: categories_iter) {
+            System.out.println(i+"    "+category_snap.getKey());
             if(i!=id)
                 i++;
             else
