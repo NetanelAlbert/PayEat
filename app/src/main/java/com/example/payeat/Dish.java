@@ -1,7 +1,5 @@
 package com.example.payeat;
 
-import java.util.Calendar;
-
 public class Dish {
     // For menu
     private String name;

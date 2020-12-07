@@ -212,12 +212,15 @@ public class Database extends android.app.Application implements ValueEventListe
         }
         return -1;
     }
+    private static final String IMAGE_URL = "img_url";
     public static Menu getMenuByCategory(String category) { // edut
         ArrayList<Dish> dishesArray = new ArrayList<>();
         Iterable<DataSnapshot> dish_iter = dataSnapshot.child(MENU).child(category).getChildren();
         for (DataSnapshot dish_snap: dish_iter) {
-            Dish temp_dish = dish_snap.getValue(Dish.class);
-            dishesArray.add(temp_dish);
+            if(dish_snap.getKey() != IMAGE_URL) {
+                Dish temp_dish = dish_snap.getValue(Dish.class);
+                dishesArray.add(temp_dish);
+            }
         }
         return new Menu(category,dishesArray);
     }
@@ -354,7 +357,8 @@ public class Database extends android.app.Application implements ValueEventListe
     }//manger
 
     public static String getMenuImageURL(String menuName){
-        return dataSnapshot.child(MAIN_MENU_PICTURES).child(menuName).getValue(String.class);
+        //return dataSnapshot.child(MAIN_MENU_PICTURES).child(menuName).getValue(String.class);
+        return dataSnapshot.child(MENU).child(menuName).child(IMAGE_URL).getValue(String.class);
     }
 
     public static void LoadImageFromWeb(final ImageView view, final Activity activity, final String url) {
