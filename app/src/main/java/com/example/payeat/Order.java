@@ -20,9 +20,9 @@ public class Order {
         this.timeStamp = timeStamp;
     }
 
-    public Order(Dish[] dishes, int table_number) {
+    public Order(ArrayList<Dish> dishes, int table_number) {
         this.orderInfo = new ArrayList<>();
-        this.orderInfo.addAll(Arrays.asList(dishes));
+        this.orderInfo.addAll(dishes);
         this.table_number = table_number;
         this.timeStamp = null;
     }
