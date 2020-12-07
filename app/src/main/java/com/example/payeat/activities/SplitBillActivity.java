@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import com.example.payeat.Database;
 import com.example.payeat.Dish;
 import com.example.payeat.OnFragmentDismissListener;
 import com.example.payeat.OnToggleClickListener;
@@ -55,11 +56,8 @@ public class SplitBillActivity extends AppCompatActivity implements OnFragmentDi
 
 
         // Set up the list
-        // TODO get the real order (maybe with other dish object to represent the add ones)
-        Dish[] dishes = {new Dish("א. בוקר ישראלית", 90, "בלה בלה בלה"),
-                        new Dish("קפה הפוך", 17, "בלה בלה"),
-                        new Dish("טוסט", 30, "לה לה לה"),
-                        new Dish("סלט חלומי", 29, "לי לי לי")};
+
+        ArrayList<Dish> dishes = Database.getLiveOrder(tableNum);
         order = new Order(dishes, tableNum);
 
         ListView listView = findViewById(R.id.activity_split_bill_listView);
