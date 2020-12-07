@@ -41,12 +41,12 @@ public class MainMenuActivity extends AppCompatActivity implements AdapterView.O
         menusGridView.setAdapter(adapter);
         menusGridView.setOnItemClickListener(this);
 
-        TextView tableNumTextView = findViewById(R.id.activity_main_menu_table_number_textView);
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setSelectedItemId(R.id.menu);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
 
+        TextView tableNumTextView = findViewById(R.id.activity_main_menu_table_number_textView);
         mode_manager = getIntent().getBooleanExtra("mode manager", false);
         if(mode_manager) {
             tableNumTextView.setVisibility(View.GONE);
