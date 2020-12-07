@@ -98,5 +98,11 @@
         </ListView>
     </LinearLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@android:color/black"
+        app:layout_constraintTop_toBottomOf="@+id/fragment_final_bill_list_item_inner_layout" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
