@@ -55,7 +55,7 @@ public class MenuByTitleActivity extends AppCompatActivity implements View.OnCli
         categoryId=getIntent().getIntExtra("menu id", 0);
         setContentView(R.layout.activity_menu_by_title);
         TextView category = findViewById(R.id.category_name_text);
-        String_category=Database.getCategoryNameByNumber(categoryId);
+        String_category = getIntent().getStringExtra(getResources().getString(R.string.intent_extras_menu_name));
         category.setText(String_category);
         TextView tableNumTextView = findViewById(R.id.table_number_in_menu);
         SharedPreferences preferences = getSharedPreferences(getString(R.string.shared_preferences_key), MODE_PRIVATE);
@@ -144,7 +144,7 @@ public class MenuByTitleActivity extends AppCompatActivity implements View.OnCli
 
     @Override
     public void notifyOnChange() {
-        ArrayList<Dish> dishes = (ArrayList<Dish>) Database.getMenuByCategory(Database.getCategoryNameByNumber(categoryId)).getDishes();
+        ArrayList<Dish> dishes = (ArrayList<Dish>) Database.getMenuByCategory(String_category).getDishes();
         adapter = new DishAdapter(this, R.layout.activity_menu_by_title_list_item,dishes);
         DishListView.setAdapter(adapter);
     }
