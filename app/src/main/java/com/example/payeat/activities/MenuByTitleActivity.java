@@ -56,8 +56,6 @@ public class MenuByTitleActivity extends AppCompatActivity implements View.OnCli
         setContentView(R.layout.activity_menu_by_title);
         TextView category = findViewById(R.id.category_name_text);
         String_category = getIntent().getStringExtra(getResources().getString(R.string.intent_extras_menu_name));
-
-       // String_category=Database.getCategoryNameByNumber(categoryId);
         category.setText(String_category);
         TextView tableNumTextView = findViewById(R.id.table_number_in_menu);
         SharedPreferences preferences = getSharedPreferences(getString(R.string.shared_preferences_key), MODE_PRIVATE);

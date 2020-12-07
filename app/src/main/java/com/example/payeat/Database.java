@@ -63,6 +63,16 @@ public class Database extends android.app.Application implements ValueEventListe
         }
     };
 
+    public static ArrayList<Dish> getLiveOrder(int tableNum) {
+        ArrayList<Dish> dishesArray = new ArrayList<>();
+        Iterable<DataSnapshot> dish_iter = dataSnapshot.child(LIVE_ORDERS).child(String.valueOf(tableNum)).child(DISHES).getChildren();
+        for (DataSnapshot dish_snap : dish_iter) {
+            Dish temp_dish = dish_snap.getValue(Dish.class);
+            dishesArray.add(temp_dish);
+        }
+        return dishesArray;
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
