@@ -8,6 +8,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -23,6 +24,7 @@ import com.example.payeat.Database;
 import com.example.payeat.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class MainMenuActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, BottomNavigationView.OnNavigationItemSelectedListener {
@@ -91,9 +93,12 @@ public class MainMenuActivity extends AppCompatActivity implements AdapterView.O
 
     private class MenusAdapter extends ArrayAdapter<String>{
         private Activity activityParent;
+        private HashMap<String, Drawable> images;
+
         public MenusAdapter(@NonNull Context context, Activity activity, int resource, @NonNull List<String> objects) {
             super(context, resource, objects);
             this.activityParent = activity;
+            images = new HashMap<>();
         }
 
         @NonNull
@@ -108,7 +113,12 @@ public class MainMenuActivity extends AppCompatActivity implements AdapterView.O
 
             ImageView imageView = convertView.findViewById(R.id.main_menu_item_imageView);
             String menuImageURL = Database.getMenuImageURL(getItem(position));
-            Database.LoadImageFromWeb(imageView, activityParent, menuImageURL);
+            Drawable image = images.get(menuImageURL);
+            if(image == null){
+                Database.LoadImageFromWeb(imageView, activityParent, images, menuImageURL);
+            } else {
+                imageView.setImageDrawable(image);
+            }
 //            if(image != null){
 //                imageView.setImageDrawable(image);
 //            } else {
@@ -117,6 +127,18 @@ public class MainMenuActivity extends AppCompatActivity implements AdapterView.O
 
 
             return convertView;
+        }
+        @Override
+
+        public int getViewTypeCount() {
+
+            return getCount();
+        }
+
+        @Override
+        public int getItemViewType(int position) {
+
+            return position;
         }
     }
 

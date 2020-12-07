@@ -16,6 +16,8 @@ import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
@@ -353,6 +355,11 @@ public class Database extends android.app.Application implements ValueEventListe
             }
             counter++;
         }
+        ///////////////////
+        Iterator<DataSnapshot> iterator = dish_iter.iterator();
+        for (int i = 0; i < dishPosition; i++, iterator.next());
+        key = iterator.next().getKey();
+        dataSnapshot.child(LIVE_ORDERS).child(table_number).child(DISHES).child(key).getRef().removeValue(completionListener);
         return false;
     }//manger
 
@@ -361,7 +368,7 @@ public class Database extends android.app.Application implements ValueEventListe
         return dataSnapshot.child(MENU).child(menuName).child(IMAGE_URL).getValue(String.class);
     }
 
-    public static void LoadImageFromWeb(final ImageView view, final Activity activity, final String url) {
+    public static void LoadImageFromWeb(final ImageView view, final Activity activity, final HashMap<String, Drawable> imagesCash, final String url) {
         Runnable task = new Runnable() {
             @Override
             public void run() {
@@ -373,6 +380,7 @@ public class Database extends android.app.Application implements ValueEventListe
                         @Override
                         public void run() {
                             view.setImageDrawable(image);
+                            imagesCash.put(url, image);
                         }
                     });
 
