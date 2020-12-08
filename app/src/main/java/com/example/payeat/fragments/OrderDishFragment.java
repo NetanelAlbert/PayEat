@@ -23,7 +23,10 @@ import com.example.payeat.Dish;
 import com.example.payeat.R;
 
 import javax.xml.transform.sax.SAXSource;
-
+/**
+ this fragment opens when viewing a dish in the menu,
+ it allows the inviter to add personal notes for the dish and add it to his order
+ */
 public class OrderDishFragment extends DialogFragment implements View.OnClickListener {
     /**
      * A simple {@link Fragment} subclass.
@@ -32,9 +35,6 @@ public class OrderDishFragment extends DialogFragment implements View.OnClickLis
      */
 
     private Context context;
-//    private TextView name;
-//    private TextView desc;
-//    private TextView price;
     private static Dish dishToOrder;
     private View.OnClickListener dishDetailsFragment;
     private EditText editText;
@@ -72,12 +72,10 @@ public class OrderDishFragment extends DialogFragment implements View.OnClickLis
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         final View convertView = inflater.inflate(R.layout.fragment_order_dish, container, false);
         Button orderButton = convertView.findViewById(R.id.confirm_order_button);
         orderButton.setOnClickListener(this);
         editText = convertView.findViewById(R.id.order_dish_fragment_costumer_request);
-
         return convertView;
 
     }
@@ -85,7 +83,6 @@ public class OrderDishFragment extends DialogFragment implements View.OnClickLis
     public void setDishToOrder(Dish d, int table){
         dishToOrder=d;
         tableNum=table;
-        System.out.println("dish is set"+ d.getName());
 
     }
     public String getNotes() {
@@ -99,8 +96,6 @@ public class OrderDishFragment extends DialogFragment implements View.OnClickLis
             case R.id.confirm_order_button:
                 String notes = getNotes();
                 dishToOrder.setNotes(notes);
-                System.out.println(dishToOrder.getNotes());
-                System.out.println(tableNum);
                 Database.addDishToOrderInProgress(tableNum, dishToOrder);
                 Toast.makeText(getActivity(), "סגור, הזמנתי!", Toast.LENGTH_SHORT ).show();
                 dismiss();

@@ -25,7 +25,9 @@ import com.example.payeat.R;
 import com.example.payeat.activities.MyCartActivity;
 
 import javax.xml.transform.sax.SAXSource;
-
+/**
+this fragment opens after adding a dish to an order if the inviter wants to change the notes inside the cart activity
+ */
 public class ChangeNotesFragment extends DialogFragment implements View.OnClickListener  {
     /**
      * A simple {@link Fragment} subclass.
@@ -65,8 +67,6 @@ public class ChangeNotesFragment extends DialogFragment implements View.OnClickL
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
     }
 
     @Override
@@ -100,9 +100,7 @@ public class ChangeNotesFragment extends DialogFragment implements View.OnClickL
             case R.id.confirm_notes_button:
                 String notes = getNotes();
                 dishToOrder.setNotes(notes);
-                System.out.println("position "+position+" notes= "+notes);
                 ((com.example.payeat.activities.MyCartActivity)getActivity()).setNotes(position, notes);
-                Toast.makeText(getActivity(), "שיניתי מאמי", Toast.LENGTH_SHORT ).show();
                 dismiss();
                 break;
         }

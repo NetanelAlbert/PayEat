@@ -34,7 +34,6 @@ public class ManagerLoginActivity extends AppCompatActivity implements  View.OnC
                 return true;
             }
         });
-        //password.setText("password");
     }
     @Override
     public void onClick(View v) {
