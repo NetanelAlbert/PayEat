@@ -277,8 +277,15 @@ public class Database extends android.app.Application implements ValueEventListe
     public static boolean endOrder(int table_number) { // eden and ido
         ArrayList<Dish> dishesArray =Database.getLiveOrder(table_number);
         deleteLiveOrder(table_number);
+        deleteAskBill(table_number);
+
         addOrderToAskBill(table_number,dishesArray);
         return true;
+    }
+
+    private static void deleteAskBill(int table_number) {
+        firebaseReference.child(AskBill).child("" + table_number).removeValue();
+
     }
 
     public static boolean addOrderToAskBill(int table_number, ArrayList<Dish> dishesArray) { // eden and ido
