@@ -42,6 +42,8 @@ public class Database extends android.app.Application implements ValueEventListe
     public static final String NOTES = "notes";
     public static final String FORMAT_TIME_STAMP = "dd/MM/yyyy - HH:mm:ss";
     public static final String SRC_NAME = "src name";
+    public static final String AskBill = "ask_bill";
+
 
 
 
@@ -207,7 +209,6 @@ public class Database extends android.app.Application implements ValueEventListe
         Calendar calendar = Calendar.getInstance(); // Returns instance with current date and time set
         SimpleDateFormat formatter = new SimpleDateFormat(FORMAT_TIME_STAMP);
         dataSnapshot.child(LIVE_ORDERS).child(table_number + "").child(TIME_STAMP).getRef().setValue(formatter.format(calendar.getTime()));
-
         return true;
     }
 
@@ -271,6 +272,33 @@ public class Database extends android.app.Application implements ValueEventListe
         deleteOrderFromProgress(table_number);
         addOrderToLiveOrders(table_number,dishesArray);
         return true;
+    }
+
+    public static boolean endOrder(int table_number) { // eden and ido
+        ArrayList<Dish> dishesArray =Database.getLiveOrder(table_number);
+        deleteLiveOrder(table_number);
+        addOrderToAskBill(table_number,dishesArray);
+        return true;
+    }
+
+    public static boolean addOrderToAskBill(int table_number, ArrayList<Dish> dishesArray) { // eden and ido
+        int id=0;
+
+        for (Dish dish: dishesArray){
+            addDishToAskBill(table_number, dish, id);
+            id++;
+        }
+               return true;
+    }
+
+    private static void addDishToAskBill(int table_number, Dish dish, int id) {
+        firebaseReference.child(AskBill).child(table_number + "").child(DISHES).child(id+"").setValue(dish);
+
+    }
+
+    private static void deleteLiveOrder(int table_number) {
+        firebaseReference.child(LIVE_ORDERS).child("" + table_number).removeValue();
+
     }
 
     public static boolean deleteDishFromOrderInProgress(int order_id, int dish_id) { // eden and ido

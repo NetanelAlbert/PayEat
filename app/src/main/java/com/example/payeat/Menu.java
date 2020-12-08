@@ -20,7 +20,7 @@ public class Menu {
         this.dishes = dishes;
     }
 
-    public List<Dish> getDishes() {
+    public ArrayList<Dish> getDishes() {
         return dishes;
     }
 }
