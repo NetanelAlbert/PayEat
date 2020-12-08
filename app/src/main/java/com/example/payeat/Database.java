@@ -157,22 +157,11 @@ public class Database extends android.app.Application implements ValueEventListe
         return result;
     }
 
-    public static String getCategoryNameByNumber(int id) {
-        System.out.println("id= "+id);
-        Iterable<DataSnapshot> categories_iter = dataSnapshot.child(MENU).getChildren();
-        int i=0;
-        for (DataSnapshot category_snap: categories_iter) {
-            System.out.println(i+"    "+category_snap.getKey());
-            if(i!=id)
-                i++;
-            else
-                return category_snap.getKey();
-        }
-        return "error";
-    }
+
+
 
     public static Dish getDishFromMenu(String category, int dish_id) { // edut and ido
-        DataSnapshot d= dataSnapshot.child(MENU).child(category).child(dish_id+"");
+        DataSnapshot d= dataSnapshot.child(MENU).child(category).child(DISHES).child(dish_id+"");
         return d.getValue(Dish.class);
     }
 
@@ -229,12 +218,10 @@ public class Database extends android.app.Application implements ValueEventListe
     private static final String IMAGE_URL = "img_url";
     public static Menu getMenuByCategory(String category) { // edut
         ArrayList<Dish> dishesArray = new ArrayList<>();
-        Iterable<DataSnapshot> dish_iter = dataSnapshot.child(MENU).child(category).getChildren();
+        Iterable<DataSnapshot> dish_iter = dataSnapshot.child(MENU).child(category).child(DISHES).getChildren();
         for (DataSnapshot dish_snap: dish_iter) {
-            if(dish_snap.getKey() != IMAGE_URL) {
                 Dish temp_dish = dish_snap.getValue(Dish.class);
                 dishesArray.add(temp_dish);
-            }
         }
         return new Menu(category,dishesArray);
     }
@@ -290,7 +277,6 @@ public class Database extends android.app.Application implements ValueEventListe
 
     public static boolean addOrderToAskBill(int table_number, ArrayList<Dish> dishesArray) { // eden and ido
         int id=0;
-
         for (Dish dish: dishesArray){
             addDishToAskBill(table_number, dish, id);
             id++;
@@ -336,14 +322,14 @@ public class Database extends android.app.Application implements ValueEventListe
     }//manager
 
     public static boolean updateDishDetails(int dishPosition, Dish dish, String category) {
-        Iterable<DataSnapshot> dish_iter = dataSnapshot.child(MENU).child(category).getChildren();
+        Iterable<DataSnapshot> dish_iter = dataSnapshot.child(MENU).child(category).child(DISHES).getChildren();
         int counter=0;
         String key;
         for (DataSnapshot dish_snap : dish_iter) {
             if(counter==dishPosition) {
                 System.out.println(dish_snap);
                 key = dish_snap.getKey();
-                dataSnapshot.child(MENU).child(category).child(key).getRef().setValue(dish, completionListener);
+                dataSnapshot.child(MENU).child(category).child(DISHES).child(key).getRef().setValue(dish, completionListener);
                 return true;
             }
             counter++;
@@ -353,8 +339,8 @@ public class Database extends android.app.Application implements ValueEventListe
 
     public static boolean addDishToMenuByCategory(Dish dish, String category) { // we have here a serious problem
         // everything seeing to be ok and the addition works but when we refresh the menu it throw null pointer exception
-        Iterable<DataSnapshot> dish_iter = dataSnapshot.child(MENU).child(category).getChildren();
-        long number_of_dishes = dataSnapshot.child(MENU).child(category).getChildrenCount();
+        Iterable<DataSnapshot> dish_iter = dataSnapshot.child(MENU).child(category).child(DISHES).getChildren();
+        long number_of_dishes = dataSnapshot.child(MENU).child(category).child(DISHES).getChildrenCount();
         int counter=0;
         String key="";
         for (DataSnapshot dish_snap : dish_iter) {
@@ -364,7 +350,7 @@ public class Database extends android.app.Application implements ValueEventListe
             counter++;
         }
         int newKey=Integer.parseInt(key)+1;
-        firebaseReference.child(MENU).child(category).child(newKey+"").setValue(dish, completionListener);
+        firebaseReference.child(MENU).child(category).child(DISHES).child(newKey+"").setValue(dish, completionListener);
         return true;
     } //manager
 
@@ -375,13 +361,13 @@ public class Database extends android.app.Application implements ValueEventListe
      * @return true if ok
      */
     public static boolean deleteDishFromMenu(int dishPosition, String category) {
-        Iterable<DataSnapshot> dish_iter = dataSnapshot.child(MENU).child(category).getChildren();
+        Iterable<DataSnapshot> dish_iter = dataSnapshot.child(MENU).child(category).child(DISHES).getChildren();
         int counter=0;
         String key;
         for (DataSnapshot dish_snap : dish_iter) {
             if(counter==dishPosition) {
                 key = dish_snap.getKey();
-                dataSnapshot.child(MENU).child(category).child(key).getRef().removeValue(completionListener);
+                dataSnapshot.child(MENU).child(category).child(DISHES).child(key).getRef().removeValue(completionListener);
                 return true;
             }
             counter++;
