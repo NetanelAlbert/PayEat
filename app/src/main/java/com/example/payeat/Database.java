@@ -230,6 +230,10 @@ public class Database extends android.app.Application implements ValueEventListe
     public static boolean addDishToOrderInProgress(int table_number, Dish dish) {
         long numOfDishesInOrder = dataSnapshot.child(ORDERS_IN_PROGRESS).child(String.valueOf(table_number)).child(DISHES).getChildrenCount();
         firebaseReference.child(ORDERS_IN_PROGRESS).child(String.valueOf(table_number)).child(DISHES).child(String.valueOf(numOfDishesInOrder)).setValue(dish);
+        Calendar calendar = Calendar.getInstance(); // Returns instance with current date and time set
+        SimpleDateFormat formatter = new SimpleDateFormat(FORMAT_TIME_STAMP);
+        dataSnapshot.child(ORDERS_IN_PROGRESS).child(table_number + "").child(TIME_STAMP).getRef().setValue(formatter.format(calendar.getTime()));
+
         return false;
     }
 
@@ -281,7 +285,11 @@ public class Database extends android.app.Application implements ValueEventListe
             addDishToAskBill(table_number, dish, id);
             id++;
         }
-               return true;
+        Calendar calendar = Calendar.getInstance(); // Returns instance with current date and time set
+        SimpleDateFormat formatter = new SimpleDateFormat(FORMAT_TIME_STAMP);
+        dataSnapshot.child(AskBill).child(table_number + "").child(TIME_STAMP).getRef().setValue(formatter.format(calendar.getTime()));
+
+        return true;
     }
 
     private static void addDishToAskBill(int table_number, Dish dish, int id) {
