@@ -1,6 +1,8 @@
 package com.example.payeat;
 
-public class Dish {
+import java.io.Serializable;
+
+public class Dish implements Serializable {
     // For menu
     private String name;
     private double price;

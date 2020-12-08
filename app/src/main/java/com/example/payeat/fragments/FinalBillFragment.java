@@ -1,6 +1,7 @@
 package com.example.payeat.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -8,20 +9,22 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
-import android.text.Layout;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.payeat.Database;
 import com.example.payeat.Dish;
 import com.example.payeat.R;
+import com.example.payeat.activities.FinalBillActivity;
 import com.example.payeat.dataObjects.DinningPerson;
 
 import java.text.DecimalFormat;
@@ -33,9 +36,9 @@ import java.util.List;
  * Use the {@link FinalBillFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class FinalBillFragment extends DialogFragment {
+public class FinalBillFragment extends DialogFragment implements View.OnClickListener {
 
-    private ArrayList<DinningPerson> names;
+    private ArrayList<DinningPerson> dinningPeople;
     private int tableNumber;
     private TextView totalSumTextView;
 
@@ -45,7 +48,7 @@ public class FinalBillFragment extends DialogFragment {
 
 
     private void setArguments(ArrayList<DinningPerson> names, int tableNumber){
-        this.names = names;
+        this.dinningPeople = names;
         this.tableNumber = tableNumber;
     }
 
@@ -82,11 +85,13 @@ public class FinalBillFragment extends DialogFragment {
         tableNumTextView.setText(String.format(getString(R.string.table_number_format), tableNumber));
 
         ListView listView = view.findViewById(R.id.fragment_final_bill_listView);
-        FinalBillAdapter adapter = new FinalBillAdapter(getContext(), R.layout.fragment_final_bill_list_item, names);
+        FinalBillAdapter adapter = new FinalBillAdapter(getContext(), R.layout.fragment_final_bill_list_item, dinningPeople);
         listView.setAdapter(adapter);
 
         totalSumTextView = view.findViewById(R.id.fragment_final_bill_total_sum_textView);
 
+        Button callWaiter = view.findViewById(R.id.fragment_final_bill_call_waiter_button);
+        callWaiter.setOnClickListener(this);
     }
 
     private void updateTip(TextView sum, EditText tip, DinningPerson person, int addToTip, Context context){
@@ -113,11 +118,24 @@ public class FinalBillFragment extends DialogFragment {
 
     private double getTotalSum(){
         double ans = 0;
-        for(DinningPerson p : names){
+        for(DinningPerson p : dinningPeople){
             ans += p.howMuchToPay()*(p.getTipPercent()+100)/100;
         }
 
         return ans;
+    }
+
+    @Override
+    public void onClick(View v) {
+        if(v.getId() == R.id.fragment_final_bill_call_waiter_button){
+            // todo notify user that change cannot cannot be done after this
+            // todo add in manager capacity - show what table asked for bill
+            Database.endOrder(tableNumber);
+
+            Intent intent = new Intent(getActivity(),  FinalBillActivity.class);
+            intent.putExtra("names", dinningPeople);
+            startActivity(intent);
+        }
     }
 
     private class FinalBillAdapter extends ArrayAdapter<DinningPerson> {
@@ -199,7 +217,7 @@ public class FinalBillFragment extends DialogFragment {
 
             final View innerLayout = convertView.findViewById(R.id.fragment_final_bill_list_item_inner_layout);
             ViewGroup.LayoutParams layoutParams = innerLayout.getLayoutParams();
-            layoutParams.height = (int) 100 * innerListView.getCount();
+            layoutParams.height = 100 * innerListView.getCount();
             innerLayout.setLayoutParams(layoutParams);
 
             nameTextView.setOnClickListener(new View.OnClickListener() {

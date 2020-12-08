@@ -2,10 +2,11 @@ package com.example.payeat.dataObjects;
 
 import com.example.payeat.Dish;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 
-public class DinningPerson {
+public class DinningPerson implements Serializable {
 
     private String name;
     private ArrayList<Dish> sharingDishes;
