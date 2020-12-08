@@ -151,10 +151,10 @@ public class RestaurantOccupancyActivity extends AppCompatActivity implements Da
             TextView is_occupied = row.findViewById(R.id.textView_occupied);
             is_occupied.setText(ris_occupied_list.get(position));
             if(ris_occupied_list.get(position).compareTo("תפוס") == 0) {
-                is_occupied.setTextColor(Color.parseColor("red"));
+                is_occupied.setTextColor(Color.RED);
             }
             else if(ris_occupied_list.get(position).compareTo("הזמינו חשבון") == 0) {
-                is_occupied.setTextColor(Color.parseColor("blue"));
+                is_occupied.setTextColor(Color.rgb(33, 150, 243));
             }
 
             return row;
