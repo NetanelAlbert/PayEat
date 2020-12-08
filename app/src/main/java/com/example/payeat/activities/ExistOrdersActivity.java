@@ -36,6 +36,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
@@ -211,7 +212,11 @@ public class ExistOrdersActivity extends AppCompatActivity implements DataChange
             orderInfo.setText(chapterTitle);
 
             TextView timeStamp = convertView.findViewById(R.id.textView_timeStamp);
-            timeStamp.setText(_listChildData.get(chapterTitle).getTimeStamp().getTime() + "");
+            Calendar timestamp = _listChildData.get(chapterTitle).getTimeStamp();
+            SimpleDateFormat formatter = new SimpleDateFormat(Database.FORMAT_TIME_STAMP);
+            timeStamp.setText(formatter.format(timestamp.getTime()));
+
+
 
             return convertView;
         }
