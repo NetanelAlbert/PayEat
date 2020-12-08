@@ -47,7 +47,7 @@ public class Database extends android.app.Application implements ValueEventListe
 
 
     // private constants
-    private static final String MENU="menu";
+    private static final String MENU = "menu";
 
 
     private static final Firebase.CompletionListener completionListener = new Firebase.CompletionListener() {
@@ -78,13 +78,12 @@ public class Database extends android.app.Application implements ValueEventListe
 
     @Override
     public void onCreate() {
-        super.onCreate();
         Firebase.setAndroidContext(this);
         firebaseReference = new Firebase("https://payeat-4a103.firebaseio.com/");
         firebaseReference.addValueEventListener(this);
         listeners = new ArrayList<>();
 
-
+        super.onCreate();
     }
 
     @Override

@@ -19,9 +19,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
-        android:layout_marginTop="2dp"
+        android:layout_marginTop="6dp"
         android:background="@color/colorToggleTrue"
-        android:padding="3dp"
         app:layout_constraintStart_toEndOf="@+id/textView8"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/icon_plus" />
@@ -40,14 +39,13 @@
         android:id="@+id/fragment_final_bill_list_item_tip_editText"
         android:layout_width="50dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
         android:background="@android:color/transparent"
         android:digits="0123456789"
         android:gravity="right"
         android:inputType="number"
         android:selectAllOnFocus="true"
         android:textSize="26sp"
-        app:layout_constraintEnd_toStartOf="@+id/fragment_final_bill_list_item_name_textView"
-        app:layout_constraintHorizontal_bias="0.39"
         app:layout_constraintStart_toEndOf="@+id/fragment_final_bill_list_item__NIS_textView"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -55,10 +53,9 @@
         android:id="@+id/fragment_final_bill_list_item_minus_imageButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
+        android:layout_marginTop="6dp"
         android:layout_marginEnd="5dp"
         android:background="@color/colorToggleFalse"
-        android:padding="3dp"
         app:layout_constraintEnd_toStartOf="@+id/fragment_final_bill_list_item_tip_editText"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/icon_minus" />
@@ -74,7 +71,7 @@
 
     <TextView
         android:id="@+id/fragment_final_bill_list_item_sum_textView"
-        android:layout_width="70dp"
+        android:layout_width="80dp"
         android:layout_height="wrap_content"
         android:text="9999"
         android:textColor="@android:color/black"
@@ -100,7 +97,7 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="2dp"
+        android:layout_height="1dp"
         android:background="@android:color/black"
         app:layout_constraintTop_toBottomOf="@+id/fragment_final_bill_list_item_inner_layout" />
 
