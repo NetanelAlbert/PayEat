@@ -84,7 +84,7 @@ public class UpdateCostFragment extends DialogFragment implements View.OnClickLi
                 String new_costS = getCost();
                 if(new_costS == null || new_costS.length() == 0)
                     return;
-                double new_cost = Double.valueOf(new_costS);
+                int new_cost = Integer.parseInt(new_costS);
                 if(Database.setPrice(table_number, dish_number , new_cost)) {
                     editTextNumber_old_cost.setText(""+new_cost);
                 }

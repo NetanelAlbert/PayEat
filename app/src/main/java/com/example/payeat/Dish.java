@@ -5,7 +5,7 @@ import java.io.Serializable;
 public class Dish implements Serializable {
     // For menu
     private String name;
-    private double price;
+    private int price;
     private String description;
 
     // For orders
@@ -16,7 +16,7 @@ public class Dish implements Serializable {
 
     }
 
-    public Dish(String name, double price, String description) {
+    public Dish(String name, int price, String description) {
         this.name = name;
         this.price = price;
         this.description = description;
@@ -24,7 +24,7 @@ public class Dish implements Serializable {
         this.notes = "";
     }
 
-    public Dish(String name, double price, String description, boolean in_stock) {
+    public Dish(String name, int price, String description, boolean in_stock) {
         this.name = name;
         this.price = price;
         this.description = description;
@@ -32,7 +32,7 @@ public class Dish implements Serializable {
         this.notes = "";
     }
 
-    public Dish(String name, double price, String description, boolean in_stock, int shares) {
+    public Dish(String name, int price, String description, boolean in_stock, int shares) {
         this.name = name;
         this.price = price;
         this.description = description;
@@ -40,7 +40,7 @@ public class Dish implements Serializable {
         this.notes = "";
     }
 
-    public Dish(String name, double price, String description, boolean in_stock, int shares, String notes) {
+    public Dish(String name, int price, String description, boolean in_stock, int shares, String notes) {
         this.name = name;
         this.price = price;
         this.description = description;
@@ -56,11 +56,11 @@ public class Dish implements Serializable {
         this.name = name;
     }
 
-    public double getPrice() {
+    public int getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(int price) {
         this.price = price;
     }
 

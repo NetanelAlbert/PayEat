@@ -82,8 +82,6 @@ public class NamesFragment extends DialogFragment implements View.OnClickListene
         Button buttonOk = view.findViewById(R.id.fragment_names_ok_button);
         buttonOk.setOnClickListener(this);
 
-        Button buttonSkip = view.findViewById(R.id.fragment_names_skip_button);
-        buttonSkip.setOnClickListener(this);
 
         ListView listView = view.findViewById(R.id.fragment_names_listView);
         namesAdapter = new NamesAdapter(getContext(), R.layout.simple_text_view, names);
@@ -114,10 +112,6 @@ public class NamesFragment extends DialogFragment implements View.OnClickListene
             editText.setText("");
         } else if (view.getId() == R.id.fragment_names_ok_button){
             dismiss();
-        } else if (view.getId() == R.id.fragment_names_skip_button){
-            namesAdapter.clear();
-            //names.add(getString(R.string.single_share_text)); // TODO maybe need in the SplitBillActivity
-            // TODO sent straight to bil summery
         }
     }
 

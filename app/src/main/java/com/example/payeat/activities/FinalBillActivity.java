@@ -28,6 +28,7 @@ import com.example.payeat.R;
 import com.example.payeat.dataObjects.DinningPerson;
 import com.example.payeat.fragments.FinalBillFragment;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -61,7 +62,8 @@ public class FinalBillActivity extends AppCompatActivity implements View.OnClick
             sum += p.howMuchToPay()*(p.getTipPercent()+100)/100;
         }
         TextView sumTV = findViewById(R.id.activity_final_bill_total_sum_textView);
-        sumTV.setText(String.valueOf(sum));
+        DecimalFormat format = new DecimalFormat("##.#");
+        sumTV.setText(format.format(sum));
 
         Button goBackToMain = findViewById(R.id.back_to_main_button);
         goBackToMain.setOnClickListener(this);
@@ -119,12 +121,12 @@ public class FinalBillActivity extends AppCompatActivity implements View.OnClick
             nameTextView.setText(getItem(position).getName());
 
             double sum = getItem(position).howMuchToPay()*(getItem(position).getTipPercent()+100)/100;
+
             TextView sumTextView = convertView.findViewById(R.id.sum_textView);
-            sumTextView.setText(String.valueOf(sum));
+            DecimalFormat format = new DecimalFormat("##.#");
+            sumTextView.setText(format.format(sum));
 
             ListView innerListView = convertView.findViewById(R.id.inner_list);
-
-
             FinalBillAdapter.DishesAdapter adapter = new FinalBillAdapter.DishesAdapter(getContext(), R.layout.fragment_final_bill_sublist_item, getItem(position).getSharingDishes());
             innerListView.setAdapter(adapter);
 
@@ -133,6 +135,9 @@ public class FinalBillActivity extends AppCompatActivity implements View.OnClick
             layoutParams.height = 100 * innerListView.getCount();
             innerLayout.setLayoutParams(layoutParams);
 
+            if(getCount() == 1){
+                innerLayout.setVisibility(View.VISIBLE);
+            }
             nameTextView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -142,8 +147,6 @@ public class FinalBillActivity extends AppCompatActivity implements View.OnClick
                         innerLayout.setVisibility(View.GONE);
                 }
             });
-
-
 
             return convertView;
         }

@@ -47,29 +47,14 @@
         android:layout_width="match_parent"
         android:layout_height="300dp" />
 
-    <LinearLayout
+    <Button
+        android:id="@+id/fragment_names_ok_button"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/fragment_names_ok_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="1dp"
-            android:layout_weight="1"
-            android:background="@color/colorButton"
-            android:textColor="@color/colorTextOnButton"
-            android:text="אישור" />
-
-        <Button
-            android:id="@+id/fragment_names_skip_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="1dp"
-            android:layout_weight="1"
-            android:text="דלג" />
-    </LinearLayout>
-
+        android:layout_height="0dp"
+        android:textSize="20sp"
+        android:layout_weight="1"
+        android:background="@color/colorButton"
+        android:textColor="@color/colorTextOnButton"
+        android:text="אישור" />
 
 </LinearLayout>

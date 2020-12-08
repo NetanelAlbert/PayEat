@@ -316,7 +316,7 @@ public class Database extends android.app.Application implements ValueEventListe
         return true;
     }
 
-    public static boolean setPrice(String table_number, int dish_id, double new_price) {
+    public static boolean setPrice(String table_number, int dish_id, int new_price) {
         firebaseReference.child(LIVE_ORDERS).child(table_number).child(DISHES).child(""+dish_id).child(PRICE).setValue(new_price, completionListener);
         return true;
     }//manager

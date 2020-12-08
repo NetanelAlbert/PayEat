@@ -42,6 +42,9 @@ public class FinalBillFragment extends DialogFragment implements View.OnClickLis
     private int tableNumber;
     private TextView totalSumTextView;
 
+    private static final String PARAM_DINNING_PEOPLE = "dinningPeople";
+    private static final String PARAM_TABLE_NUMBER = "tableNumber";
+
     public FinalBillFragment() {
         // Required empty public constructor
     }
@@ -61,13 +64,22 @@ public class FinalBillFragment extends DialogFragment implements View.OnClickLis
      * @return A new instance of fragment FinalBillFragment.
      */
     public static FinalBillFragment newInstance(ArrayList<DinningPerson> names, int tableNumber) {
+        Bundle arguments = new Bundle();
+        arguments.putSerializable(PARAM_DINNING_PEOPLE, names);
+        arguments.putInt(PARAM_TABLE_NUMBER, tableNumber);
+
         FinalBillFragment fragment = new FinalBillFragment();
-        fragment.setArguments(names, tableNumber);
+        //fragment.setArguments(names, tableNumber);
+        fragment.setArguments(arguments);
         return fragment;
     }
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            this.dinningPeople = (ArrayList<DinningPerson>) getArguments().getSerializable(PARAM_DINNING_PEOPLE);
+            this.tableNumber = getArguments().getInt(PARAM_TABLE_NUMBER);
+        }
     }
 
     @Override
@@ -220,6 +232,9 @@ public class FinalBillFragment extends DialogFragment implements View.OnClickLis
             layoutParams.height = 100 * innerListView.getCount();
             innerLayout.setLayoutParams(layoutParams);
 
+            if(getCount() == 1){
+                innerLayout.setVisibility(View.VISIBLE);
+            }
             nameTextView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
