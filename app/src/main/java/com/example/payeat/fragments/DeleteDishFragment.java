@@ -76,7 +76,7 @@ public class DeleteDishFragment extends DialogFragment implements View.OnClickLi
                 if(deleteFrom.compareTo("menu") == 0) {
                     Database.deleteDishFromMenu(position, category);
                 }
-                else if(deleteFrom.compareTo("live_orders") == 0) { //this case is not working TODO
+                else if(deleteFrom.compareTo("live_orders") == 0) {
                     Database.deleteDishFromLiveOrders(position, table_number);
                 }
 
