@@ -109,6 +109,13 @@ public class RestaurantOccupancyActivity extends AppCompatActivity implements Da
             int table_number = order.getTable_number();
             is_occupied_list.set(table_number -1 , "תפוס");
         }
+
+        ArrayList<Order> orders_in_askBill =Database.getOrders("ask_bill");
+        for (Order order: orders_in_askBill) {
+            int table_number = order.getTable_number();
+            is_occupied_list.set(table_number -1 , "הזמינו חשבון");
+        }
+
         CapacityListAdapter capacityListAdapter = new CapacityListAdapter(this, table_number_list, is_occupied_list);
         listView_capacity.setAdapter(capacityListAdapter);
         listView_capacity.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -144,7 +151,10 @@ public class RestaurantOccupancyActivity extends AppCompatActivity implements Da
             TextView is_occupied = row.findViewById(R.id.textView_occupied);
             is_occupied.setText(ris_occupied_list.get(position));
             if(ris_occupied_list.get(position).compareTo("תפוס") == 0) {
-                is_occupied.setTextColor(Color.parseColor("red"));
+                is_occupied.setTextColor(Color.RED);
+            }
+            else if(ris_occupied_list.get(position).compareTo("הזמינו חשבון") == 0) {
+                is_occupied.setTextColor(Color.rgb(33, 150, 243));
             }
 
             return row;
