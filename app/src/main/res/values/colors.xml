@@ -6,7 +6,7 @@
     <color name="colorButton">#0B5862</color>
     <color name="colorTextOnButton">#FFFFFF</color>
 
-    <color name="colorToggleTrue">#8618E620</color>
-    <color name="colorToggleFalse">#7ADC1D1D</color>
+    <color name="colorToggleTrue">#6518E620</color>
+    <color name="colorToggleFalse">#52DC1D1D</color>
 
 </resources>

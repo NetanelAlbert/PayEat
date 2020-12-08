@@ -6,6 +6,8 @@ import android.os.Looper;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
+
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
@@ -16,6 +18,8 @@ import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
@@ -29,7 +33,6 @@ public class Database extends android.app.Application implements ValueEventListe
     public static final String DISHES = "dishes";
     public static final String LIVE_ORDERS = "live_orders";
     public static final String ORDERS_IN_PROGRESS = "orders_in_progress";
-    public static final String MAIN_MENU_PICTURES = "main_menu_pictures";
     public static final String MANAGER_NAME = "manager_name";
     public static final String RESTAURANT_NAME = "restaurant_name";
     public static final String PASSWORD = "password";
@@ -44,7 +47,7 @@ public class Database extends android.app.Application implements ValueEventListe
 
 
     // private constants
-    private static final String MENU="menu";
+    private static final String MENU = "menu";
 
 
     private static final Firebase.CompletionListener completionListener = new Firebase.CompletionListener() {
@@ -75,12 +78,12 @@ public class Database extends android.app.Application implements ValueEventListe
 
     @Override
     public void onCreate() {
-        super.onCreate();
         Firebase.setAndroidContext(this);
         firebaseReference = new Firebase("https://payeat-4a103.firebaseio.com/");
         firebaseReference.addValueEventListener(this);
         listeners = new ArrayList<>();
 
+        super.onCreate();
     }
 
     @Override
@@ -371,7 +374,7 @@ public class Database extends android.app.Application implements ValueEventListe
         return dataSnapshot.child(MENU).child(menuName).child(IMAGE_URL).getValue(String.class);
     }
 
-    public static void LoadImageFromWeb(final ImageView view, final Activity activity, final String url) {
+    public static void LoadImageFromWeb(final ImageView view, final Activity activity, @Nullable final HashMap<String, Drawable> imagesCash, final String url) {
         Runnable task = new Runnable() {
             @Override
             public void run() {
@@ -383,6 +386,8 @@ public class Database extends android.app.Application implements ValueEventListe
                         @Override
                         public void run() {
                             view.setImageDrawable(image);
+                            if(imagesCash != null)
+                                imagesCash.put(url, image);
                         }
                     });
 
