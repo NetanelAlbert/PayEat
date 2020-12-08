@@ -3,6 +3,7 @@ package com.example.payeat.activities;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -15,7 +16,6 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.ToggleButton;
 
 import com.example.payeat.Database;
 import com.example.payeat.Dish;
@@ -54,9 +54,7 @@ public class SplitBillActivity extends AppCompatActivity implements OnFragmentDi
         TextView tableNumTextView = findViewById(R.id.activity_split_bill_table_number_textView);
         tableNumTextView.setText(String.format(getString(R.string.table_number_format), tableNum));
 
-
         // Set up the list
-
         ArrayList<Dish> dishes = Database.getLiveOrder(tableNum);
         order = new Order(dishes, tableNum);
 
@@ -64,6 +62,7 @@ public class SplitBillActivity extends AppCompatActivity implements OnFragmentDi
         billAdapter = new BillAdapter(this,R.layout.activity_split_bill_list_item,order.getOrderInfo(),this);
         listView.setAdapter(billAdapter);
 
+        // rest of the views
         nameTextView = findViewById(R.id.activity_split_bill_name_textView);
         nameTextView.setOnClickListener(this);
 
@@ -80,11 +79,16 @@ public class SplitBillActivity extends AppCompatActivity implements OnFragmentDi
 
     @Override
     public void notifyDismiss() {
+        namesIndex = 0;
         if(names.isEmpty()){
             nameTextView.setText("לחץ כדי להוסיף שמות");
             billAdapter.notifyDataSetChanged(null);
         } else {
-            namesIndex = 0;
+            if(names.size() == 1){ // single customer - no sharing is need
+                for(int i = 0; i < order.getOrderInfo().size(); i++){
+                    onToggleClick(i, true);
+                }
+            }
             nameTextView.setText(names.get(namesIndex).getName());
             billAdapter.notifyDataSetChanged(names.get(namesIndex));
         }
@@ -135,8 +139,14 @@ public class SplitBillActivity extends AppCompatActivity implements OnFragmentDi
             Toast.makeText(this,"אנא הכנס שמות על מנת לחלק את החשבון", Toast.LENGTH_LONG).show();
             return false;
         }
+
         Dish dish = order.get(index);
         DinningPerson person = names.get(namesIndex);
+
+        if(person.isShare(dish) == isOn){
+            return false;
+        }
+
         if(isOn){
             dish.increaseShares();
             person.addDish(dish);
@@ -151,28 +161,17 @@ public class SplitBillActivity extends AppCompatActivity implements OnFragmentDi
 
     private class BillAdapter extends ArrayAdapter<Dish> {
 
-        final OnToggleClickListener toggleListener;
+        final OnToggleClickListener switchListener;
         private DinningPerson person;
 
         public BillAdapter(@NonNull Context context, int resource, @NonNull List<Dish> objects, OnToggleClickListener toggleListener) {
             super(context, resource, objects);
-            this.toggleListener = toggleListener;
+            this.switchListener = toggleListener;
         }
 
         public void notifyDataSetChanged(DinningPerson person){
             this.person = person;
             notifyDataSetChanged();
-        }
-
-        @Override
-        public void notifyDataSetChanged() {
-            super.notifyDataSetChanged();
-            if(getCount() == 1){ // single customer - no sharing is need
-                for(int i = 0; i < getCount(); i++){
-                    onToggleClick(i, true);
-                }
-                super.notifyDataSetChanged();
-            }
         }
 
         @NonNull
@@ -181,25 +180,27 @@ public class SplitBillActivity extends AppCompatActivity implements OnFragmentDi
             if (convertView == null) {
                 convertView = LayoutInflater.from(getContext()).inflate(R.layout.activity_split_bill_list_item, parent, false);
             }
-            TextView dishName = convertView.findViewById(R.id.fragment_final_bill_sublist_item_dish_name_textView);
+            TextView dishName = convertView.findViewById(R.id.activity_split_bill_sublist_item_dish_name_textView);
             dishName.setText(getItem(position).getName());
-            dishName.setText(String.format(getString(R.string.split_bill_dish_name_and_shares_number), getItem(position).getName(), getItem(position).getShares()));
 
-            TextView description = convertView.findViewById(R.id.fragment_final_bill_sublist_item_dish_adds_textView);
+            TextView shares = convertView.findViewById(R.id.activity_split_bill_sublist_item_dish_shares_textView);
+            shares.setText(String.valueOf(getItem(position).getShares()));
+
+            TextView description = convertView.findViewById(R.id.activity_split_bill_sublist_item_dish_notes_textView);
             //TODO chang to information about this specific order dish (i.e. the chosen topics on a pizza)
             description.setText(getItem(position).getDescription());
 
-            TextView price = convertView.findViewById(R.id.fragment_final_bill_sublist_item_dish_price_textView);
+            TextView price = convertView.findViewById(R.id.activity_split_bill_sublist_item_dish_price_textView);
             price.setText(String.valueOf(getItem(position).getPrice()));
 
-            final ToggleButton onOff = convertView.findViewById(R.id.split_bill_list_item_toggle);
+            final SwitchCompat onOff = convertView.findViewById(R.id.split_bill_list_item_switch);
 
             final ArrayAdapter<Dish> adapter = this;
             onOff.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ToggleButton buttonView = (ToggleButton) v;
-                    boolean hasPerson = toggleListener.onToggleClick(position, buttonView.isChecked());
+                    SwitchCompat buttonView = (SwitchCompat) v;
+                    boolean hasPerson = switchListener.onToggleClick(position, buttonView.isChecked());
                     if (!hasPerson) {
                         buttonView.setChecked(false);
                     } else {
@@ -211,6 +212,7 @@ public class SplitBillActivity extends AppCompatActivity implements OnFragmentDi
             // Set up toggle state
             boolean isShare = (person != null && person.isShare(getItem(position)));
             onOff.setChecked(isShare);
+
 
             return convertView;
         }

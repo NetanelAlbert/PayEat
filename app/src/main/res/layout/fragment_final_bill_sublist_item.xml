@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/fragment_final_bill_sublist_item_dish_name_textView"
+        android:id="@+id/activity_split_bill_sublist_item_dish_name_textView"
         android:layout_width="145dp"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -16,7 +16,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/fragment_final_bill_sublist_item_dish_price_textView"
+        android:id="@+id/activity_split_bill_sublist_item_dish_price_textView"
         android:layout_width="88dp"
         android:layout_height="40dp"
         android:gravity="center"
@@ -26,14 +26,14 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/fragment_final_bill_sublist_item_dish_adds_textView"
+        android:id="@+id/activity_split_bill_sublist_item_dish_notes_textView"
         android:layout_width="170dp"
         android:layout_height="40dp"
         android:text="תוספות וכו'"
         android:textSize="15sp"
         android:textAlignment="center"
-        app:layout_constraintEnd_toStartOf="@+id/fragment_final_bill_sublist_item_dish_name_textView"
-        app:layout_constraintStart_toEndOf="@+id/fragment_final_bill_sublist_item_dish_price_textView"
-        app:layout_constraintTop_toBottomOf="@+id/split_bill_list_item_toggle" />
+        app:layout_constraintEnd_toStartOf="@+id/activity_split_bill_sublist_item_dish_name_textView"
+        app:layout_constraintStart_toEndOf="@+id/activity_split_bill_sublist_item_dish_price_textView"
+        app:layout_constraintTop_toBottomOf="@+id/split_bill_list_item_switch" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

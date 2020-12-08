@@ -77,6 +77,7 @@ public class ChangeNotesFragment extends DialogFragment implements View.OnClickL
         changeButton.setOnClickListener(this);
         editText = convertView.findViewById(R.id.change_notes_fragment_editText);
         editText.setText(originNotes);
+        editText.requestFocus();
         return convertView;
 
     }

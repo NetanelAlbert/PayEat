@@ -76,6 +76,7 @@ public class OrderDishFragment extends DialogFragment implements View.OnClickLis
         Button orderButton = convertView.findViewById(R.id.confirm_order_button);
         orderButton.setOnClickListener(this);
         editText = convertView.findViewById(R.id.order_dish_fragment_costumer_request);
+        editText.requestFocus();
         return convertView;
 
     }
