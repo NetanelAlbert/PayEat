@@ -261,15 +261,15 @@ public class FinalBillFragment extends DialogFragment implements View.OnClickLis
                     convertView = LayoutInflater.from(getContext()).inflate(R.layout.fragment_final_bill_sublist_item, parent, false);
                 }
 
-                TextView dishName = convertView.findViewById(R.id.fragment_final_bill_sublist_item_dish_name_textView);
+                TextView dishName = convertView.findViewById(R.id.activity_split_bill_sublist_item_dish_name_textView);
                 dishName.setText(getItem(position).getName());
                 dishName.setText(String.format(getString(R.string.split_bill_dish_name_and_shares_number), getItem(position).getName(), getItem(position).getShares()));
 
-                TextView description = convertView.findViewById(R.id.fragment_final_bill_sublist_item_dish_adds_textView);
+                TextView description = convertView.findViewById(R.id.activity_split_bill_sublist_item_dish_notes_textView);
                 //TODO chang to information about this specific order dish (i.e. the chosen topics on a pizza)
                 description.setText(getItem(position).getDescription());
 
-                TextView price = convertView.findViewById(R.id.fragment_final_bill_sublist_item_dish_price_textView);
+                TextView price = convertView.findViewById(R.id.activity_split_bill_sublist_item_dish_price_textView);
                 price.setText(String.valueOf(getItem(position).getPrice()));
 
 

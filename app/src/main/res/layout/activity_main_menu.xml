@@ -47,10 +47,24 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:numColumns="2"
+            android:layout_marginBottom="5dp"
             android:layoutDirection="rtl"/>
 
 
     </LinearLayout>
+
+    <Button
+        android:id="@+id/activity_main_menu_table_number_textView_go_to_my_cart_button"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:gravity="center"
+        android:layout_gravity="center_vertical|center_horizontal"
+        android:background="@drawable/round_button_background"
+        android:text="  צפה בהזמנה שלי  "
+        android:textSize="25sp"
+        android:textColor="@color/colorTextOnButton"
+        android:layout_weight="1"
+        android:layout_marginBottom="5dp"/>
 
     <LinearLayout
         android:id="@+id/main_menu_navigation_layout"

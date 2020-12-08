@@ -4,7 +4,9 @@
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorButton</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorBackground</item>
+        <item name="colorAccent">@android:color/holo_blue_dark</item>
+
+
     </style>
 
 </resources>

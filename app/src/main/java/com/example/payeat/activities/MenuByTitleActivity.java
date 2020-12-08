@@ -112,7 +112,7 @@ public class MenuByTitleActivity extends AppCompatActivity implements View.OnCli
     @Override
     public void onClick(View v) {
         if(v.getId()==R.id.go_to_my_cart_button) {
-            Intent intent = new Intent(this, MyCartActivity.class);
+            Intent intent = new Intent(getBaseContext(), MyCartActivity.class);
             startActivity(intent);
         }
     }

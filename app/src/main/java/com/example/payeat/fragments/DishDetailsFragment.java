@@ -121,7 +121,7 @@ public class DishDetailsFragment extends DialogFragment  implements View.OnClick
                             , "EditDishFromManagerFragment");
                 }
                 else {
-                    orderFragment = OrderDishFragment.newInstance((View.OnClickListener) this);
+                    orderFragment = OrderDishFragment.newInstance(this);
                     Dish d= new Dish(dish_name,  dish_price,  dish_desc,  in_stock, 0, "");
                     orderFragment.setDishToOrder(d, tableNum);
                     FragmentManager fm = getFragmentManager();

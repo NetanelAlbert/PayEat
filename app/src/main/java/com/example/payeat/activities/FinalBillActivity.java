@@ -6,27 +6,22 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.payeat.Dish;
 import com.example.payeat.R;
 import com.example.payeat.dataObjects.DinningPerson;
-import com.example.payeat.fragments.FinalBillFragment;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -165,15 +160,18 @@ public class FinalBillActivity extends AppCompatActivity implements View.OnClick
                     convertView = LayoutInflater.from(getContext()).inflate(R.layout.fragment_final_bill_sublist_item, parent, false);
                 }
 
-                TextView dishName = convertView.findViewById(R.id.fragment_final_bill_sublist_item_dish_name_textView);
-                dishName.setText(getItem(position).getName());
-                dishName.setText(String.format(getString(R.string.split_bill_dish_name_and_shares_number), getItem(position).getName(), getItem(position).getShares()));
+                TextView dishNameTextView = convertView.findViewById(R.id.activity_split_bill_sublist_item_dish_name_textView);
+                dishNameTextView.setText(getItem(position).getName());
+                dishNameTextView.setText(String.format(getString(R.string.split_bill_dish_name_and_shares_number), getItem(position).getName(), getItem(position).getShares()));
 
-                TextView description = convertView.findViewById(R.id.fragment_final_bill_sublist_item_dish_adds_textView);
-                //TODO chang to information about this specific order dish (i.e. the chosen topics on a pizza)
-                description.setText(getItem(position).getDescription());
+                String notes = getItem(position).getNotes();
+                if(notes == null || notes.length() == 0){
+                    notes = "אין הערות";
+                }
+                TextView notesTextView = convertView.findViewById(R.id.activity_split_bill_sublist_item_dish_notes_textView);
+                notesTextView.setText(notes);
 
-                TextView price = convertView.findViewById(R.id.fragment_final_bill_sublist_item_dish_price_textView);
+                TextView price = convertView.findViewById(R.id.activity_split_bill_sublist_item_dish_price_textView);
                 price.setText(String.valueOf(getItem(position).getPrice()));
 
 
