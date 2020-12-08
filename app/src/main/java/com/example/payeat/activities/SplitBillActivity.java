@@ -131,8 +131,8 @@ public class SplitBillActivity extends AppCompatActivity implements OnFragmentDi
 
     @Override
     public boolean onToggleClick(int index, boolean isOn) {
-        if(names.size() < 2){
-            Toast.makeText(this,"אנא הכנס לפחות 2 שמות על מנת לחלק את החשבון", Toast.LENGTH_LONG).show();
+        if(names.size() == 0){
+            Toast.makeText(this,"אנא הכנס שמות על מנת לחלק את החשבון", Toast.LENGTH_LONG).show();
             return false;
         }
         Dish dish = order.get(index);
@@ -162,6 +162,17 @@ public class SplitBillActivity extends AppCompatActivity implements OnFragmentDi
         public void notifyDataSetChanged(DinningPerson person){
             this.person = person;
             notifyDataSetChanged();
+        }
+
+        @Override
+        public void notifyDataSetChanged() {
+            super.notifyDataSetChanged();
+            if(getCount() == 1){ // single customer - no sharing is need
+                for(int i = 0; i < getCount(); i++){
+                    onToggleClick(i, true);
+                }
+                super.notifyDataSetChanged();
+            }
         }
 
         @NonNull
@@ -198,7 +209,7 @@ public class SplitBillActivity extends AppCompatActivity implements OnFragmentDi
             });
 
             // Set up toggle state
-            boolean isShare = person != null && person.isShare(getItem(position));
+            boolean isShare = (person != null && person.isShare(getItem(position)));
             onOff.setChecked(isShare);
 
             return convertView;

@@ -1,5 +1,6 @@
 package com.example.payeat.fragments;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
@@ -37,7 +38,7 @@ public class EditDishFromManagerFragment extends DialogFragment implements View.
      * @param dish_desc the dish description.
      */
     private String dish_name;
-    private double dish_price;
+    private int dish_price;
     private String dish_desc;
 
     private ImageView dish_image;
@@ -86,7 +87,7 @@ public class EditDishFromManagerFragment extends DialogFragment implements View.
 
         dish_name = getArguments().getString("name");
         dish_desc = getArguments().getString("desc");
-        dish_price = getArguments().getDouble("price");
+        dish_price = getArguments().getInt("price");
 
         newDish = false;
         if(dish_name == null) {
@@ -107,7 +108,7 @@ public class EditDishFromManagerFragment extends DialogFragment implements View.
             case R.id.button_update_dish:
 
                 dish_name = ""+editText_new_name.getText();
-                dish_price = Double.parseDouble(""+editText_new_price.getText());
+                dish_price = Integer.parseInt(""+editText_new_price.getText());
                 dish_desc = ""+editText_new_desc.getText();
 
                 Dish new_dish = new Dish(dish_name, dish_price, dish_desc, true, 0, "");

@@ -6,7 +6,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
+import com.example.payeat.Database;
 import com.example.payeat.fragments.ChooseTableFragment;
 import com.example.payeat.R;
 
@@ -53,28 +55,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         Intent intent = null;
-        switch (v.getId()){
-            case R.id.activity_main_customer_button :
+        if(v.getId() == R.id.activity_main_customer_button){
                 fragment = ChooseTableFragment.newInstance(this);
                 fragment.show(getSupportFragmentManager(), "ChooseTableFragment");
-                break;
-            case R.id.activity_main_manager_button :
+
+        } else if(v.getId() == R.id.activity_main_manager_button){
                 intent = new Intent(this, ManagerLoginActivity.class);
-                break;
-            case R.id.fragment_choose_table_Button :
+
+        } else if(v.getId() ==  R.id.fragment_choose_table_Button){
                 String tableNumberS = fragment.getTableNumber();
                 if(tableNumberS == null || tableNumberS.length() == 0)
                     return;
                 int tableNumber = Integer.parseInt(tableNumberS);
+                if(tableNumber > Database.getMaxTableNumber()){
+                    Toast.makeText(this, "מספר שולחן לא יכול להיות גבוה מ-"+Database.getMaxTableNumber(), Toast.LENGTH_SHORT);
+                }
+
                 SharedPreferences preferences = getSharedPreferences(getString(R.string.shared_preferences_key), MODE_PRIVATE);
                 SharedPreferences.Editor prefEditor = preferences.edit();
                 prefEditor.putInt(getString(R.string.client_table_number), tableNumber);
                 prefEditor.apply();
                 fragment.dismiss();
                 intent = new Intent(this, MainMenuActivity.class);
-                break;
-            default:
-
 
         }
         if(intent != null)
