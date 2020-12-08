@@ -9,6 +9,7 @@
         android:roundIcon="@drawable/app_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".activities.FinalBillActivity"></activity>
         <activity android:name=".activities.ManagerMenuActivity" />
         <activity android:name=".activities.MyCartActivity" />
         <activity android:name=".activities.RestaurantOccupancyActivity" />
