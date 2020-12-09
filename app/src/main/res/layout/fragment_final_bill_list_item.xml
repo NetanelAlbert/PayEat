@@ -20,7 +20,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
         android:layout_marginTop="6dp"
-        android:background="@color/colorToggleTrue"
+        android:background="@color/green_transpose"
         app:layout_constraintStart_toEndOf="@+id/textView8"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/icon_plus" />
@@ -37,12 +37,13 @@
 
     <EditText
         android:id="@+id/fragment_final_bill_list_item_tip_editText"
-        android:layout_width="50dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
         android:background="@android:color/transparent"
         android:digits="0123456789"
         android:gravity="right"
+        android:text="10"
         android:inputType="number"
         android:selectAllOnFocus="true"
         android:textSize="26sp"
@@ -55,7 +56,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="6dp"
-        android:background="@color/colorToggleFalse"
+        android:background="@color/red_transpose"
         app:layout_constraintStart_toEndOf="@+id/fragment_final_bill_list_item__NIS_textView"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/icon_minus" />
@@ -64,7 +65,7 @@
         android:id="@+id/fragment_final_bill_list_item__NIS_textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="NIS"
+        android:text="@string/new_shekel"
         android:textSize="30sp"
         app:layout_constraintStart_toEndOf="@+id/fragment_final_bill_list_item_sum_textView"
         app:layout_constraintTop_toTopOf="parent" />

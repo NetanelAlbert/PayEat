@@ -8,11 +8,11 @@
 
     <androidx.appcompat.widget.SwitchCompat
         android:id="@+id/split_bill_list_item_switch"
-        android:layout_width="100dp"
+        android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:layout_marginTop="5dp"
         android:textSize="20sp"
-        android:text="שלי"
+        android:text="לא שלי"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -51,7 +51,7 @@
         android:id="@+id/activity_split_bill_sublist_item_dish_shares_textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
+        android:layout_marginStart="50dp"
         android:text="3"
         android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="@+id/activity_split_bill_sublist_item_dish_price_textView"
