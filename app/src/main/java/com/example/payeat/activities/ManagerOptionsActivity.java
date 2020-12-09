@@ -3,6 +3,7 @@ package com.example.payeat.activities;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -12,11 +13,15 @@ import com.example.payeat.DataChangeListener;
 import com.example.payeat.Database;
 import com.example.payeat.R;
 
+import java.util.HashMap;
+
 public class ManagerOptionsActivity extends AppCompatActivity implements View.OnClickListener, DataChangeListener {
 
     TextView textViewManagerName;
     TextView textViewRestaurantName;
     ImageView imageViewRestaurantLogo;
+
+    HashMap<String, Drawable> images;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +35,16 @@ public class ManagerOptionsActivity extends AppCompatActivity implements View.On
         textViewManagerName = findViewById(R.id.textView_name_manager);
         textViewRestaurantName = findViewById(R.id.textView_restaurant_name);
         imageViewRestaurantLogo = findViewById(R.id.imageView_restaurant_logo);
+
+        images = new HashMap<>();
+
+        String imageURL = Database.getRestaurantLogoURL();
+        Drawable image = images.get(imageURL);
+        if(image == null){ // not in cash
+            Database.LoadImageFromWeb(imageViewRestaurantLogo, this, images, imageURL);
+        } else {
+            imageViewRestaurantLogo.setImageDrawable(image);
+        }
 
         notifyOnChange();
 
