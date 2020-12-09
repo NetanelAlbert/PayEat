@@ -19,7 +19,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
@@ -129,6 +128,10 @@ public class Database extends android.app.Application implements ValueEventListe
     }
     public static String getPassword() {
         return dataSnapshot.child(PASSWORD).getValue(String.class);
+    }
+    public static String getRestaurantLogoURL(){
+        //return dataSnapshot.child(MAIN_MENU_PICTURES).child(menuName).getValue(String.class);
+        return dataSnapshot.child(IMAGE_URL).getValue(String.class);
     }
 
 
@@ -307,7 +310,7 @@ public class Database extends android.app.Application implements ValueEventListe
         return true;
     }
 
-    public static boolean ChangeNotes(int dishPosition, String notes, int tableNum) { // eden and ido
+    public static void ChangeNotes(int dishPosition, String notes, int tableNum) { // eden and ido
         Iterable<DataSnapshot> dish_iter = dataSnapshot.child(ORDERS_IN_PROGRESS).child(String.valueOf(tableNum)).child(DISHES).getChildren();
         int counter=0;
         String key;
@@ -320,8 +323,7 @@ public class Database extends android.app.Application implements ValueEventListe
             }
             counter++;
         }
-        
-        return true;
+
     }
 
     public static boolean setPrice(String table_number, int dish_id, int new_price) {

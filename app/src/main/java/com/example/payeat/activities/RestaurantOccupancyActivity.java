@@ -26,7 +26,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Set;
 
 public class RestaurantOccupancyActivity extends AppCompatActivity implements DataChangeListener {
 
@@ -40,6 +39,7 @@ public class RestaurantOccupancyActivity extends AppCompatActivity implements Da
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_restaurant_occupancy);
 
+        // Setup bottom navigation view --> (menu, orders, capacity)
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setSelectedItemId(R.id.restaurant_capacity);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -69,6 +69,8 @@ public class RestaurantOccupancyActivity extends AppCompatActivity implements Da
 
         table_number_list = new ArrayList<>();
         is_occupied_list = new ArrayList<>();
+
+        // Get all order from database and build table_number_list and is_occupied_list
         notifyOnChange();
 
     }
@@ -142,6 +144,7 @@ public class RestaurantOccupancyActivity extends AppCompatActivity implements Da
         @NonNull
         @Override
         public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+            // Load the status of each table (the default is 'free')
             LayoutInflater layoutInflater = (LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View row = layoutInflater.inflate(R.layout.capacity_row, parent, false);
 

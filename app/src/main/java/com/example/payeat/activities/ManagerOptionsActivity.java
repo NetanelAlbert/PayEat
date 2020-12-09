@@ -2,21 +2,18 @@ package com.example.payeat.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.payeat.DataChangeListener;
 import com.example.payeat.Database;
 import com.example.payeat.R;
-import com.firebase.client.DataSnapshot;
-import com.firebase.client.Firebase;
-import com.firebase.client.FirebaseError;
-import com.firebase.client.ValueEventListener;
+
+import java.util.HashMap;
 
 public class ManagerOptionsActivity extends AppCompatActivity implements View.OnClickListener, DataChangeListener {
 
@@ -24,7 +21,7 @@ public class ManagerOptionsActivity extends AppCompatActivity implements View.On
     TextView textViewRestaurantName;
     ImageView imageViewRestaurantLogo;
 
-    Firebase firebaseReference;
+    HashMap<String, Drawable> images;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,12 +29,22 @@ public class ManagerOptionsActivity extends AppCompatActivity implements View.On
         setContentView(R.layout.activity_manager_options);
 
         findViewById(R.id.button_list_of_existing_orders).setOnClickListener(this);
-        findViewById(R.id.button_restaurant_occupancy).setOnClickListener(this); // need to think about this, how it should be?
+        findViewById(R.id.button_restaurant_occupancy).setOnClickListener(this);
         findViewById(R.id.button_view_menu).setOnClickListener(this);
 
-        textViewManagerName = (TextView) findViewById(R.id.textView_name_manager);
-        textViewRestaurantName = (TextView) findViewById(R.id.textView_restaurant_name);
-        imageViewRestaurantLogo = (ImageView) findViewById(R.id.imageView_restaurant_logo);
+        textViewManagerName = findViewById(R.id.textView_name_manager);
+        textViewRestaurantName = findViewById(R.id.textView_restaurant_name);
+        imageViewRestaurantLogo = findViewById(R.id.imageView_restaurant_logo);
+
+        images = new HashMap<>();
+
+        String imageURL = Database.getRestaurantLogoURL();
+        Drawable image = images.get(imageURL);
+        if(image == null){ // not in cash
+            Database.LoadImageFromWeb(imageViewRestaurantLogo, this, images, imageURL);
+        } else {
+            imageViewRestaurantLogo.setImageDrawable(image);
+        }
 
         notifyOnChange();
 
