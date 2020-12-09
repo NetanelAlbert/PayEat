@@ -4,52 +4,42 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.FinalBillFragment">
+    tools:context=".activities.FinalBillActivity">
+
 
     <TextView
-        android:id="@+id/textView3"
-        android:layout_width="match_parent"
+        android:layout_width="230dp"
         android:layout_height="50dp"
-        android:text="סיכום חשבון - תצוגה מקדימה"
-        android:textSize="33sp"
-        android:gravity="center"
+        android:text="סיכום חשבון"
+        android:textSize="40sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView4"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="וודא שהכל כשורה, ערוך את הטיפ ולחץ 'אישור' בסיום"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:id="@+id/activity_final_bill_table_number_textView"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:text="שולחן 1"
+        android:textSize="40sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/fragment_final_bill_title_sum_textView"
+        android:id="@+id/activity_final_bill_title_sum_textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:text="לתשלום"
 
         android:textSize="30sp"
+        app:layout_constraintEnd_toStartOf="@+id/activity_final_bill_title_name_textView"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+        app:layout_constraintTop_toBottomOf="@+id/activity_final_bill_table_number_textView" />
+
 
     <TextView
-        android:id="@+id/fragment_final_bill_title_tip_textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:text="טיפ"
-
-        android:textSize="30sp"
-        app:layout_constraintStart_toEndOf="@+id/fragment_final_bill_title_sum_textView"
-        app:layout_constraintTop_toBottomOf="@+id/textView4" />
-
-    <TextView
-        android:id="@+id/fragment_final_bill_title_name_textView"
+        android:id="@+id/activity_final_bill_title_name_textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
@@ -57,43 +47,42 @@
 
         android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/activity_final_bill_title_sum_textView"
+        app:layout_constraintTop_toBottomOf="@+id/activity_final_bill_table_number_textView" />
 
     <ListView
-        android:id="@+id/fragment_final_bill_listView"
-        android:layout_width="410dp"
-        android:layout_height="450dp"
+        android:id="@+id/activity_final_bill_listView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fragment_final_bill_title_sum_textView">
-
-    </ListView>
+        app:layout_constraintTop_toBottomOf="@+id/activity_final_bill_title_sum_textView" />
 
     <TextView
-        android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="סך הכל כולל טיפ:"
-        app:layout_constraintBottom_toTopOf="@+id/fragment_final_bill_total_sum_textView"
+        app:layout_constraintBottom_toTopOf="@+id/activity_final_bill_total_sum_textView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/fragment_final_bill_total_sum_textView"
+        android:id="@+id/activity_final_bill_total_sum_textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="250"
         android:textSize="40dp"
-        app:layout_constraintBottom_toTopOf="@+id/fragment_final_bill_call_waiter_button"
+        app:layout_constraintBottom_toTopOf="@+id/back_to_main_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/fragment_final_bill_call_waiter_button"
+        android:id="@+id/back_to_main_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="אישור"
-        android:textSize="25sp"
+        android:text="  מחיקה וחזרה לתפריט הראשי  "
+        android:textSize="20sp"
         android:background="@color/colorButton"
         android:textColor="@color/colorTextOnButton"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -6,6 +6,8 @@ import android.os.Looper;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
+
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
@@ -16,6 +18,7 @@ import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
@@ -29,7 +32,6 @@ public class Database extends android.app.Application implements ValueEventListe
     public static final String DISHES = "dishes";
     public static final String LIVE_ORDERS = "live_orders";
     public static final String ORDERS_IN_PROGRESS = "orders_in_progress";
-    public static final String MAIN_MENU_PICTURES = "main_menu_pictures";
     public static final String MANAGER_NAME = "manager_name";
     public static final String RESTAURANT_NAME = "restaurant_name";
     public static final String PASSWORD = "password";
@@ -39,12 +41,14 @@ public class Database extends android.app.Application implements ValueEventListe
     public static final String NOTES = "notes";
     public static final String FORMAT_TIME_STAMP = "dd/MM/yyyy - HH:mm:ss";
     public static final String SRC_NAME = "src name";
+    public static final String AskBill = "ask_bill";
+
 
 
 
 
     // private constants
-    private static final String MENU="menu";
+    private static final String MENU = "menu";
 
 
     private static final Firebase.CompletionListener completionListener = new Firebase.CompletionListener() {
@@ -75,12 +79,12 @@ public class Database extends android.app.Application implements ValueEventListe
 
     @Override
     public void onCreate() {
-        super.onCreate();
         Firebase.setAndroidContext(this);
         firebaseReference = new Firebase("https://payeat-4a103.firebaseio.com/");
         firebaseReference.addValueEventListener(this);
         listeners = new ArrayList<>();
 
+        super.onCreate();
     }
 
     @Override
@@ -125,6 +129,10 @@ public class Database extends android.app.Application implements ValueEventListe
     public static String getPassword() {
         return dataSnapshot.child(PASSWORD).getValue(String.class);
     }
+    public static String getRestaurantLogoURL(){
+        //return dataSnapshot.child(MAIN_MENU_PICTURES).child(menuName).getValue(String.class);
+        return dataSnapshot.child(IMAGE_URL).getValue(String.class);
+    }
 
 
     public static ArrayList<Order> getOrders(String fromWhere) { // ido
@@ -152,22 +160,11 @@ public class Database extends android.app.Application implements ValueEventListe
         return result;
     }
 
-    public static String getCategoryNameByNumber(int id) {
-        System.out.println("id= "+id);
-        Iterable<DataSnapshot> categories_iter = dataSnapshot.child(MENU).getChildren();
-        int i=0;
-        for (DataSnapshot category_snap: categories_iter) {
-            System.out.println(i+"    "+category_snap.getKey());
-            if(i!=id)
-                i++;
-            else
-                return category_snap.getKey();
-        }
-        return "error";
-    }
+
+
 
     public static Dish getDishFromMenu(String category, int dish_id) { // edut and ido
-        DataSnapshot d= dataSnapshot.child(MENU).child(category).child(dish_id+"");
+        DataSnapshot d= dataSnapshot.child(MENU).child(category).child(DISHES).child(dish_id+"");
         return d.getValue(Dish.class);
     }
 
@@ -204,7 +201,6 @@ public class Database extends android.app.Application implements ValueEventListe
         Calendar calendar = Calendar.getInstance(); // Returns instance with current date and time set
         SimpleDateFormat formatter = new SimpleDateFormat(FORMAT_TIME_STAMP);
         dataSnapshot.child(LIVE_ORDERS).child(table_number + "").child(TIME_STAMP).getRef().setValue(formatter.format(calendar.getTime()));
-
         return true;
     }
 
@@ -225,12 +221,10 @@ public class Database extends android.app.Application implements ValueEventListe
     private static final String IMAGE_URL = "img_url";
     public static Menu getMenuByCategory(String category) { // edut
         ArrayList<Dish> dishesArray = new ArrayList<>();
-        Iterable<DataSnapshot> dish_iter = dataSnapshot.child(MENU).child(category).getChildren();
+        Iterable<DataSnapshot> dish_iter = dataSnapshot.child(MENU).child(category).child(DISHES).getChildren();
         for (DataSnapshot dish_snap: dish_iter) {
-            if(dish_snap.getKey() != IMAGE_URL) {
                 Dish temp_dish = dish_snap.getValue(Dish.class);
                 dishesArray.add(temp_dish);
-            }
         }
         return new Menu(category,dishesArray);
     }
@@ -239,6 +233,10 @@ public class Database extends android.app.Application implements ValueEventListe
     public static boolean addDishToOrderInProgress(int table_number, Dish dish) {
         long numOfDishesInOrder = dataSnapshot.child(ORDERS_IN_PROGRESS).child(String.valueOf(table_number)).child(DISHES).getChildrenCount();
         firebaseReference.child(ORDERS_IN_PROGRESS).child(String.valueOf(table_number)).child(DISHES).child(String.valueOf(numOfDishesInOrder)).setValue(dish);
+        Calendar calendar = Calendar.getInstance(); // Returns instance with current date and time set
+        SimpleDateFormat formatter = new SimpleDateFormat(FORMAT_TIME_STAMP);
+        dataSnapshot.child(ORDERS_IN_PROGRESS).child(table_number + "").child(TIME_STAMP).getRef().setValue(formatter.format(calendar.getTime()));
+
         return false;
     }
 
@@ -270,12 +268,49 @@ public class Database extends android.app.Application implements ValueEventListe
         return true;
     }
 
+    public static boolean endOrder(int table_number) { // eden and ido
+        ArrayList<Dish> dishesArray =Database.getLiveOrder(table_number);
+        deleteLiveOrder(table_number);
+        deleteAskBill(table_number);
+
+        addOrderToAskBill(table_number,dishesArray);
+        return true;
+    }
+
+    private static void deleteAskBill(int table_number) {
+        firebaseReference.child(AskBill).child("" + table_number).removeValue();
+
+    }
+
+    public static boolean addOrderToAskBill(int table_number, ArrayList<Dish> dishesArray) { // eden and ido
+        int id=0;
+        for (Dish dish: dishesArray){
+            addDishToAskBill(table_number, dish, id);
+            id++;
+        }
+        Calendar calendar = Calendar.getInstance(); // Returns instance with current date and time set
+        SimpleDateFormat formatter = new SimpleDateFormat(FORMAT_TIME_STAMP);
+        dataSnapshot.child(AskBill).child(table_number + "").child(TIME_STAMP).getRef().setValue(formatter.format(calendar.getTime()));
+
+        return true;
+    }
+
+    private static void addDishToAskBill(int table_number, Dish dish, int id) {
+        firebaseReference.child(AskBill).child(table_number + "").child(DISHES).child(id+"").setValue(dish);
+
+    }
+
+    private static void deleteLiveOrder(int table_number) {
+        firebaseReference.child(LIVE_ORDERS).child("" + table_number).removeValue();
+
+    }
+
     public static boolean deleteDishFromOrderInProgress(int order_id, int dish_id) { // eden and ido
         firebaseReference.child(ORDERS_IN_PROGRESS).child("" + order_id).child(DISHES).child("" + dish_id).removeValue();
         return true;
     }
 
-    public static boolean ChangeNotes(int dishPosition, String notes, int tableNum) { // eden and ido
+    public static void ChangeNotes(int dishPosition, String notes, int tableNum) { // eden and ido
         Iterable<DataSnapshot> dish_iter = dataSnapshot.child(ORDERS_IN_PROGRESS).child(String.valueOf(tableNum)).child(DISHES).getChildren();
         int counter=0;
         String key;
@@ -288,24 +323,23 @@ public class Database extends android.app.Application implements ValueEventListe
             }
             counter++;
         }
-        
-        return true;
+
     }
 
-    public static boolean setPrice(String table_number, int dish_id, double new_price) {
+    public static boolean setPrice(String table_number, int dish_id, int new_price) {
         firebaseReference.child(LIVE_ORDERS).child(table_number).child(DISHES).child(""+dish_id).child(PRICE).setValue(new_price, completionListener);
         return true;
     }//manager
 
     public static boolean updateDishDetails(int dishPosition, Dish dish, String category) {
-        Iterable<DataSnapshot> dish_iter = dataSnapshot.child(MENU).child(category).getChildren();
+        Iterable<DataSnapshot> dish_iter = dataSnapshot.child(MENU).child(category).child(DISHES).getChildren();
         int counter=0;
         String key;
         for (DataSnapshot dish_snap : dish_iter) {
             if(counter==dishPosition) {
                 System.out.println(dish_snap);
                 key = dish_snap.getKey();
-                dataSnapshot.child(MENU).child(category).child(key).getRef().setValue(dish, completionListener);
+                dataSnapshot.child(MENU).child(category).child(DISHES).child(key).getRef().setValue(dish, completionListener);
                 return true;
             }
             counter++;
@@ -315,8 +349,8 @@ public class Database extends android.app.Application implements ValueEventListe
 
     public static boolean addDishToMenuByCategory(Dish dish, String category) { // we have here a serious problem
         // everything seeing to be ok and the addition works but when we refresh the menu it throw null pointer exception
-        Iterable<DataSnapshot> dish_iter = dataSnapshot.child(MENU).child(category).getChildren();
-        long number_of_dishes = dataSnapshot.child(MENU).child(category).getChildrenCount();
+        Iterable<DataSnapshot> dish_iter = dataSnapshot.child(MENU).child(category).child(DISHES).getChildren();
+        long number_of_dishes = dataSnapshot.child(MENU).child(category).child(DISHES).getChildrenCount();
         int counter=0;
         String key="";
         for (DataSnapshot dish_snap : dish_iter) {
@@ -326,7 +360,7 @@ public class Database extends android.app.Application implements ValueEventListe
             counter++;
         }
         int newKey=Integer.parseInt(key)+1;
-        firebaseReference.child(MENU).child(category).child(newKey+"").setValue(dish, completionListener);
+        firebaseReference.child(MENU).child(category).child(DISHES).child(newKey+"").setValue(dish, completionListener);
         return true;
     } //manager
 
@@ -337,13 +371,13 @@ public class Database extends android.app.Application implements ValueEventListe
      * @return true if ok
      */
     public static boolean deleteDishFromMenu(int dishPosition, String category) {
-        Iterable<DataSnapshot> dish_iter = dataSnapshot.child(MENU).child(category).getChildren();
+        Iterable<DataSnapshot> dish_iter = dataSnapshot.child(MENU).child(category).child(DISHES).getChildren();
         int counter=0;
         String key;
         for (DataSnapshot dish_snap : dish_iter) {
             if(counter==dishPosition) {
                 key = dish_snap.getKey();
-                dataSnapshot.child(MENU).child(category).child(key).getRef().removeValue(completionListener);
+                dataSnapshot.child(MENU).child(category).child(DISHES).child(key).getRef().removeValue(completionListener);
                 return true;
             }
             counter++;
@@ -371,7 +405,7 @@ public class Database extends android.app.Application implements ValueEventListe
         return dataSnapshot.child(MENU).child(menuName).child(IMAGE_URL).getValue(String.class);
     }
 
-    public static void LoadImageFromWeb(final ImageView view, final Activity activity, final String url) {
+    public static void LoadImageFromWeb(final ImageView view, final Activity activity, @Nullable final HashMap<String, Drawable> imagesCash, final String url) {
         Runnable task = new Runnable() {
             @Override
             public void run() {
@@ -383,6 +417,8 @@ public class Database extends android.app.Application implements ValueEventListe
                         @Override
                         public void run() {
                             view.setImageDrawable(image);
+                            if(imagesCash != null)
+                                imagesCash.put(url, image);
                         }
                     });
 

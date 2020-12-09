@@ -18,7 +18,6 @@ import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.SearchView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.payeat.DataChangeListener;
 import com.example.payeat.Database;
@@ -27,15 +26,11 @@ import com.example.payeat.Dish;
 import com.example.payeat.Order;
 import com.example.payeat.R;
 import com.example.payeat.fragments.UpdateCostFragment;
-import com.example.payeat.fragments.ChooseTableFragment;
-import com.firebase.client.DataSnapshot;
-import com.firebase.client.Firebase;
-import com.firebase.client.FirebaseError;
-import com.firebase.client.ValueEventListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
@@ -44,20 +39,16 @@ public class ExistOrdersActivity extends AppCompatActivity implements DataChange
     private ExpandableListViewAdapter listViewAdapter;
     private ExpandableListView expandableListView;
     private SearchView searchView;
-    private ChooseTableFragment chooseTableFragment;
 
-    private List<String> idOrderList;
-    private HashMap<String, Order> all_orders; // order_id -> Order/Dishes
-
-    Firebase firebaseReference;
+    private List<String> table_orders_list;
+    private HashMap<String, Order> all_orders; // table_number -> Order/Dishes
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_exist_orders);
 
-//        findViewById(R.id.button_delete_dish).setOnClickListener(this);
-
+        // Setup bottom navigation view --> (menu, orders, capacity)
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setSelectedItemId(R.id.orders);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -82,13 +73,17 @@ public class ExistOrdersActivity extends AppCompatActivity implements DataChange
                 return false;
             }
         });
+
         expandableListView = findViewById(R.id.listView_orders);
-        idOrderList = new ArrayList<String>(); // id Order (the title of the Order whatever)
-        all_orders = new HashMap<String, Order>(); // each raw in the Order. what is the Order info.
-        listViewAdapter = new ExpandableListViewAdapter(this, idOrderList, all_orders, getSupportFragmentManager());
+        table_orders_list = new ArrayList<String>();
+        all_orders = new HashMap<String, Order>();
+        listViewAdapter = new ExpandableListViewAdapter(this, table_orders_list, all_orders, getSupportFragmentManager());
         expandableListView.setAdapter(listViewAdapter);
+
+        // Get exist order from database and build table_orders_list all_orders
         notifyOnChange();
 
+        // Setup search view --> search by table number
         searchView = findViewById(R.id.SearchView_orders);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -132,13 +127,13 @@ public class ExistOrdersActivity extends AppCompatActivity implements DataChange
     @Override
     public void notifyOnChange() {
         final ArrayList<Order> orders = Database.getOrders("live_orders");
-        idOrderList.clear();
+        table_orders_list.clear();
         all_orders.clear();
         int i = 0;
         for (Order order: orders) {
             int table_number = order.getTable_number();
-            idOrderList.add("שולחן " + table_number);
-            all_orders.put(idOrderList.get(i), order);
+            table_orders_list.add("שולחן " + table_number);
+            all_orders.put(table_orders_list.get(i), order);
             i++;
         }
         listViewAdapter.notifyDataSetChanged();
@@ -147,40 +142,38 @@ public class ExistOrdersActivity extends AppCompatActivity implements DataChange
     class ExpandableListViewAdapter extends BaseExpandableListAdapter {
 
         private Context _context;
-//    public EditText static cost; not need this after connect to the database
-
-        private List<String> _listDataHeader;
-        private HashMap<String, Order> _listChildData;
+        private List<String> tableOrdersList;
+        private HashMap<String, Order> all_orders;
         private UpdateCostFragment costFragment;
         private DeleteDishFragment deleteDishFragment;
         FragmentManager FmBase;
 
-        public ExpandableListViewAdapter(Context context, List<String> _listDataHeader,
-                                         HashMap<String, Order> _listChildData, FragmentManager FmMain) {
+        public ExpandableListViewAdapter(Context context, List<String> tableOrdersList,
+                                         HashMap<String, Order> all_orders, FragmentManager FmMain) {
             this._context = context;
-            this._listDataHeader = _listDataHeader;
-            this._listChildData = _listChildData;
+            this.tableOrdersList = tableOrdersList;
+            this.all_orders = all_orders;
             this.FmBase = FmMain;
         }
 
         @Override
         public int getGroupCount() {
-            return this._listDataHeader.size();
+            return this.tableOrdersList.size();
         }
 
         @Override
         public int getChildrenCount(int groupPosition) {
-            return this._listChildData.get(this._listDataHeader.get(groupPosition)).size();
+            return this.all_orders.get(this.tableOrdersList.get(groupPosition)).size();
         }
 
         @Override
         public Object getGroup(int groupPosition) {
-            return this._listDataHeader.get(groupPosition);
+            return this.tableOrdersList.get(groupPosition);
         }
 
         @Override
         public Object getChild(int groupPosition, int childPosition) {
-            return this._listChildData.get(this._listDataHeader.get(groupPosition)).get(childPosition);
+            return this.all_orders.get(this.tableOrdersList.get(groupPosition)).get(childPosition);
         }
 
         @Override
@@ -200,7 +193,8 @@ public class ExistOrdersActivity extends AppCompatActivity implements DataChange
 
         @Override
         public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
-            String chapterTitle = (String) getGroup(groupPosition);
+            // Load table number and timeStamp of each order
+            String table_number = (String) getGroup(groupPosition);
 
             if (convertView == null) {
                 LayoutInflater inflater = (LayoutInflater) this._context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -208,10 +202,14 @@ public class ExistOrdersActivity extends AppCompatActivity implements DataChange
             }
 
             TextView orderInfo = convertView.findViewById(R.id.title_order);
-            orderInfo.setText(chapterTitle);
+            orderInfo.setText(table_number);
 
             TextView timeStamp = convertView.findViewById(R.id.textView_timeStamp);
-            timeStamp.setText(_listChildData.get(chapterTitle).getTimeStamp().getTime() + "");
+            Calendar timestamp = all_orders.get(table_number).getTimeStamp();
+            SimpleDateFormat formatter = new SimpleDateFormat(Database.FORMAT_TIME_STAMP);
+            timeStamp.setText(formatter.format(timestamp.getTime()));
+
+
 
             return convertView;
         }
@@ -219,7 +217,8 @@ public class ExistOrdersActivity extends AppCompatActivity implements DataChange
         @SuppressLint("SetTextI18n")
         @Override
         public View getChildView(final int groupPosition, final int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-            Dish topicTitle = (Dish) getChild(groupPosition, childPosition);
+            // Load dish info for each order
+            Dish dish = (Dish) getChild(groupPosition, childPosition);
 
             if (convertView == null) {
                 LayoutInflater inflater = (LayoutInflater) this._context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -230,16 +229,16 @@ public class ExistOrdersActivity extends AppCompatActivity implements DataChange
             dish_number.setText((childPosition+1) + ")");
 
             EditText dish_name = convertView.findViewById(R.id.editText_dish_name);
-            dish_name.setText(topicTitle.getName());
+            dish_name.setText(dish.getName());
 
             final EditText cost = convertView.findViewById(R.id.editText_cost);
-            cost.setText("" + topicTitle.getPrice());
+            cost.setText("" + dish.getPrice());
 
             EditText description = convertView.findViewById(R.id.editText_description);
-            description.setText(topicTitle.getDescription());
+            description.setText(dish.getDescription());
 
             EditText notes = convertView.findViewById(R.id.editText_notes);
-            notes.setText(topicTitle.getNotes());
+            notes.setText(dish.getNotes());
 
             Button editCostButton = convertView.findViewById(R.id.button_edit_cost);
             editCostButton.setOnClickListener(new View.OnClickListener() {
@@ -250,7 +249,7 @@ public class ExistOrdersActivity extends AppCompatActivity implements DataChange
                     costFragment = UpdateCostFragment.newInstance(cost);
                     Bundle bundle = new Bundle();
                     bundle.putString("table_number", table_number);
-                    bundle.putInt("child_position", childPosition);
+                    bundle.putInt("dish_position", childPosition);
                     costFragment.setArguments(bundle);
                     costFragment.show(FmBase, "UpdateCostFragment");
                 }

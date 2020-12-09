@@ -23,7 +23,7 @@ import com.example.payeat.R;
 public class UpdateCostFragment extends DialogFragment implements View.OnClickListener {
 
     private String table_number;
-    private int dish_number;
+    private int dish_pos;
 
     private static EditText editTextNumber_old_cost;
     private EditText editTextNumber_new_cost;
@@ -47,8 +47,10 @@ public class UpdateCostFragment extends DialogFragment implements View.OnClickLi
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // get param from the bundle
         table_number = getArguments().getString("table_number");
-        dish_number = getArguments().getInt("child_position");
+        dish_pos = getArguments().getInt("dish_position");
     }
 
     @Override
@@ -81,17 +83,15 @@ public class UpdateCostFragment extends DialogFragment implements View.OnClickLi
     public void onClick(View v) {
         switch(v.getId()) {
             case R.id.button_update_cost:
-                String new_costS = getCost();
-                if(new_costS == null || new_costS.length() == 0)
+                String new_priceS = getCost();
+                if(new_priceS == null || new_priceS.length() == 0)
                     return;
-                double new_cost = Double.valueOf(new_costS);
-                if(Database.setPrice(table_number, dish_number , new_cost)) {
-                    editTextNumber_old_cost.setText(""+new_cost);
+                int new_price = Integer.parseInt(new_priceS);
+
+                // update the database with the new price
+                if(Database.setPrice(table_number, dish_pos, new_price)) {
+                    editTextNumber_old_cost.setText(""+new_price);
                 }
-
-
-                // need to update the database with the new cost and not editText
-
                 dismiss();
                 break;
             case R.id.button_cancel_cost:

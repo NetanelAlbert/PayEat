@@ -26,12 +26,12 @@
     <string name="shared_preferences_key">spk</string>
     <string name="ok">אישור</string>
     <string name="client_table_number">ctn</string>
-    <string name="fragment_names_title">הכנס בין 2 ל-10 שמות כדי לפצל את החשבון, או לחץ דלג</string>
+    <string name="fragment_names_title">הכנס שמות כדי לפצל את החשבון</string>
     <string name="single_share_text">כללי</string>
     <string name="split_bill_guide_text">סמן לכל סועד באיזה מנות הוא מתחלק</string>
     <string name="split_bill_dish_name_and_shares_number">%1$s (%2$d)</string>
-    <string name="table_number_format">שולחן (%1$d)</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="table_number_format">שולחן %1$d</string>
+
+    <string name="new_shekel">&#8362;</string>
 
 </resources>

@@ -9,6 +9,7 @@
         android:roundIcon="@drawable/app_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".activities.FinalBillActivity"/>
         <activity android:name=".activities.ManagerMenuActivity" />
         <activity android:name=".activities.MyCartActivity" />
         <activity android:name=".activities.RestaurantOccupancyActivity" />
@@ -18,14 +19,8 @@
         <activity android:name=".activities.MenuByTitleActivity" />
         <activity android:name=".activities.MainMenuActivity" />
         <activity android:name=".activities.ManagerOptionsActivity" />
+        <activity android:name=".activities.SplitBillActivity"/>
         <activity android:name=".activities.MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".activities.SplitBillActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

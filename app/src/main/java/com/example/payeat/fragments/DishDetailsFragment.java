@@ -15,7 +15,11 @@ import androidx.fragment.app.FragmentManager;
 
 import com.example.payeat.Dish;
 import com.example.payeat.R;
-
+/**
+ this fragment opens when viewing a dish in the menu,
+ it shows details about the dish- description, price and a photo.
+ from here you can go to OrderDishFragment in order to add this dish to your order
+ */
 public class DishDetailsFragment extends DialogFragment  implements View.OnClickListener {
     /**
      * A simple {@link Fragment} subclass.
@@ -32,7 +36,7 @@ public class DishDetailsFragment extends DialogFragment  implements View.OnClick
 
     private boolean mode_manager;
     private String dish_name;
-    private double dish_price;
+    private int dish_price;
     private String dish_desc;
     private boolean in_stock;
     private String category;
@@ -57,9 +61,6 @@ public class DishDetailsFragment extends DialogFragment  implements View.OnClick
      */
     public static DishDetailsFragment newInstance() {
         DishDetailsFragment fragment = new DishDetailsFragment();
-//        Bundle args = new Bundle();
-//        args.putBoolean(MODE_MANAGER, mode);
-//        fragment.setArguments(args);
         return fragment;
     }
 
@@ -67,9 +68,6 @@ public class DishDetailsFragment extends DialogFragment  implements View.OnClick
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        if (getArguments() != null) {
-//            mode_manager = getArguments().getBoolean(MODE_MANAGER);
-//        }
     }
 
     @Override
@@ -77,10 +75,8 @@ public class DishDetailsFragment extends DialogFragment  implements View.OnClick
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         final View convertView = inflater.inflate(R.layout.fragment_dish_details, container, false);
-
         Button orderDishButton = convertView.findViewById(R.id.order_dish_fragment_button);
         orderDishButton.setOnClickListener(this);
-
         TextView_dishName = convertView.findViewById(R.id.dish_name_text_fragment);
         TextView_dishDesc = convertView.findViewById(R.id.dish_details_fragment);
         TextView_dishPrice = convertView.findViewById(R.id.dish_price_fragment);
@@ -89,16 +85,13 @@ public class DishDetailsFragment extends DialogFragment  implements View.OnClick
         tableNum=getArguments().getInt("tableNum");
         dish_name = getArguments().getString("name");
         dish_desc = getArguments().getString("desc");
-        dish_price = getArguments().getDouble("price");
+        dish_price = getArguments().getInt("price");
         in_stock=getArguments().getBoolean("in_stock");
         category=getArguments().getString("category");
-        System.out.println(category+" "+tableNum);
         TextView_dishName.setText(dish_name);
         TextView_dishDesc.setText(dish_desc);
         TextView_dishPrice.setText(String.valueOf(dish_price));
-
         mode_manager = getArguments().getBoolean("mode_manager");
-
         if(mode_manager) {
             orderDishButton.setText("עדכן מנה");
         }
@@ -114,7 +107,7 @@ public class DishDetailsFragment extends DialogFragment  implements View.OnClick
                     Bundle bundle = new Bundle();
                     bundle.putString("name", dish_name);
                     bundle.putString("desc", dish_desc);
-                    bundle.putDouble("price", dish_price);
+                    bundle.putInt("price", dish_price);
                     bundle.putString("category", category);
                     bundle.putInt("dish_position", tableNum);
 
@@ -128,8 +121,7 @@ public class DishDetailsFragment extends DialogFragment  implements View.OnClick
                             , "EditDishFromManagerFragment");
                 }
                 else {
-                    // do whatever you want when you press on "הזמן מנה"
-                    orderFragment = OrderDishFragment.newInstance((View.OnClickListener) this);
+                    orderFragment = OrderDishFragment.newInstance(this);
                     Dish d= new Dish(dish_name,  dish_price,  dish_desc,  in_stock, 0, "");
                     orderFragment.setDishToOrder(d, tableNum);
                     FragmentManager fm = getFragmentManager();
@@ -139,11 +131,6 @@ public class DishDetailsFragment extends DialogFragment  implements View.OnClick
                             .commit();
                     orderFragment.show(getActivity().getSupportFragmentManager()
                             , "OrderDishFragment");
-
-                    //ToDo add dish and notes to cart
-
-
-
                 }
                 dismiss();
                 break;
