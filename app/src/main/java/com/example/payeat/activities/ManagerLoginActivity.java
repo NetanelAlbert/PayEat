@@ -1,3 +1,8 @@
+// This activity controls the login of managers to the app-
+// It gives the access only to the user that types the right password,
+// and if the password is wrong it notifies the user
+
+
 package com.example.payeat.activities;
 
 import androidx.appcompat.app.AppCompatActivity;

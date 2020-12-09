@@ -1,3 +1,7 @@
+// This activity manages and shows the dishes and beverage user order on the app,
+// and sends them to the DB after clicking the designated button
+
+
 package com.example.payeat.activities;
 
 import androidx.annotation.NonNull;
