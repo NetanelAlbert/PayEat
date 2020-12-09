@@ -93,9 +93,6 @@ public class FinalBillFragment extends DialogFragment implements View.OnClickLis
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        TextView tableNumTextView = view.findViewById(R.id.fragment_final_bill_table_number_textView);
-        tableNumTextView.setText(String.format(getString(R.string.table_number_format), tableNumber));
-
         ListView listView = view.findViewById(R.id.fragment_final_bill_listView);
         FinalBillAdapter adapter = new FinalBillAdapter(getContext(), R.layout.fragment_final_bill_list_item, dinningPeople);
         listView.setAdapter(adapter);
@@ -173,10 +170,6 @@ public class FinalBillFragment extends DialogFragment implements View.OnClickLis
             final TextView sumTextView = convertView.findViewById(R.id.fragment_final_bill_list_item_sum_textView);
 
             updateTip(sumTextView, tipEditText, getItem(position), getItem(position).getTipPercent(), getContext());
-
-
-            TextView nis = convertView.findViewById(R.id.fragment_final_bill_list_item__NIS_textView);
-            nis.setText(String.valueOf(Character.toChars(0x20AA)));
 
             ImageButton plus = convertView.findViewById(R.id.fragment_final_bill_list_item_plus_imageButton);
             plus.setOnClickListener(new View.OnClickListener() {
@@ -265,9 +258,12 @@ public class FinalBillFragment extends DialogFragment implements View.OnClickLis
                 dishName.setText(getItem(position).getName());
                 dishName.setText(String.format(getString(R.string.split_bill_dish_name_and_shares_number), getItem(position).getName(), getItem(position).getShares()));
 
-                TextView description = convertView.findViewById(R.id.activity_split_bill_sublist_item_dish_notes_textView);
-                //TODO chang to information about this specific order dish (i.e. the chosen topics on a pizza)
-                description.setText(getItem(position).getDescription());
+                TextView notesTextView = convertView.findViewById(R.id.activity_split_bill_sublist_item_dish_notes_textView);
+                String notes = getItem(position).getNotes();
+                if(notes == null || notes.length() == 0){
+                    notes = "אין הערות";
+                }
+                notesTextView.setText(notes);
 
                 TextView price = convertView.findViewById(R.id.activity_split_bill_sublist_item_dish_price_textView);
                 price.setText(String.valueOf(getItem(position).getPrice()));

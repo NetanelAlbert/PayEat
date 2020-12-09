@@ -186,9 +186,12 @@ public class SplitBillActivity extends AppCompatActivity implements OnFragmentDi
             TextView shares = convertView.findViewById(R.id.activity_split_bill_sublist_item_dish_shares_textView);
             shares.setText(String.valueOf(getItem(position).getShares()));
 
-            TextView description = convertView.findViewById(R.id.activity_split_bill_sublist_item_dish_notes_textView);
-            //TODO chang to information about this specific order dish (i.e. the chosen topics on a pizza)
-            description.setText(getItem(position).getDescription());
+            TextView notesTextView = convertView.findViewById(R.id.activity_split_bill_sublist_item_dish_notes_textView);
+            String notes = getItem(position).getNotes();
+            if(notes == null || notes.length() == 0){
+                notes = "אין הערות";
+            }
+            notesTextView.setText(notes);
 
             TextView price = convertView.findViewById(R.id.activity_split_bill_sublist_item_dish_price_textView);
             price.setText(String.valueOf(getItem(position).getPrice()));
@@ -212,6 +215,8 @@ public class SplitBillActivity extends AppCompatActivity implements OnFragmentDi
             // Set up toggle state
             boolean isShare = (person != null && person.isShare(getItem(position)));
             onOff.setChecked(isShare);
+            String switchText = isShare ? "שלי" : "לא שלי";
+            onOff.setText(switchText);
 
 
             return convertView;
