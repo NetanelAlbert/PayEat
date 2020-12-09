@@ -1,6 +1,5 @@
 package com.example.payeat.fragments;
 
-import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -12,14 +11,11 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.payeat.R;
-
-import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -69,7 +65,7 @@ public class ChooseTableFragment extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_choos_table, container, false);
+        return inflater.inflate(R.layout.fragment_choose_table, container, false);
     }
 
     @Override

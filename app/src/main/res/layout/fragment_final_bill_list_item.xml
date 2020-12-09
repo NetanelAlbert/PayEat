@@ -39,24 +39,24 @@
         android:id="@+id/fragment_final_bill_list_item_tip_editText"
         android:layout_width="50dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
+        android:layout_marginStart="5dp"
         android:background="@android:color/transparent"
         android:digits="0123456789"
         android:gravity="right"
         android:inputType="number"
         android:selectAllOnFocus="true"
         android:textSize="26sp"
-        app:layout_constraintStart_toEndOf="@+id/fragment_final_bill_list_item__NIS_textView"
+        app:layout_constraintStart_toEndOf="@+id/fragment_final_bill_list_item_minus_imageButton"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
         android:id="@+id/fragment_final_bill_list_item_minus_imageButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="6dp"
-        android:layout_marginEnd="5dp"
         android:background="@color/colorToggleFalse"
-        app:layout_constraintEnd_toStartOf="@+id/fragment_final_bill_list_item_tip_editText"
+        app:layout_constraintStart_toEndOf="@+id/fragment_final_bill_list_item__NIS_textView"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/icon_minus" />
 

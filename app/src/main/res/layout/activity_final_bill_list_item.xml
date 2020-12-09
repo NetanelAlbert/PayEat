@@ -26,6 +26,7 @@
             android:layout_weight="1"
             android:layout_marginEnd="10dp"
             android:text="שם"
+            android:gravity="right"
             android:textSize="30sp"/>
 
     </LinearLayout>

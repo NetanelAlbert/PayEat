@@ -53,8 +53,8 @@
 
     <ListView
         android:id="@+id/activity_final_bill_listView"
-        android:layout_width="410dp"
-        android:layout_height="500dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/activity_final_bill_title_sum_textView" />
@@ -82,6 +82,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="  מחיקה וחזרה לתפריט הראשי  "
+        android:textSize="20sp"
         android:background="@color/colorButton"
         android:textColor="@color/colorTextOnButton"
         app:layout_constraintBottom_toBottomOf="parent"
