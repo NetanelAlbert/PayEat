@@ -171,7 +171,7 @@ public class MenuByTitleActivity extends AppCompatActivity implements View.OnCli
             TextView description = convertView.findViewById(R.id.dish_detailes_text);
             description.setText(desc);
             TextView Dish_price = convertView.findViewById(R.id.dish_price_text);
-            Dish_price.setText(String.valueOf(price));
+            Dish_price.setText(String.valueOf(price)+ getString(R.string.new_shekel));
             Button expandDishButton =  convertView.findViewById(R.id.expand_dish_button);
             expandDishButton.setVisibility(View.VISIBLE);
             expandDishButton.setOnClickListener(new View.OnClickListener() {

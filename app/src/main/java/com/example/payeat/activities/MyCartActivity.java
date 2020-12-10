@@ -103,7 +103,7 @@ public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
           notes.setText(getItem(position).getNotes());
 
            TextView price = convertView.findViewById(R.id.price_of_dish_text);
-           price.setText(String.valueOf(getItem(position).getPrice()));
+           price.setText(String.valueOf(getItem(position).getPrice())+ getString(R.string.new_shekel));
 
         Button cancelDishButton =  convertView.findViewById(R.id.cancel_dish_button);
                 cancelDishButton.setVisibility(View.VISIBLE);
