@@ -90,7 +90,7 @@ public class DishDetailsFragment extends DialogFragment  implements View.OnClick
         category=getArguments().getString("category");
         TextView_dishName.setText(dish_name);
         TextView_dishDesc.setText(dish_desc);
-        TextView_dishPrice.setText(String.valueOf(dish_price));
+        TextView_dishPrice.setText(String.valueOf(dish_price)+ getString(R.string.new_shekel));
         mode_manager = getArguments().getBoolean("mode_manager");
         if(mode_manager) {
             orderDishButton.setText("עדכן מנה");

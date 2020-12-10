@@ -41,14 +41,13 @@ public class Database extends android.app.Application implements ValueEventListe
     public static final String NOTES = "notes";
     public static final String FORMAT_TIME_STAMP = "dd/MM/yyyy - HH:mm:ss";
     public static final String SRC_NAME = "src name";
-    public static final String AskBill = "ask_bill";
-
-
-
-
-
-    // private constants
+    public static final String ASK_BILL = "ask_bill";
     private static final String MENU = "menu";
+
+
+
+
+
 
 
     private static final Firebase.CompletionListener completionListener = new Firebase.CompletionListener() {
@@ -219,6 +218,7 @@ public class Database extends android.app.Application implements ValueEventListe
         return -1;
     }
     private static final String IMAGE_URL = "img_url";
+
     public static Menu getMenuByCategory(String category) { // edut
         ArrayList<Dish> dishesArray = new ArrayList<>();
         Iterable<DataSnapshot> dish_iter = dataSnapshot.child(MENU).child(category).child(DISHES).getChildren();
@@ -271,32 +271,32 @@ public class Database extends android.app.Application implements ValueEventListe
     public static boolean endOrder(int table_number) { // eden and ido
         ArrayList<Dish> dishesArray =Database.getLiveOrder(table_number);
         deleteLiveOrder(table_number);
-        deleteAskBill(table_number);
+        deleteASK_BILL(table_number);
 
-        addOrderToAskBill(table_number,dishesArray);
+        addOrderToASK_BILL(table_number,dishesArray);
         return true;
     }
 
-    private static void deleteAskBill(int table_number) {
-        firebaseReference.child(AskBill).child("" + table_number).removeValue();
+    private static void deleteASK_BILL(int table_number) {
+        firebaseReference.child(ASK_BILL).child("" + table_number).removeValue();
 
     }
 
-    public static boolean addOrderToAskBill(int table_number, ArrayList<Dish> dishesArray) { // eden and ido
+    public static boolean addOrderToASK_BILL(int table_number, ArrayList<Dish> dishesArray) { // eden and ido
         int id=0;
         for (Dish dish: dishesArray){
-            addDishToAskBill(table_number, dish, id);
+            addDishToASK_BILL(table_number, dish, id);
             id++;
         }
         Calendar calendar = Calendar.getInstance(); // Returns instance with current date and time set
         SimpleDateFormat formatter = new SimpleDateFormat(FORMAT_TIME_STAMP);
-        dataSnapshot.child(AskBill).child(table_number + "").child(TIME_STAMP).getRef().setValue(formatter.format(calendar.getTime()));
+        dataSnapshot.child(ASK_BILL).child(table_number + "").child(TIME_STAMP).getRef().setValue(formatter.format(calendar.getTime()));
 
         return true;
     }
 
-    private static void addDishToAskBill(int table_number, Dish dish, int id) {
-        firebaseReference.child(AskBill).child(table_number + "").child(DISHES).child(id+"").setValue(dish);
+    private static void addDishToASK_BILL(int table_number, Dish dish, int id) {
+        firebaseReference.child(ASK_BILL).child(table_number + "").child(DISHES).child(id+"").setValue(dish);
 
     }
 
