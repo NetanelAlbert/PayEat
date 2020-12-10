@@ -18,16 +18,16 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.payeat.DataChangeListener;
-import com.example.payeat.Database;
-import com.example.payeat.Order;
+import com.example.payeat.interfaces.DataChangeListener;
+import com.example.payeat.dataObjects.Database;
+import com.example.payeat.dataObjects.Order;
 import com.example.payeat.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 
-public class RestaurantOccupancyActivity extends AppCompatActivity implements DataChangeListener {
+public class RestaurantCapacityActivity extends AppCompatActivity implements DataChangeListener {
 
     ListView listView_capacity;
 
@@ -37,7 +37,7 @@ public class RestaurantOccupancyActivity extends AppCompatActivity implements Da
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_restaurant_occupancy);
+        setContentView(R.layout.activity_restaurant_capacity);
 
         // Setup bottom navigation view --> (menu, orders, capacity)
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
@@ -123,7 +123,7 @@ public class RestaurantOccupancyActivity extends AppCompatActivity implements Da
         listView_capacity.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(RestaurantOccupancyActivity.this, "click", Toast.LENGTH_SHORT).show();
+                Toast.makeText(RestaurantCapacityActivity.this, "click", Toast.LENGTH_SHORT).show();
             }
         });
     }

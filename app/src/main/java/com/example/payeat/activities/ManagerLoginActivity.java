@@ -16,9 +16,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.payeat.Database;
+import com.example.payeat.dataObjects.Database;
 import com.example.payeat.R;
-import com.example.payeat.fragments.ChooseTableFragment;
 
 public class ManagerLoginActivity extends AppCompatActivity implements  View.OnClickListener{
 

@@ -8,18 +8,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
-import com.example.payeat.Database;
+import com.example.payeat.dataObjects.Database;
 import com.example.payeat.fragments.ChooseTableFragment;
 import com.example.payeat.R;
 
-//import com.firebase.client.DataSnapshot;
-//import com.firebase.client.Firebase;
-//import com.firebase.client.FirebaseError;
-//import com.firebase.client.ValueEventListener;
-
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-//    Firebase firebaseReference;
     private ChooseTableFragment fragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,22 +27,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onStart() {
         super.onStart();
-
-//        textViewDisplay = (TextView) findViewById(R.id.textView_from_database);
-//        firebaseReference = new Firebase("https://payeat-4a103.firebaseio.com/test");
-//
-//        firebaseReference.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                String text = dataSnapshot.getValue(String.class);
-//                textViewDisplay.setText(text);
-//            }
-//
-//            @Override
-//            public void onCancelled(FirebaseError firebaseError) {
-//
-//            }
-//        });
     }
 
 

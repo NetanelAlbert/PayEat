@@ -21,7 +21,7 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.payeat.Database;
+import com.example.payeat.dataObjects.Database;
 import com.example.payeat.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -99,7 +99,7 @@ public class MainMenuActivity extends AppCompatActivity implements AdapterView.O
                 overridePendingTransition(0, 0);
                 return true;
             case R.id.restaurant_capacity:
-                startActivity(new Intent(getApplicationContext(), RestaurantOccupancyActivity.class));
+                startActivity(new Intent(getApplicationContext(), RestaurantCapacityActivity.class));
                 finish();
                 overridePendingTransition(0, 0);
                 return true;

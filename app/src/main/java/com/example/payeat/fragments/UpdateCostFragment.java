@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.example.payeat.Database;
+import com.example.payeat.dataObjects.Database;
 import com.example.payeat.R;
 
 /**

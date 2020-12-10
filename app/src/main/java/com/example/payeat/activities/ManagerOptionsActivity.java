@@ -9,8 +9,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.payeat.DataChangeListener;
-import com.example.payeat.Database;
+import com.example.payeat.interfaces.DataChangeListener;
+import com.example.payeat.dataObjects.Database;
 import com.example.payeat.R;
 
 import java.util.HashMap;
@@ -74,7 +74,7 @@ public class ManagerOptionsActivity extends AppCompatActivity implements View.On
                 intent = new Intent(this, ExistOrdersActivity.class);
                 break;
             case R.id.button_restaurant_occupancy:
-                intent = new Intent(this, RestaurantOccupancyActivity.class);
+                intent = new Intent(this, RestaurantCapacityActivity.class);
                 break;
             default:
 

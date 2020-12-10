@@ -1,30 +1,19 @@
 package com.example.payeat.fragments;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 
-import com.example.payeat.DataChangeListener;
-import com.example.payeat.Database;
-import com.example.payeat.Dish;
+import com.example.payeat.dataObjects.Dish;
 import com.example.payeat.R;
-import com.example.payeat.activities.MyCartActivity;
 
-import javax.xml.transform.sax.SAXSource;
 /**
 this fragment opens after adding a dish to an order if the inviter wants to change the notes inside the cart activity
  */
