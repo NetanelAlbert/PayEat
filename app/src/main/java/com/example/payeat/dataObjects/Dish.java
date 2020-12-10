@@ -1,4 +1,4 @@
-package com.example.payeat;
+package com.example.payeat.dataObjects;
 
 import java.io.Serializable;
 

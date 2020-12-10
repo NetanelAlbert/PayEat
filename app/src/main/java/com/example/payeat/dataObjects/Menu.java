@@ -1,7 +1,6 @@
-package com.example.payeat;
+package com.example.payeat.dataObjects;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Menu {
     String category;

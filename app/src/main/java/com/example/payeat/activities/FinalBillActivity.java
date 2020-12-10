@@ -19,7 +19,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.example.payeat.Dish;
+import com.example.payeat.dataObjects.Dish;
 import com.example.payeat.R;
 import com.example.payeat.dataObjects.DinningPerson;
 

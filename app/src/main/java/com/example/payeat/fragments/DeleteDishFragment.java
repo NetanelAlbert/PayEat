@@ -10,8 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.example.payeat.Database;
-import com.example.payeat.Dish;
+import com.example.payeat.dataObjects.Database;
 import com.example.payeat.R;
 
 /**

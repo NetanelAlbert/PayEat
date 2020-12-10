@@ -1,7 +1,7 @@
 // This activity is shown right after the user places the order on the app,
 // and stays there until the user picks one of two options:
 // The user can decide if she/he wants to go back to the menu and order more
-// Or if she/he wants to aske for the bill
+// Or if she/he wants to ask for the bill
 
 
 package com.example.payeat.activities;

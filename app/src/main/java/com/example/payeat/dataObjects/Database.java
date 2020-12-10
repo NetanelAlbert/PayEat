@@ -1,4 +1,4 @@
-package com.example.payeat;
+package com.example.payeat.dataObjects;
 
 import android.app.Activity;
 import android.graphics.drawable.Drawable;
@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
+import com.example.payeat.interfaces.DataChangeListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;

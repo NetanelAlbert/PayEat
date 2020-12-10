@@ -8,7 +8,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -23,20 +22,13 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.payeat.DataChangeListener;
-import com.example.payeat.Database;
-import com.example.payeat.Dish;
-import com.example.payeat.Order;
+import com.example.payeat.interfaces.DataChangeListener;
+import com.example.payeat.dataObjects.Database;
+import com.example.payeat.dataObjects.Dish;
 import com.example.payeat.R;
 import com.example.payeat.fragments.ChangeNotesFragment;
-import com.example.payeat.fragments.DishDetailsFragment;
-import com.firebase.client.DataSnapshot;
-import com.firebase.client.Firebase;
-import com.firebase.client.FirebaseError;
-import com.firebase.client.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class MyCartActivity extends AppCompatActivity implements AdapterView.OnItemClickListener ,View.OnClickListener, DataChangeListener {

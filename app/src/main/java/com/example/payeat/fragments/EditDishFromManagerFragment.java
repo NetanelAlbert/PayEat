@@ -1,7 +1,5 @@
 package com.example.payeat.fragments;
 
-import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.fragment.app.DialogFragment;
@@ -13,14 +11,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Toast;
 
-import com.example.payeat.Database;
-import com.example.payeat.Dish;
+import com.example.payeat.dataObjects.Database;
+import com.example.payeat.dataObjects.Dish;
 import com.example.payeat.R;
-import com.firebase.client.Firebase;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
 
 /**
  * A simple {@link Fragment} subclass.

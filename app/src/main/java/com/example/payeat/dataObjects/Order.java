@@ -1,9 +1,6 @@
-package com.example.payeat;
-
-import com.firebase.client.Firebase;
+package com.example.payeat.dataObjects;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Objects;
 

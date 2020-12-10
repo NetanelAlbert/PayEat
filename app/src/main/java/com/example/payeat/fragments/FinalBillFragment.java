@@ -21,8 +21,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.payeat.Database;
-import com.example.payeat.Dish;
+import com.example.payeat.dataObjects.Database;
+import com.example.payeat.dataObjects.Dish;
 import com.example.payeat.R;
 import com.example.payeat.activities.FinalBillActivity;
 import com.example.payeat.dataObjects.DinningPerson;

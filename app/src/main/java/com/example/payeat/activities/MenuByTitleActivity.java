@@ -1,32 +1,32 @@
 
 package com.example.payeat.activities;
 
-        import androidx.annotation.NonNull;
-        import androidx.annotation.Nullable;
-        import androidx.appcompat.app.AppCompatActivity;
-        import android.content.Context;
-        import android.content.Intent;
-        import android.content.SharedPreferences;
-        import android.os.Bundle;
-        import android.view.LayoutInflater;
-        import android.view.Menu;
-        import android.view.MenuItem;
-        import android.view.View;
-        import android.view.ViewGroup;
-        import android.widget.ArrayAdapter;
-        import android.widget.Button;
-        import android.widget.ListView;
-        import android.widget.TextView;
-        import com.example.payeat.DataChangeListener;
-        import com.example.payeat.Database;
-        import com.example.payeat.Dish;
-        import com.example.payeat.fragments.DeleteDishFragment;
-        import com.example.payeat.fragments.DishDetailsFragment;
-        import com.example.payeat.R;
-        import com.example.payeat.fragments.EditDishFromManagerFragment;
-        import com.google.android.material.bottomnavigation.BottomNavigationView;
-        import java.util.ArrayList;
-        import java.util.List;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ListView;
+import android.widget.TextView;
+import com.example.payeat.interfaces.DataChangeListener;
+import com.example.payeat.dataObjects.Database;
+import com.example.payeat.dataObjects.Dish;
+import com.example.payeat.fragments.DeleteDishFragment;
+import com.example.payeat.fragments.DishDetailsFragment;
+import com.example.payeat.R;
+import com.example.payeat.fragments.EditDishFromManagerFragment;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MenuByTitleActivity extends AppCompatActivity implements View.OnClickListener, DataChangeListener {
     private DishDetailsFragment dishDetailsFragment;
@@ -73,7 +73,7 @@ public class MenuByTitleActivity extends AppCompatActivity implements View.OnCli
                         overridePendingTransition(0, 0);
                         return true;
                     case R.id.restaurant_capacity:
-                        startActivity(new Intent(getApplicationContext(), RestaurantOccupancyActivity.class));
+                        startActivity(new Intent(getApplicationContext(), RestaurantCapacityActivity.class));
                         finish();
                         overridePendingTransition(0, 0);
                         return true;

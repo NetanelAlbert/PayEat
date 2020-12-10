@@ -19,11 +19,11 @@ import android.widget.ExpandableListView;
 import android.widget.SearchView;
 import android.widget.TextView;
 
-import com.example.payeat.DataChangeListener;
-import com.example.payeat.Database;
+import com.example.payeat.interfaces.DataChangeListener;
+import com.example.payeat.dataObjects.Database;
 import com.example.payeat.fragments.DeleteDishFragment;
-import com.example.payeat.Dish;
-import com.example.payeat.Order;
+import com.example.payeat.dataObjects.Dish;
+import com.example.payeat.dataObjects.Order;
 import com.example.payeat.R;
 import com.example.payeat.fragments.UpdateCostFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -65,7 +65,7 @@ public class ExistOrdersActivity extends AppCompatActivity implements DataChange
                     case R.id.orders:
                         return true;
                     case R.id.restaurant_capacity:
-                        startActivity(new Intent(getApplicationContext(), RestaurantOccupancyActivity.class));
+                        startActivity(new Intent(getApplicationContext(), RestaurantCapacityActivity.class));
                         finish();
                         overridePendingTransition(0, 0);
                         return true;

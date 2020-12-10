@@ -3,16 +3,15 @@
     package="com.example.payeat">
 
     <application
-        android:name=".Database"
+        android:name=".dataObjects.Database"
         android:icon="@drawable/app_logo"
         android:label="@string/app_name"
         android:roundIcon="@drawable/app_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".activities.FinalBillActivity"/>
-        <activity android:name=".activities.ManagerMenuActivity" />
         <activity android:name=".activities.MyCartActivity" />
-        <activity android:name=".activities.RestaurantOccupancyActivity" />
+        <activity android:name=".activities.RestaurantCapacityActivity" />
         <activity android:name=".activities.ExistOrdersActivity" />
         <activity android:name=".activities.BonAppetitActivity" />
         <activity android:name=".activities.ManagerLoginActivity" />

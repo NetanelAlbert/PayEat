@@ -19,7 +19,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.example.payeat.OnFragmentDismissListener;
+import com.example.payeat.interfaces.OnFragmentDismissListener;
 import com.example.payeat.R;
 import com.example.payeat.dataObjects.DinningPerson;
 

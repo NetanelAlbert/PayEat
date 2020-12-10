@@ -17,11 +17,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.payeat.Database;
-import com.example.payeat.Dish;
-import com.example.payeat.OnFragmentDismissListener;
-import com.example.payeat.OnToggleClickListener;
-import com.example.payeat.Order;
+import com.example.payeat.dataObjects.Database;
+import com.example.payeat.dataObjects.Dish;
+import com.example.payeat.interfaces.OnFragmentDismissListener;
+import com.example.payeat.interfaces.OnToggleClickListener;
+import com.example.payeat.dataObjects.Order;
 import com.example.payeat.R;
 import com.example.payeat.dataObjects.DinningPerson;
 import com.example.payeat.fragments.FinalBillFragment;

@@ -1,7 +1,5 @@
 package com.example.payeat.dataObjects;
 
-import com.example.payeat.Dish;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 

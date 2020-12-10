@@ -13,7 +13,7 @@ import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-import com.example.payeat.Dish;
+import com.example.payeat.dataObjects.Dish;
 import com.example.payeat.R;
 /**
  this fragment opens when viewing a dish in the menu,
