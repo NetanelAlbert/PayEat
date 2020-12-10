@@ -26,7 +26,6 @@ public class ChangeNotesFragment extends DialogFragment implements View.OnClickL
 
     private Context context;
     private static Dish dishToOrder;
-    private View.OnClickListener MyCartActivity;
     private EditText editText;
     private int tableNum;
     private int position;
@@ -47,10 +46,6 @@ public class ChangeNotesFragment extends DialogFragment implements View.OnClickL
     public static ChangeNotesFragment newInstance(View.OnClickListener clicker) {
         ChangeNotesFragment fragment = new ChangeNotesFragment();
         return fragment;
-    }
-
-    private void setOnClickListener(View.OnClickListener clicker) {
-        this.MyCartActivity = clicker;
     }
 
     @Override
