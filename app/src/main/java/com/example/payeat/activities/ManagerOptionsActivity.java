@@ -1,3 +1,12 @@
+//
+// Author: Ido Shapira
+//
+// This activity is shown right after the user login as a manager on the app.
+// The manager can choose what he want to to:
+// 1. Go to the menu restaurant
+// 2. View and edit existing orders.
+// 3. See the restaurant capacity.
+
 package com.example.payeat.activities;
 
 import androidx.appcompat.app.AppCompatActivity;

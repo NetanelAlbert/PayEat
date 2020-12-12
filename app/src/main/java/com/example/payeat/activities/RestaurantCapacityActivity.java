@@ -1,3 +1,10 @@
+//
+// Author: Ido Shapira
+//
+// This activity is shown right after the manager decided he wants to see the current capacity of the restaurant on the app.
+// He gets a list of all the tables in the restaurant
+// and next to each table the status of that table (available, occupied, ask for bill).
+
 package com.example.payeat.activities;
 
 import androidx.annotation.NonNull;

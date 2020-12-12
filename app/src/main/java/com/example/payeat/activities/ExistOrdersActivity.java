@@ -1,3 +1,15 @@
+
+//
+// Author: Ido Shapira
+//
+// This activity is shown right after the manager decided he wants to view the exist orders on the app.
+// The manager cam picks one of two options:
+// 1. View the current live orders
+// 2. Can edit a specific order:
+//      *Delete dish from an order.
+//      *Update dish price (discount).
+// Order can be found using the search bar, meaning the manager can get an order by table number.
+
 package com.example.payeat.activities;
 
 import androidx.annotation.NonNull;
