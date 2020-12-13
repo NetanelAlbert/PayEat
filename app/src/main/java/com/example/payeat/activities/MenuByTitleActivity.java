@@ -28,6 +28,9 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * this activity shows list of dishes for the category that was chosen in MainMenu
+ */
 public class MenuByTitleActivity extends AppCompatActivity implements View.OnClickListener, DataChangeListener {
     private DishDetailsFragment dishDetailsFragment;
     private DeleteDishFragment deleteDishFragment;
