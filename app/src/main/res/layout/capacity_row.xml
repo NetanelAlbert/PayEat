@@ -10,13 +10,26 @@
     android:padding="4dp"
     android:background="@color/colorBackground">
 
+    <Button
+        android:id="@+id/release_table_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="@drawable/round_button_background"
+        android:text="שחרר שולחן"
+        android:textColor="@color/colorTextOnButton" />
+
+    <Space
+        android:layout_width="30dp"
+        android:layout_height="wrap_content" />
+
     <TextView
         android:id="@+id/textView_occupied"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="תפוס/פנוי"
         android:textColor="#FF31BF37"
-        android:textSize="30sp"/>
+        android:textSize="30sp" />
 
     <Space
         android:layout_width="40dp"

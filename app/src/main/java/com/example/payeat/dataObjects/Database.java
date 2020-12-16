@@ -77,6 +77,13 @@ public class Database extends android.app.Application implements ValueEventListe
         return dishesArray;
     }
 
+    public static void freeTable(int position) {
+        int tableNum=position+1;
+        //todo add info to branch
+        deleteASK_BILL(tableNum);
+        //deleteFromAskBIll();
+    }
+
     @Override
     public void onCreate() {
         Firebase.setAndroidContext(this);
