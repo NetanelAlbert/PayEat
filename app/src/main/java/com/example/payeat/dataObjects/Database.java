@@ -428,6 +428,9 @@ public class Database extends android.app.Application implements ValueEventListe
     }//manger
 
     public static boolean deleteDishFromLiveOrders(int dishPosition, String table_number) {
+        boolean lastDish=false;
+        if(dataSnapshot.child(LIVE_ORDERS).child(String.valueOf(table_number)).child(DISHES).getChildrenCount()==1)
+            lastDish=true;
         Iterable<DataSnapshot> dish_iter = dataSnapshot.child(LIVE_ORDERS).child(table_number).child(DISHES).getChildren();
         int counter=0;
         String key;
@@ -435,11 +438,16 @@ public class Database extends android.app.Application implements ValueEventListe
             if(counter==dishPosition) {
                 key = dish_snap.getKey();
                 dataSnapshot.child(LIVE_ORDERS).child(table_number).child(DISHES).child(key).getRef().removeValue(completionListener);
-                return true;
+                break;
             }
             counter++;
         }
+        if(lastDish) {
+            firebaseReference.child(LIVE_ORDERS).child("" + table_number).removeValue();
+            System.out.println("last dish");
+        }
         return false;
+
     }//manger
 
     public static String getMenuImageURL(String menuName){
