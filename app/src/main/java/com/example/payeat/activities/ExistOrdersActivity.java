@@ -17,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -37,7 +38,6 @@ import com.example.payeat.fragments.DeleteDishFragment;
 import com.example.payeat.dataObjects.Dish;
 import com.example.payeat.dataObjects.Order;
 import com.example.payeat.R;
-import com.example.payeat.fragments.UpdateCostFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.text.SimpleDateFormat;
@@ -156,7 +156,6 @@ public class ExistOrdersActivity extends AppCompatActivity implements DataChange
         private Context _context;
         private List<String> tableOrdersList;
         private HashMap<String, Order> all_orders;
-        private UpdateCostFragment costFragment;
         private DeleteDishFragment deleteDishFragment;
         FragmentManager FmBase;
 
@@ -256,14 +255,41 @@ public class ExistOrdersActivity extends AppCompatActivity implements DataChange
             editCostButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    String chapterTitle = (String) getGroup(groupPosition);
-                    String table_number = chapterTitle.split(" ")[1];
-                    costFragment = UpdateCostFragment.newInstance(cost);
-                    Bundle bundle = new Bundle();
-                    bundle.putString("table_number", table_number);
-                    bundle.putInt("dish_position", childPosition);
-                    costFragment.setArguments(bundle);
-                    costFragment.show(FmBase, "UpdateCostFragment");
+
+                    final Dialog edit_manager_name_dialog = new Dialog(_context);
+                    edit_manager_name_dialog.setContentView(R.layout.fragment_update_cost);
+                    edit_manager_name_dialog.setTitle("edit_manager_name");
+                    edit_manager_name_dialog.setCancelable(true);
+
+                    final EditText editText_newCost = edit_manager_name_dialog.findViewById(R.id.editTextNumber_new_cost);
+                    Button OKbutton = edit_manager_name_dialog.findViewById(R.id.button_update_cost);
+                    Button Canclebutton = edit_manager_name_dialog.findViewById(R.id.button_cancel_cost);
+
+                    OKbutton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            String new_priceS = editText_newCost.getText().toString();
+                            if(new_priceS == null || new_priceS.length() == 0)
+                                return;
+                            int new_price = Integer.parseInt(new_priceS);
+
+                            // update the database with the new price
+                            String chapterTitle = (String) getGroup(groupPosition);
+                            String table_number = chapterTitle.split(" ")[1];
+                            if(Database.setPrice(table_number, childPosition, new_price)) {
+                                cost.setText(""+new_price);
+                            }
+                            edit_manager_name_dialog.dismiss();
+                        }
+                    });
+
+                    Canclebutton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            edit_manager_name_dialog.dismiss();
+                        }
+                    });
+                    edit_manager_name_dialog.show();
                 }
             });
 

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:andorid="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/edit_manager_name"
+        android:title="שנה שם מנהל" />
+    <item
+        android:id="@+id/edit_restaurant_name"
+        android:title="שנה שם מסעדה" />
+    <item
+        android:id="@+id/edit_restaurant_logo"
+        android:title="שנה לוגו" />
+</menu>
