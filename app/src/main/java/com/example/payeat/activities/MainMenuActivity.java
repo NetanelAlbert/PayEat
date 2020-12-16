@@ -20,6 +20,7 @@ import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.payeat.dataObjects.Database;
 import com.example.payeat.R;
@@ -31,6 +32,7 @@ import java.util.List;
 public class MainMenuActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, BottomNavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
     private boolean mode_manager;
+    private int tableNum;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +65,7 @@ public class MainMenuActivity extends AppCompatActivity implements AdapterView.O
             navigationLayout.setVisibility(View.GONE);
             // Set the table number
             SharedPreferences preferences = getSharedPreferences(getString(R.string.shared_preferences_key), MODE_PRIVATE);
-            int tableNum = preferences.getInt(getString(R.string.client_table_number),-1);
+            tableNum = preferences.getInt(getString(R.string.client_table_number),-1);
             tableNumTextView.setText(String.format(getString(R.string.table_number_format), tableNum));
 
 
@@ -74,6 +76,10 @@ public class MainMenuActivity extends AppCompatActivity implements AdapterView.O
     @Override
     public void onClick(View v) {
         if(v.getId() == R.id.activity_main_menu_table_number_textView_go_to_my_cart_button){
+            if(Database.getOrderInProgress(tableNum).size()==0) {
+                Toast.makeText(getApplicationContext(), "אין מנות בהזמנה", Toast.LENGTH_SHORT).show();
+                return;
+            }
             Intent intent = new Intent(this, MyCartActivity.class);
             startActivity(intent);
         }
