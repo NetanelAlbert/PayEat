@@ -193,6 +193,7 @@ public class Database extends android.app.Application implements ValueEventListe
 
 
     public static boolean addOrderToLiveOrders(int table_number, ArrayList<Dish> dishesArray) { // eden and ido
+        if(dishesArray.size()==0) return false;
         int id;
         if(dataSnapshot.child(LIVE_ORDERS).child(""+ table_number).child(DISHES).getChildrenCount()==0)
             id=0;
@@ -234,10 +235,27 @@ public class Database extends android.app.Application implements ValueEventListe
         return new Menu(category,dishesArray);
     }
 
-
+    /**
+     * do not touch this code or else!!!!!!!!!!!!!!!!
+     * @param table_number
+     * @param dish
+     * @return
+     */
     public static boolean addDishToOrderInProgress(int table_number, Dish dish) {
         long numOfDishesInOrder = dataSnapshot.child(ORDERS_IN_PROGRESS).child(String.valueOf(table_number)).child(DISHES).getChildrenCount();
-        firebaseReference.child(ORDERS_IN_PROGRESS).child(String.valueOf(table_number)).child(DISHES).child(String.valueOf(numOfDishesInOrder)).setValue(dish);
+        System.out.println(numOfDishesInOrder);
+
+        Iterable<DataSnapshot> dish_iter = dataSnapshot.child(ORDERS_IN_PROGRESS).child(String.valueOf(table_number+"")).child(DISHES).getChildren();
+        int counter=1;
+        int key=0;
+        for (DataSnapshot dish_snap : dish_iter) {
+            if(counter==numOfDishesInOrder) {
+                key = Integer.parseInt(dish_snap.getKey());
+                System.out.println("biggest key " +key);
+            }
+            counter++;
+        }
+        firebaseReference.child(ORDERS_IN_PROGRESS).child(String.valueOf(table_number)).child(DISHES).child(String.valueOf(key+1)).setValue(dish);
         Calendar calendar = Calendar.getInstance(); // Returns instance with current date and time set
         SimpleDateFormat formatter = new SimpleDateFormat(FORMAT_TIME_STAMP);
         dataSnapshot.child(ORDERS_IN_PROGRESS).child(table_number + "").child(TIME_STAMP).getRef().setValue(formatter.format(calendar.getTime()));
@@ -288,6 +306,7 @@ public class Database extends android.app.Application implements ValueEventListe
     }
 
     public static boolean addOrderToASK_BILL(int table_number, ArrayList<Dish> dishesArray) { // eden and ido
+        if(dishesArray.size()==0) return false;
         int id=0;
         for (Dish dish: dishesArray){
             addDishToASK_BILL(table_number, dish, id);
@@ -310,8 +329,26 @@ public class Database extends android.app.Application implements ValueEventListe
 
     }
 
-    public static boolean deleteDishFromOrderInProgress(int order_id, int dish_id) { // eden and ido
-        firebaseReference.child(ORDERS_IN_PROGRESS).child("" + order_id).child(DISHES).child("" + dish_id).removeValue();
+    public static boolean deleteDishFromOrderInProgress(int order_id, int position) { // eden and ido
+        System.out.println("delete dish # "+position);
+        boolean lastDish=false;
+        if(dataSnapshot.child(ORDERS_IN_PROGRESS).child(String.valueOf(order_id)).child(DISHES).getChildrenCount()==1)
+            lastDish=true;
+        Iterable<DataSnapshot> dish_iter = dataSnapshot.child(ORDERS_IN_PROGRESS).child(String.valueOf(order_id)).child(DISHES).getChildren();
+        int curPos=0;
+        String key;
+        for (DataSnapshot dish_snap : dish_iter) {
+            if(position==curPos) {
+                key = dish_snap.getKey();
+                dataSnapshot.child(ORDERS_IN_PROGRESS).child(order_id+"").child(DISHES).child(key).getRef().removeValue();
+                break;
+            }
+            curPos++;
+        }
+        if(lastDish) {
+            firebaseReference.child(ORDERS_IN_PROGRESS).child("" + order_id).removeValue();
+            System.out.println("last dish");
+        }
         return true;
     }
 

@@ -118,7 +118,6 @@ public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                     changeNotesFragment = ChangeNotesFragment.newInstance(this);
                     changeNotesFragment.setDishToOrder(getItem(position), tableNum , position, getItem(position).getNotes());
                     changeNotesFragment.show(getSupportFragmentManager(), "DishDetailsFragment");
-                    Toast.makeText(getContext(), "עכשיו נבקש הערות חדשות וכו בלה בלה!", Toast.LENGTH_SHORT).show();
                 }
             });
 
@@ -136,6 +135,10 @@ public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         Intent intent = null;
         switch (v.getId()){
             case R.id.order_after_viewing_cart_button :
+                if(Database.getOrderInProgress(tableNum).size()==0) {
+                    Toast.makeText(getApplicationContext(), "אין מנות בהזמנה", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 Toast.makeText(this, "מייד מגיע!", Toast.LENGTH_SHORT).show();
                 Database.sendOrder(tableNum);
                 intent = new Intent(this, BonAppetitActivity.class);

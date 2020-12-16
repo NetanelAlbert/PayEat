@@ -17,6 +17,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.example.payeat.interfaces.DataChangeListener;
 import com.example.payeat.dataObjects.Database;
 import com.example.payeat.dataObjects.Dish;
@@ -115,6 +117,10 @@ public class MenuByTitleActivity extends AppCompatActivity implements View.OnCli
     @Override
     public void onClick(View v) {
         if(v.getId()==R.id.go_to_my_cart_button) {
+            if(Database.getOrderInProgress(tableNum).size()==0) {
+                Toast.makeText(getApplicationContext(), "אין מנות בהזמנה", Toast.LENGTH_SHORT).show();
+                return;
+            }
             Intent intent = new Intent(getBaseContext(), MyCartActivity.class);
             startActivity(intent);
         }
