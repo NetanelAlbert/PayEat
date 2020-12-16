@@ -123,6 +123,11 @@ public class Database extends android.app.Application implements ValueEventListe
         return dataSnapshot.child(RESTAURANT_NAME).getValue(String.class);
     }
 
+    public static boolean UpdateDetailsManager(String update, String new_detail) {
+        firebaseReference.child(update).setValue(new_detail, completionListener);
+        return true;
+    }
+
     public static int getMaxTableNumber() {
         return dataSnapshot.child(MAX_TABLE_NUMBER).getValue(Integer.class);
     }
@@ -184,7 +189,6 @@ public class Database extends android.app.Application implements ValueEventListe
     public static boolean addDishToLiveOrder(int table_number, Dish dish, int id) {
         firebaseReference.child(LIVE_ORDERS).child(table_number + "").child(DISHES).child(id+"").setValue(dish);
         return true;
-
     }
 
 
