@@ -21,6 +21,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -150,7 +151,7 @@ public class RestaurantCapacityActivity extends AppCompatActivity implements Dat
 
         @NonNull
         @Override
-        public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+        public View getView(final int position, @Nullable View convertView, @NonNull ViewGroup parent) {
             // Load the status of each table (the default is 'free')
             LayoutInflater layoutInflater = (LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View row = layoutInflater.inflate(R.layout.capacity_row, parent, false);
@@ -166,7 +167,22 @@ public class RestaurantCapacityActivity extends AppCompatActivity implements Dat
             else if(ris_occupied_list.get(position).compareTo("הזמינו חשבון") == 0) {
                 is_occupied.setTextColor(Color.rgb(33, 150, 243));
             }
+            Button freeTable =  row.findViewById(R.id.release_table_button);
+            System.out.println("freeTable");
+            if(ris_occupied_list.get(position).compareTo("הזמינו חשבון") != 0) {
+                freeTable.setVisibility(View.INVISIBLE);
 
+            }
+            else{
+                freeTable.setVisibility(View.VISIBLE);
+                freeTable.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Database.freeTable(position);
+                        Toast.makeText(getContext(), "שיחררתי!", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
             return row;
         }
     }
