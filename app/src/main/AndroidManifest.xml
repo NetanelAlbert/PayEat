@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.payeat">
 
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
     <application
         android:name=".dataObjects.Database"
         android:icon="@drawable/app_logo"
@@ -10,7 +12,8 @@
         android:roundIcon="@drawable/app_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.FinalBillActivity"/>
+        <activity android:name=".activities.StatisticsActivity"></activity>
+        <activity android:name=".activities.FinalBillActivity" />
         <activity android:name=".activities.MyCartActivity" />
         <activity android:name=".activities.RestaurantCapacityActivity" />
         <activity android:name=".activities.ExistOrdersActivity" />
@@ -19,7 +22,7 @@
         <activity android:name=".activities.MenuByTitleActivity" />
         <activity android:name=".activities.MainMenuActivity" />
         <activity android:name=".activities.ManagerOptionsActivity" />
-        <activity android:name=".activities.SplitBillActivity"/>
+        <activity android:name=".activities.SplitBillActivity" />
         <activity android:name=".activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -28,7 +31,5 @@
             </intent-filter>
         </activity>
     </application>
-
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
 </manifest>

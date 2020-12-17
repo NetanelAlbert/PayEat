@@ -21,7 +21,7 @@
         <ImageView
             android:id="@+id/imageView_restaurant_logo"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:contentDescription="@string/restaurant_logo"
             tools:srcCompat="@tools:sample/avatars" />
@@ -80,4 +80,15 @@
             android:layout_weight="1"
             android:background="@drawable/capacity_icon" />
     </LinearLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/fab_statistics"
+        android:layout_gravity="end|bottom"
+        android:layout_margin="16dp"
+        app:fabSize="auto"
+        android:backgroundTint="@color/colorButton"
+        android:elevation="12dp"
+        android:src="@drawable/statistics_icon" />
 </LinearLayout>

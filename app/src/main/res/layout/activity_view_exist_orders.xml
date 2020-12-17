@@ -34,17 +34,6 @@
             tools:ignore="RtlHardcoded"
             android:layout_marginTop="20dp">
 
-<!--            <Button-->
-<!--                android:id="@+id/button_edit_order"-->
-<!--                android:layout_width="0dp"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_weight="1"-->
-<!--                android:background="@drawable/ic_edit"/>-->
-
-<!--            <Space-->
-<!--                android:layout_width="40dp"-->
-<!--                android:layout_height="20dp" />-->
-
             <SearchView
                 android:id="@+id/SearchView_orders"
                 android:layout_width="wrap_content"
@@ -73,7 +62,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/bottom_navigation"
-            app:itemBackground="@color/colorButton"
+            android:background="@color/colorButton"
             app:itemTextColor="@drawable/selector"
             app:itemIconTint="@drawable/selector"
             app:menu="@menu/menu_navigation"
