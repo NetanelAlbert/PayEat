@@ -44,7 +44,9 @@ public class Database extends android.app.Application implements ValueEventListe
     public static final String SRC_NAME = "src name";
     public static final String ASK_BILL = "ask_bill";
     private static final String MENU = "menu";
-
+    public static final String INFO = "info";
+    public static final String DISH_COUNTER = "dish_counter";
+    public static final String DAILY_PROFIT = "daily_profit";
 
 
 
@@ -77,11 +79,23 @@ public class Database extends android.app.Application implements ValueEventListe
         return dishesArray;
     }
 
-    public static void freeTable(int position) {
+    public static void freeTable(int position, double orderPrice) {
         int tableNum=position+1;
         //todo add info to branch
+        System.out.println("in free table func");
+        ArrayList<Dish> dishesArray=getOrderFromAskBill(tableNum);
         deleteASK_BILL(tableNum);
-        //deleteFromAskBIll();
+        addOrderInfo(dishesArray, orderPrice);
+    }
+
+    private static ArrayList<Dish> getOrderFromAskBill(int tableNum) {
+        ArrayList<Dish> dishesArray = new ArrayList<>();
+        Iterable<DataSnapshot> dish_iter = dataSnapshot.child(ASK_BILL).child(String.valueOf(tableNum)).child(DISHES).getChildren();
+        for (DataSnapshot dish_snap : dish_iter) {
+            Dish temp_dish = dish_snap.getValue(Dish.class);
+            dishesArray.add(temp_dish);
+        }
+        return dishesArray;
     }
 
     @Override
@@ -172,7 +186,43 @@ public class Database extends android.app.Application implements ValueEventListe
         return result;
     }
 
+    public static void addOrderInfo(ArrayList<Dish> dishesArray, double orderPrice){
+        int sum=0;
+        HashMap<String, Integer> hash= new HashMap<>();
+        System.out.println("in order info  func");
+        for (Dish d:dishesArray) {
+            sum+=d.getPrice();
+            if(!hash.containsKey(d.getName()))
+              hash.put(d.getName(), 1);
+            else
+                hash.put(d.getName(), 1+ hash.get(d.getName()));
+        }
+        for (String key : hash.keySet()) {
+            String scounter;
+            scounter = dataSnapshot.child(INFO).child(DISH_COUNTER).child(key).getValue(String.class);
+            if(scounter== null) {
+                scounter = "0";
+            }
+             int counter=Integer.parseInt(scounter);
+            counter+=hash.get(key);
+            firebaseReference.child(INFO).child(DISH_COUNTER).child(key).setValue(String.valueOf(counter));
+        }
+        SimpleDateFormat dayFormatter = new SimpleDateFormat("dd-MM-yyyy");
+        Calendar calendar = Calendar.getInstance(); // Returns instance with current date and time set
+        String day= dayFormatter.format(calendar.getTime());
+        System.out.println("day is= "+day);
+        String sDailyProfit;
+        sDailyProfit= dataSnapshot.child(INFO).child(DAILY_PROFIT).child(day).getValue(String.class);
+        if(sDailyProfit==null)
+            sDailyProfit="0";
+        System.out.println("sdaily = "+sDailyProfit);
+        int dailyProfit=Integer.parseInt(sDailyProfit);
+        System.out.println("profit before "+dailyProfit);
+        dailyProfit+=sum;
+        System.out.println("profit after "+dailyProfit);
+        dataSnapshot.child(INFO).child(DAILY_PROFIT).child(day).getRef().setValue(dailyProfit+"");
 
+    }
 
 
     public static Dish getDishFromMenu(String category, int dish_id) { // edut and ido
