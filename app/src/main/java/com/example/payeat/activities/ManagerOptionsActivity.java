@@ -57,6 +57,7 @@ public class ManagerOptionsActivity extends AppCompatActivity implements View.On
         findViewById(R.id.button_list_of_existing_orders).setOnClickListener(this);
         findViewById(R.id.button_restaurant_occupancy).setOnClickListener(this);
         findViewById(R.id.button_view_menu).setOnClickListener(this);
+        findViewById(R.id.fab_statistics).setOnClickListener(this);
 
         textViewManagerName = findViewById(R.id.textView_name_manager);
         textViewRestaurantName = findViewById(R.id.textView_restaurant_name);
@@ -252,8 +253,9 @@ public class ManagerOptionsActivity extends AppCompatActivity implements View.On
             case R.id.button_restaurant_occupancy:
                 intent = new Intent(this, RestaurantCapacityActivity.class);
                 break;
-            default:
-
+            case R.id.fab_statistics:
+                intent = new Intent(this, StatisticsActivity.class);
+                break;
         }
         if (intent != null) {
             startActivity(intent);
