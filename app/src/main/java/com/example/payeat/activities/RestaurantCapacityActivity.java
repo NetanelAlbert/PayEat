@@ -128,12 +128,6 @@ public class RestaurantCapacityActivity extends AppCompatActivity implements Dat
 
         CapacityListAdapter capacityListAdapter = new CapacityListAdapter(this, table_number_list, is_occupied_list);
         listView_capacity.setAdapter(capacityListAdapter);
-        listView_capacity.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(RestaurantCapacityActivity.this, "click", Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 
     class CapacityListAdapter extends ArrayAdapter<String> {
@@ -143,7 +137,7 @@ public class RestaurantCapacityActivity extends AppCompatActivity implements Dat
         ArrayList<String> ris_occupied_list;
 
         CapacityListAdapter (Context context, ArrayList<String> title, ArrayList<String> description) {
-            super(context, R.layout.capacity_row, R.id.title_order, title);
+            super(context, R.layout.capacity_row, title);
             this.context = context;
             this.rtable_number_list = title;
             this.ris_occupied_list = description;
