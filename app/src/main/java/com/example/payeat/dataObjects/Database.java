@@ -161,25 +161,25 @@ public class Database extends android.app.Application implements ValueEventListe
         return dataSnapshot.child(IMAGE_URL).getValue(String.class);
     }
 
-    public static ArrayList<String> getDailyProfit() {
+    public static ArrayList<String[]> getDailyProfit() {
 
-        ArrayList<String> result = new ArrayList<>();
+        ArrayList<String[]> result = new ArrayList<>();
         Iterable<DataSnapshot> dailyProfit_iter = dataSnapshot.child("info").child("daily_profit").getChildren();
         for (DataSnapshot dailyProfit: dailyProfit_iter) {
             String date = dailyProfit.getKey();
-            int profit = dailyProfit.getValue(Integer.class);
-            result.add(date + " " + profit);
+            String profit = dailyProfit.getValue(String.class);
+            result.add(new String[]{date, profit});
         }
         return result;
     }
 
-    public static ArrayList<String> getDishCounter() {
-        ArrayList<String> result = new ArrayList<>();
+    public static ArrayList<String[]> getDishCounter() {
+        ArrayList<String[]> result = new ArrayList<>();
         Iterable<DataSnapshot> dishCounter_iter = dataSnapshot.child("info").child("dish_counter").getChildren();
         for (DataSnapshot dishCounter: dishCounter_iter) {
             String dishName = dishCounter.getKey();
-            int count = dishCounter.getValue(Integer.class);
-            result.add(dishName + " " + count);
+            String count = dishCounter.getValue(String.class);
+            result.add(new String[]{dishName, count});
         }
         return result;
     }
