@@ -48,4 +48,9 @@ public class BonAppetitActivity extends AppCompatActivity implements View.OnClic
         if(intent != null)
             startActivity(intent);
     }
+
+    @Override
+    public void onBackPressed() {
+        // do nothing
+    }
 }

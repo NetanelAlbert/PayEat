@@ -46,8 +46,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     return;
                 int tableNumber = Integer.parseInt(tableNumberS);
                 if(tableNumber > Database.getMaxTableNumber()){
-                    Toast.makeText(this, "מספר שולחן לא יכול להיות גבוה מ-"+Database.getMaxTableNumber(), Toast.LENGTH_SHORT);
+                    Toast.makeText(this, "מספר שולחן לא יכול להיות גבוה מ-"+Database.getMaxTableNumber(), Toast.LENGTH_SHORT).show();
+                    return;
                 }
+
 
                 SharedPreferences preferences = getSharedPreferences(getString(R.string.shared_preferences_key), MODE_PRIVATE);
                 SharedPreferences.Editor prefEditor = preferences.edit();
@@ -59,5 +61,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         if(intent != null)
             startActivity(intent);
+    }
+
+    @Override
+    public void onBackPressed() {
+        // do nothing
     }
 }

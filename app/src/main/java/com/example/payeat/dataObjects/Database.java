@@ -1,8 +1,13 @@
 package com.example.payeat.dataObjects;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.ContextWrapper;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.os.Looper;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -14,6 +19,11 @@ import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.text.SimpleDateFormat;
@@ -535,25 +545,35 @@ public class Database extends android.app.Application implements ValueEventListe
         return dataSnapshot.child(MENU).child(menuName).child(IMAGE_URL).getValue(String.class);
     }
 
-    public static void LoadImageFromWeb(final ImageView view, final Activity activity, @Nullable final HashMap<String, Drawable> imagesCash, final String url) {
+    public static void LoadImageFromWeb(final ImageView imageView, final Activity activity, @Nullable final HashMap<String, Drawable> imagesCash, final String url) {
+        String fileName = url.substring(url.lastIndexOf('/')+1);
+        File directory = new ContextWrapper(activity).getDir("DishImages", Context.MODE_PRIVATE);
+        final File file = new File(directory, fileName);
+        try {
+            Bitmap b = BitmapFactory.decodeStream(new FileInputStream(file));
+            imageView.setImageBitmap(b);
+            return;
+        }
+        catch (FileNotFoundException e) {}
+
+
         Runnable task = new Runnable() {
             @Override
             public void run() {
                 try {
-                    InputStream is = (InputStream) new URL(url).getContent();
-                    final Drawable image = Drawable.createFromStream(is, SRC_NAME);
-
+                    URL url_value = new URL(url);
+                    final Bitmap b = BitmapFactory.decodeStream(url_value.openConnection().getInputStream());
                     activity.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            view.setImageDrawable(image);
-                            if(imagesCash != null)
-                                imagesCash.put(url, image);
-                        }
+                       @Override
+                       public void run() {
+                           imageView.setImageBitmap(b);
+                       }
                     });
+                    saveToInternalStorage(b, file, activity);
+
 
                 } catch (Exception e) {
-                    Looper.prepare();
+                    Looper.prepare(); // to enable Toast
                     Toast.makeText(activity, "טעינת התמונה נכשלה", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -561,5 +581,30 @@ public class Database extends android.app.Application implements ValueEventListe
 
         Executor executor = Executors.newSingleThreadExecutor();
         executor.execute(task);
+    }
+
+    private static void saveToInternalStorage(Bitmap bitmapImage, File dest, Context context){
+//        ContextWrapper cw = new ContextWrapper(context);
+//        // path to /data/data/yourapp/app_data/DishImages
+//        File directory = cw.getDir("DishImages", Context.MODE_PRIVATE);
+//        // Create DishImages
+//        File myPath = new File(directory, fileName);
+
+        FileOutputStream fos = null;
+        try {
+            fos = new FileOutputStream(dest);
+            // Use the compress method on the BitMap object to write image to the OutputStream
+            bitmapImage.compress(Bitmap.CompressFormat.PNG, 100, fos);
+            System.out.println("-> saveToLocal succeed ("+dest+")");
+        } catch (Exception e) {
+            System.out.println("-> saveToLocal error");
+            e.printStackTrace();
+        } finally {
+            try {
+                fos.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
