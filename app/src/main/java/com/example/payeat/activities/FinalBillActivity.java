@@ -180,4 +180,9 @@ public class FinalBillActivity extends AppCompatActivity implements View.OnClick
 
         }
     }
+
+    @Override
+    public void onBackPressed() {
+        // do nothing
+    }
 }
