@@ -4,14 +4,21 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.Manifest;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.TextView;
@@ -29,14 +36,16 @@ public class StatisticsActivity extends AppCompatActivity implements DataChangeL
 
     ListView listView_dailyProfit;
     ListView listView_dishCounter;
-    private SearchView SearchView_dailyProfit;
-    private SearchView SearchView_dishCounter;
+    SearchView SearchView_dailyProfit;
+    SearchView SearchView_dishCounter;
 
     ArrayList<String> date_list = new ArrayList<>();
     ArrayList<Integer> profit_list = new ArrayList<>();
 
     ArrayList<String> dish_list = new ArrayList<>();
     ArrayList<Integer> counter_list = new ArrayList<>();
+
+    int to_display = 5;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -133,7 +142,19 @@ public class StatisticsActivity extends AppCompatActivity implements DataChangeL
             }
         });
 
-        notifyOnChange();
+        CreateDisplayNumberDialog();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_statistics, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        CreateDisplayNumberDialog();
+        return true;
     }
 
     @Override
@@ -148,6 +169,45 @@ public class StatisticsActivity extends AppCompatActivity implements DataChangeL
         super.onPause();
     }
 
+    private void CreateDisplayNumberDialog() {
+        final Dialog edit_display_number_dialog = new Dialog(this);
+        edit_display_number_dialog.setContentView(R.layout.change_number_of_statitstics_items);
+        edit_display_number_dialog.setTitle("edit display number");
+        edit_display_number_dialog.setCancelable(true);
+
+        final EditText editText_newDisplayNumber = edit_display_number_dialog.findViewById(R.id.editTextNumber_new_display_number);
+        final Button OKbutton = edit_display_number_dialog.findViewById(R.id.button_update);
+        Button Canclebutton = edit_display_number_dialog.findViewById(R.id.button_cancel);
+
+        OKbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String new_display_numberS = editText_newDisplayNumber.getText().toString();
+                if(new_display_numberS == null || new_display_numberS.length() == 0)
+                    return;
+                to_display = Integer.parseInt(new_display_numberS);
+                notifyOnChange();
+                edit_display_number_dialog.dismiss();
+            }
+        });
+
+        editText_newDisplayNumber.requestFocus();
+        editText_newDisplayNumber.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                OKbutton.callOnClick();
+                return true;
+            }
+        });
+
+        Canclebutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                edit_display_number_dialog.dismiss();
+            }
+        });
+        edit_display_number_dialog.show();
+    }
     @Override
     public void notifyOnChange() {
         ArrayList<String[]> daily_profit_list = Database.getDailyProfit();  // format: {"date", "profit"}
@@ -156,17 +216,48 @@ public class StatisticsActivity extends AppCompatActivity implements DataChangeL
         //split and create adapter
 
         for (String[] daily_profit: daily_profit_list) {
-            date_list.add(daily_profit[0]);
-            profit_list.add(Integer.parseInt(daily_profit[1]));
+            boolean added = false;
+            int profit = Integer.parseInt(daily_profit[1]);
+            for(int i=0; i<date_list.size() && !added; i++) {
+                if(profit < profit_list.get(i)) {
+                    date_list.add(i, daily_profit[0]);
+                    profit_list.add(i, profit);
+                    added = true;
+                }
+            }
+            if(!added) {
+                date_list.add(daily_profit[0]);
+                profit_list.add(profit);
+            }
         }
 
         StatisticsActivity.CustomListAdapter<String, Integer> dailyProfitListAdapter = new StatisticsActivity.CustomListAdapter<>(this, date_list, profit_list, R.layout.daily_profit_row);
         listView_dailyProfit.setAdapter(dailyProfitListAdapter);
 
         for (String[] dish: dish_counter) {
-            dish_list.add(dish[0]);
-            counter_list.add(Integer.parseInt(dish[1]));
+            boolean added = false;
+            int amount = Integer.parseInt(dish[1]);
+            for(int i=0; i<dish_list.size() && !added; i++) {
+                if(amount > counter_list.get(i)) {
+                    dish_list.add(i, dish[0]);
+                    counter_list.add(i, amount);
+                    added = true;
+                }
+            }
+            if(!added) {
+                dish_list.add(dish[0]);
+                counter_list.add(amount);
+            }
         }
+
+        while (date_list.size() > to_display) {
+            date_list.remove(date_list.size() -1);
+        }
+
+        while (dish_list.size() > to_display) {
+            dish_list.remove(dish_list.size() -1);
+        }
+
 
         StatisticsActivity.CustomListAdapter<String, Integer> capacityListAdapter = new StatisticsActivity.CustomListAdapter<>(this, dish_list, counter_list, R.layout.dish_counter_row);
         listView_dishCounter.setAdapter(capacityListAdapter);
