@@ -1,6 +1,7 @@
 package com.example.payeat.fragments;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,7 @@ import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import com.example.payeat.dataObjects.Database;
 import com.example.payeat.dataObjects.Dish;
 import com.example.payeat.R;
 /**
@@ -41,6 +43,7 @@ public class DishDetailsFragment extends DialogFragment  implements View.OnClick
     private boolean in_stock;
     private String category;
     private int tableNum;
+    private int dish_position;
 
     private ImageView dish_image;
 
@@ -88,6 +91,8 @@ public class DishDetailsFragment extends DialogFragment  implements View.OnClick
         dish_price = getArguments().getInt("price");
         in_stock=getArguments().getBoolean("in_stock");
         category=getArguments().getString("category");
+        dish_position = getArguments().getInt("dishPosition");
+
         TextView_dishName.setText(dish_name);
         TextView_dishDesc.setText(dish_desc);
         TextView_dishPrice.setText(String.valueOf(dish_price)+ getString(R.string.new_shekel));
@@ -95,6 +100,17 @@ public class DishDetailsFragment extends DialogFragment  implements View.OnClick
         if(mode_manager) {
             orderDishButton.setText("עדכן מנה");
         }
+
+
+        ImageView imageView = convertView.findViewById(R.id.dish_image);
+        String dishImageURL = Database.getDishImageURL(category, dish_position);
+       // Drawable image = images.get(menuImageURL);
+        //if(image == null){ // not in cash
+            Database.LoadDishImageFromWeb(imageView, getActivity(), dishImageURL);
+//        } else {
+//            imageView.setImageDrawable(image);
+//        }
+
 
         return convertView;
     }

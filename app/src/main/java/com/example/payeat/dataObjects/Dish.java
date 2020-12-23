@@ -7,6 +7,7 @@ public class Dish implements Serializable {
     private String name;
     private int price;
     private String description;
+    private String img_url;
 
     // For orders
     private int shares = 0;
@@ -104,5 +105,13 @@ public class Dish implements Serializable {
     }
     public synchronized void decreaseShares(){
         --shares;
+    }
+
+    public String getImg_url() {
+        return img_url;
+    }
+
+    public void setImg_url(String img_url) {
+        this.img_url = img_url;
     }
 }
