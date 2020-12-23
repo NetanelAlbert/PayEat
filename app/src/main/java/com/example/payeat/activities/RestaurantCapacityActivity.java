@@ -172,9 +172,9 @@ public class RestaurantCapacityActivity extends AppCompatActivity implements Dat
                 freeTable.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        double orderPrice=0;
+                        String date;
                         //todo orderPrice=realPrice
-                        Database.freeTable(position, orderPrice);
+                        Database.freeTable(position);
                         Toast.makeText(getContext(), "שיחררתי!", Toast.LENGTH_SHORT).show();
                     }
                 });
