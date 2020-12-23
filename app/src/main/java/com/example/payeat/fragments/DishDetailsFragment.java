@@ -104,13 +104,8 @@ public class DishDetailsFragment extends DialogFragment  implements View.OnClick
 
         dish_image = convertView.findViewById(R.id.dish_image);
         String dishImageURL = Database.getDishImageURL(category, dish_position);
-       // Drawable image = images.get(menuImageURL);
-        //if(image == null){ // not in cash
-            Database.LoadDishImageFromWeb(dish_image, getActivity(), dishImageURL);
-//        } else {
-//            imageView.setImageDrawable(image);
-//        }
 
+        Database.LoadImageFromWeb(dish_image, getActivity(), dishImageURL, dish_name+".jpeg");
 
         return convertView;
     }
