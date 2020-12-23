@@ -89,5 +89,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
+    <Button
+        android:id="@+id/send_email_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="מייל"
+        app:layout_constraintBottom_toBottomOf="@+id/activity_final_bill_total_sum_textView"
+        app:layout_constraintEnd_toStartOf="@+id/activity_final_bill_total_sum_textView"
+        app:layout_constraintStart_toStartOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

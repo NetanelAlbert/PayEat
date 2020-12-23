@@ -3,6 +3,7 @@ package com.example.payeat.activities;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -10,7 +11,11 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,17 +23,22 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.payeat.dataObjects.Database;
 import com.example.payeat.dataObjects.Dish;
 import com.example.payeat.R;
 import com.example.payeat.dataObjects.DinningPerson;
+import com.example.payeat.fragments.NamesFragment;
+import com.example.payeat.interfaces.OnFragmentDismissListener;
 
+import java.io.File;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class FinalBillActivity extends AppCompatActivity implements View.OnClickListener {
+public class FinalBillActivity extends AppCompatActivity implements View.OnClickListener, OnFragmentDismissListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +72,8 @@ public class FinalBillActivity extends AppCompatActivity implements View.OnClick
 
         Button goBackToMain = findViewById(R.id.back_to_main_button);
         goBackToMain.setOnClickListener(this);
+        Button sendEmail = findViewById(R.id.send_email_button);
+        sendEmail.setOnClickListener(this);
     }
 
     @Override
@@ -80,7 +92,6 @@ public class FinalBillActivity extends AppCompatActivity implements View.OnClick
                             dialog.cancel();
                             Intent intent = new Intent(activity, MainActivity.class);
                             startActivity(intent);
-                            // todo prevent user to go back from main activity
                         }
                     });
 
@@ -95,6 +106,76 @@ public class FinalBillActivity extends AppCompatActivity implements View.OnClick
             AlertDialog alertDialog = builder.create();
             alertDialog.show();
 
+        } else if(v.getId() == R.id.send_email_button){ // send screenshot
+            System.out.println("--> send_email_button");
+            try{
+                screenShot();
+            }catch (Exception e){
+                System.out.println("--> screenShot() err");
+                e.printStackTrace();
+            }
+
+            try {
+                NamesFragment namesFragment = NamesFragment.newInstance(names, this, NamesFragment.Type.email);
+                namesFragment.show(getSupportFragmentManager(), "Emails Fragment");
+            }catch (Exception e){
+                System.out.println("-> namesFragment err");
+                e.printStackTrace();
+
+            }
+        }
+    }
+    private ArrayList<DinningPerson> names = new ArrayList<>();;
+    private final String screenShotPath = Environment.getExternalStorageDirectory() + File.separator + "DCIM" + File.separator + ".tmp.jpg";
+
+    private void screenShot(){
+        final View view = getWindow().getDecorView().getRootView();
+
+        final Context context = this;
+        Runnable run = new Runnable() {
+            @Override
+            public void run() {
+                Bitmap bitmap = Bitmap.createBitmap(view.getWidth(),
+                        view.getHeight(), Bitmap.Config.ARGB_8888);
+                Canvas canvas = new Canvas(bitmap);
+                view.draw(canvas);
+
+                Database.saveToInternalStorage(bitmap, new File(screenShotPath), context);
+            }
+        };
+        new Thread(run).start();
+    }
+
+    @Override
+    public void notifyDismiss() {
+        if(names.size() > 0){
+            String[] targetAddresses = new String[names.size()];
+            for (int i = 0; i < names.size(); i++){
+                targetAddresses[i] = names.get(i).getName();
+            }
+            try{
+                Intent i = new Intent(Intent.ACTION_SEND);
+                //i.setType("text/plain"); //use this line for testing in the emulator
+                i.setType("message/rfc822") ; // use from live device
+                //i.setClassName("com.google.android.gm", "com.google.android.gm.ComposeActivityGmail");//sending email via gmail
+                i.putExtra(Intent.EXTRA_EMAIL, targetAddresses);
+                i.putExtra(Intent.EXTRA_SUBJECT,"סיכום החשבון שלך מ-PayEat");
+                i.putExtra(Intent.EXTRA_TEXT,"מקווים שנהנת, נתראה בפעם הבאה.");
+
+                File imageFileToShare = new File(screenShotPath);
+                //Uri uri = Uri.fromFile(imageFileToShare);
+                Uri imageUri = FileProvider.getUriForFile(
+                        this,
+                        "com.example.payeat.provider", //(use your app signature + ".provider" )
+                        imageFileToShare);
+                i.putExtra(Intent.EXTRA_STREAM, imageUri);
+                startActivity(i);
+            } catch (Exception e){
+                System.out.println("--> notifyDismiss() failed");
+                e.printStackTrace();
+            }
+        } else {
+            Toast.makeText(this, "המייל לא נשלח מאחר ולא הוזנו כתובות למשלוח", Toast.LENGTH_SHORT).show();
         }
     }
 
