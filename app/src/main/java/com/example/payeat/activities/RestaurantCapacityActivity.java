@@ -11,17 +11,21 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,6 +45,9 @@ public class RestaurantCapacityActivity extends AppCompatActivity implements Dat
 
     ArrayList<String> table_number_list;
     ArrayList<String> is_occupied_list;
+
+    int max_tables_number;
+    MenuItem update_max_tables_item;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,6 +91,62 @@ public class RestaurantCapacityActivity extends AppCompatActivity implements Dat
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_capacity, menu);
+        update_max_tables_item = menu.getItem(0);
+        max_tables_number = Database.getMaxTableNumber();
+        update_max_tables_item.setTitle("שנה כמות שולחנות זמינים\n זמין: " + max_tables_number);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        CreateUpdateTablesNumberDialog();
+        return true;
+    }
+
+    private void CreateUpdateTablesNumberDialog() {
+        final Dialog edit_max_number_tables_dialog = new Dialog(this);
+        edit_max_number_tables_dialog.setContentView(R.layout.change_number_of_statitstics_items);
+        edit_max_number_tables_dialog.setTitle("edit max number tables");
+        edit_max_number_tables_dialog.setCancelable(true);
+
+        final EditText editText_newDisplayNumber = edit_max_number_tables_dialog.findViewById(R.id.editTextNumber_new_display_number);
+        final Button OKbutton = edit_max_number_tables_dialog.findViewById(R.id.button_update);
+        Button Canclebutton = edit_max_number_tables_dialog.findViewById(R.id.button_cancel);
+
+        OKbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String new_display_numberS = editText_newDisplayNumber.getText().toString();
+                if(new_display_numberS == null || new_display_numberS.length() == 0)
+                    return;
+                max_tables_number = Integer.parseInt(new_display_numberS);
+                Database.setMaxTableNumber(max_tables_number);
+                edit_max_number_tables_dialog.dismiss();
+            }
+        });
+
+        editText_newDisplayNumber.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                OKbutton.callOnClick();
+                return true;
+            }
+        });
+
+        Canclebutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                edit_max_number_tables_dialog.dismiss();
+            }
+        });
+        edit_max_number_tables_dialog.show();
+
+    }
+
+
+    @Override
     protected void onResume() {
         super.onResume();
         Database.addListener(this);
@@ -97,14 +160,13 @@ public class RestaurantCapacityActivity extends AppCompatActivity implements Dat
 
     @Override
     public void notifyOnChange() {
-        int max_table_number = Database.getMaxTableNumber();
-        System.out.println("max_table_number -->" + max_table_number);
+        max_tables_number = Database.getMaxTableNumber();
         table_number_list.clear();
-        for(int i=1; i<=max_table_number; i++) {
+        for(int i=1; i<=max_tables_number+1; i++) {
             table_number_list.add("שולחן " + i);
         }
         is_occupied_list.clear();
-        for(int i=1; i<=max_table_number; i++) {
+        for(int i=1; i<=max_tables_number+1; i++) {
             is_occupied_list.add("פנוי");
         }
         ArrayList<Order> orders_in_progress = Database.getOrders("orders_in_progress");

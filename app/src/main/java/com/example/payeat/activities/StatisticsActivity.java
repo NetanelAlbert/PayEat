@@ -18,9 +18,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SearchView;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.example.payeat.R;
@@ -46,8 +49,10 @@ public class StatisticsActivity extends AppCompatActivity implements DataChangeL
     ArrayList<String> dish_list = new ArrayList<>();
     ArrayList<Integer> counter_list = new ArrayList<>();
 
-    int to_display = 5;
+    int to_display = -1;
     MenuItem display_item;
+
+    boolean display_all = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -148,15 +153,46 @@ public class StatisticsActivity extends AppCompatActivity implements DataChangeL
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_statistics, menu);
-        display_item = menu.getItem(0);
-        display_item.setTitle("שנה כמות לתצוגה\n מציג: " + to_display);
-        onOptionsItemSelected(display_item);
+        display_item = menu.getItem(1);
+        if(display_all) {
+            display_item.setTitle("שנה כמות לתצוגה\n מציג: הכל");
+            onOptionsItemSelected(menu.getItem(0));
+        }
+        else {
+//            display_item.setTitle("שנה כמות לתצוגה\n מציג: " + to_display);
+            onOptionsItemSelected(display_item);
+        }
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        CreateDisplayNumberDialog();
+        switch(item.getItemId()){
+            case R.id.display_all:
+                display_item.setTitle("שנה כמות לתצוגה\n מציג: הכל");
+                display_all = true;
+                notifyOnChange();
+                break;
+            case R.id.change_display:
+                display_all = false;
+                if(CreateDisplayNumberDialog()) {
+                    if(to_display != -1) {
+                        display_item.setTitle("שנה כמות לתצוגה\n מציג: " + to_display);
+                    }
+                    else {
+                        display_item.setTitle("שנה כמות לתצוגה\n מציג: ");
+                    }
+                }
+                else {
+                    display_all = true;
+                }
+                break;
+            case R.id.back_button:
+                finish();
+                Intent intent = new Intent(this, ManagerOptionsActivity.class);
+                startActivity(intent);
+                break;
+        }
         return true;
     }
 
@@ -172,7 +208,8 @@ public class StatisticsActivity extends AppCompatActivity implements DataChangeL
         super.onPause();
     }
 
-    private void CreateDisplayNumberDialog() {
+    private boolean CreateDisplayNumberDialog() {
+        final boolean[] result = {true};
         final Dialog edit_display_number_dialog = new Dialog(this);
         edit_display_number_dialog.setContentView(R.layout.change_number_of_statitstics_items);
         edit_display_number_dialog.setTitle("edit display number");
@@ -190,6 +227,7 @@ public class StatisticsActivity extends AppCompatActivity implements DataChangeL
                     return;
                 to_display = Integer.parseInt(new_display_numberS);
                 notifyOnChange();
+                display_item.setTitle("שנה כמות לתצוגה\n מציג: " + to_display);
                 edit_display_number_dialog.dismiss();
             }
         });
@@ -205,10 +243,12 @@ public class StatisticsActivity extends AppCompatActivity implements DataChangeL
         Canclebutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                result[0] = false;
                 edit_display_number_dialog.dismiss();
             }
         });
         edit_display_number_dialog.show();
+        return result[0];
     }
     @Override
     public void notifyOnChange() {
@@ -222,17 +262,17 @@ public class StatisticsActivity extends AppCompatActivity implements DataChangeL
         dish_list.clear();
         counter_list.clear();
 
-        for (String[] daily_profit: daily_profit_list) {
+        for (String[] daily_profit : daily_profit_list) {
             boolean added = false;
             int profit = Integer.parseInt(daily_profit[1]);
-            for(int i=0; i<date_list.size() && !added; i++) {
-                if(profit > profit_list.get(i)) {
+            for (int i = 0; i < date_list.size() && !added; i++) {
+                if (profit > profit_list.get(i)) {
                     date_list.add(i, daily_profit[0]);
                     profit_list.add(i, profit);
                     added = true;
                 }
             }
-            if(!added) {
+            if (!added) {
                 date_list.add(daily_profit[0]);
                 profit_list.add(profit);
             }
@@ -241,39 +281,38 @@ public class StatisticsActivity extends AppCompatActivity implements DataChangeL
         StatisticsActivity.CustomListAdapter<String, Integer> dailyProfitListAdapter = new StatisticsActivity.CustomListAdapter<>(this, date_list, profit_list, R.layout.daily_profit_row);
         listView_dailyProfit.setAdapter(dailyProfitListAdapter);
 
-        for (String[] dish: dish_counter) {
+        for (String[] dish : dish_counter) {
             boolean added = false;
             int amount = Integer.parseInt(dish[1]);
-            for(int i=0; i<dish_list.size() && !added; i++) {
-                if(amount > counter_list.get(i)) {
+            for (int i = 0; i < dish_list.size() && !added; i++) {
+                if (amount > counter_list.get(i)) {
                     dish_list.add(i, dish[0]);
                     counter_list.add(i, amount);
                     added = true;
                 }
             }
-            if(!added) {
+            if (!added) {
                 dish_list.add(dish[0]);
                 counter_list.add(amount);
             }
         }
 
-        while (date_list.size() > to_display) {
-            int index = date_list.size() -1; // last
-            date_list.remove(index);
-            profit_list.remove(index);
+        if (!display_all) {
+            while (date_list.size() > to_display) {
+                int index = date_list.size() - 1; // last
+                date_list.remove(index);
+                profit_list.remove(index);
+            }
+
+            while (dish_list.size() > to_display) {
+                int index = dish_list.size() - 1; // last
+                dish_list.remove(index);
+                counter_list.remove(index);
+            }
         }
-
-        while (dish_list.size() > to_display) {
-            int index = dish_list.size() -1; // last
-            dish_list.remove(index);
-            counter_list.remove(index);
-       }
-
 
         StatisticsActivity.CustomListAdapter<String, Integer> capacityListAdapter = new StatisticsActivity.CustomListAdapter<>(this, dish_list, counter_list, R.layout.dish_counter_row);
         listView_dishCounter.setAdapter(capacityListAdapter);
-
-        display_item.setTitle("שנה כמות לתצוגה\n מציג: " + to_display);
     }
 
 

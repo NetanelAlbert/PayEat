@@ -169,6 +169,10 @@ public class Database extends android.app.Application implements ValueEventListe
     public static int getMaxTableNumber() {
         return dataSnapshot.child(MAX_TABLE_NUMBER).getValue(Integer.class);
     }
+    public static void setMaxTableNumber(int max_number_tables) {
+        firebaseReference.child(MAX_TABLE_NUMBER).setValue(max_number_tables, completionListener);
+    }
+
     public static String getPassword() {
         return dataSnapshot.child(PASSWORD).getValue(String.class);
     }

@@ -109,7 +109,7 @@ public class MenuByTitleActivity extends AppCompatActivity implements View.OnCli
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        addNewDish = EditDishFromManagerFragment.newInstance();
+        addNewDish = EditDishFromManagerFragment.newInstance(null);
         Bundle bundle = new Bundle();
         bundle.putString("category", String_category);
         addNewDish.setArguments(bundle);

@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.example.payeat.dataObjects.Database;
 import com.example.payeat.R;
@@ -74,9 +75,11 @@ public class DeleteDishFragment extends DialogFragment implements View.OnClickLi
                 // delete dish from the database
                 if(deleteFrom.compareTo("menu") == 0) {
                     Database.deleteDishFromMenu(position, category);
+                    Toast.makeText(getContext(), "מוחק מנה מהתפריט!", Toast.LENGTH_SHORT).show();
                 }
                 else if(deleteFrom.compareTo("live_orders") == 0) {
                     Database.deleteDishFromLiveOrders(position, table_number);
+                    Toast.makeText(getContext(), "מוחק מנה ההזמנה!", Toast.LENGTH_SHORT).show();
                 }
 
                 dismiss();
