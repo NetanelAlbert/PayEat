@@ -54,7 +54,7 @@
     <ListView
         android:id="@+id/activity_final_bill_listView"
         android:layout_width="match_parent"
-        android:layout_height="500dp"
+        android:layout_height="450dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/activity_final_bill_title_sum_textView" />
@@ -73,7 +73,7 @@
         android:layout_height="wrap_content"
         android:text="250"
         android:textSize="40dp"
-        app:layout_constraintBottom_toTopOf="@+id/back_to_main_button"
+        app:layout_constraintBottom_toTopOf="@+id/send_email_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -92,10 +92,10 @@
     <Button
         android:id="@+id/send_email_button"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="מייל"
-        app:layout_constraintBottom_toBottomOf="@+id/activity_final_bill_total_sum_textView"
-        app:layout_constraintEnd_toStartOf="@+id/activity_final_bill_total_sum_textView"
+        android:layout_height="40dp"
+        android:text="שלח לי במייל"
+        app:layout_constraintBottom_toTopOf="@+id/back_to_main_button"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
 

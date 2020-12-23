@@ -107,22 +107,12 @@ public class FinalBillActivity extends AppCompatActivity implements View.OnClick
             alertDialog.show();
 
         } else if(v.getId() == R.id.send_email_button){ // send screenshot
-            System.out.println("--> send_email_button");
-            try{
-                screenShot();
-            }catch (Exception e){
-                System.out.println("--> screenShot() err");
-                e.printStackTrace();
-            }
 
-            try {
-                NamesFragment namesFragment = NamesFragment.newInstance(names, this, NamesFragment.Type.email);
-                namesFragment.show(getSupportFragmentManager(), "Emails Fragment");
-            }catch (Exception e){
-                System.out.println("-> namesFragment err");
-                e.printStackTrace();
+            screenShot();
 
-            }
+            NamesFragment namesFragment = NamesFragment.newInstance(names, this, NamesFragment.Type.email);
+            namesFragment.show(getSupportFragmentManager(), "Emails Fragment");
+            // The Email will send after the fragment will disappear (from notifyDismiss())
         }
     }
     private ArrayList<DinningPerson> names = new ArrayList<>();;
@@ -153,29 +143,34 @@ public class FinalBillActivity extends AppCompatActivity implements View.OnClick
             for (int i = 0; i < names.size(); i++){
                 targetAddresses[i] = names.get(i).getName();
             }
-            try{
-                Intent i = new Intent(Intent.ACTION_SEND);
-                //i.setType("text/plain"); //use this line for testing in the emulator
-                i.setType("message/rfc822") ; // use from live device
-                //i.setClassName("com.google.android.gm", "com.google.android.gm.ComposeActivityGmail");//sending email via gmail
-                i.putExtra(Intent.EXTRA_EMAIL, targetAddresses);
-                i.putExtra(Intent.EXTRA_SUBJECT,"סיכום החשבון שלך מ-PayEat");
-                i.putExtra(Intent.EXTRA_TEXT,"מקווים שנהנת, נתראה בפעם הבאה.");
-
-                File imageFileToShare = new File(screenShotPath);
-                //Uri uri = Uri.fromFile(imageFileToShare);
-                Uri imageUri = FileProvider.getUriForFile(
-                        this,
-                        "com.example.payeat.provider", //(use your app signature + ".provider" )
-                        imageFileToShare);
-                i.putExtra(Intent.EXTRA_STREAM, imageUri);
-                startActivity(i);
-            } catch (Exception e){
-                System.out.println("--> notifyDismiss() failed");
-                e.printStackTrace();
-            }
+            sendEmail(targetAddresses);
         } else {
             Toast.makeText(this, "המייל לא נשלח מאחר ולא הוזנו כתובות למשלוח", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void sendEmail(String[] targetAddresses){
+        try{
+            Intent i = new Intent(Intent.ACTION_SEND);
+            //i.setType("text/plain"); //use this line for testing in the emulator
+            i.setType("message/rfc822") ; // use from live device
+            i.setPackage("com.google.android.gm");
+            i.putExtra(Intent.EXTRA_EMAIL, targetAddresses);
+            i.putExtra(Intent.EXTRA_SUBJECT,"סיכום החשבון שלך מ-PayEat");
+            i.putExtra(Intent.EXTRA_TEXT,"מקווים שנהנת, נתראה בפעם הבאה.");
+
+            File imageFileToShare = new File(screenShotPath);
+            Uri imageUri = FileProvider.getUriForFile(
+                    this,
+                    "com.example.payeat.provider",
+                    imageFileToShare);
+            i.putExtra(Intent.EXTRA_STREAM, imageUri);
+            startActivity(i);
+            Toast.makeText(this,"המייל נשלח בהצלחה!", Toast.LENGTH_SHORT).show();
+        } catch (Exception e){
+            Toast.makeText(this,"המייל לא נשלח עקב בעיה. מצטערים.", Toast.LENGTH_LONG).show();
+            System.out.println("--> notifyDismiss() failed");
+            e.printStackTrace();
         }
     }
 

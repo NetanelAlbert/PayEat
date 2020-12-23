@@ -550,7 +550,7 @@ public class Database extends android.app.Application implements ValueEventListe
         return dataSnapshot.child(MENU).child(menuName).child(IMAGE_URL).getValue(String.class);
     }
 
-    public static void LoadImageFromWeb(final ImageView imageView, final Activity activity, final String url) {
+    //public static void LoadImageFromWeb(final ImageView imageView, final Activity activity, final String url) {
     public static String getDishImageURL(String category, int position){
         Iterable<DataSnapshot> dish_iter = dataSnapshot.child(MENU).child(category).child(DISHES).getChildren();
         int counter=0;
@@ -606,18 +606,18 @@ public class Database extends android.app.Application implements ValueEventListe
         return;
     }
 
-    public static void LoadImageFromWeb(final ImageView imageView, final Activity activity, @Nullable final HashMap<String, Drawable> imagesCash, final String url) {
+    public static void LoadImageFromWeb(final ImageView imageView, final Activity activity, final String url) {
+        // Trying to load locally
         String fileName = url.substring(url.lastIndexOf('/')+1);
         File directory = new ContextWrapper(activity).getDir("DishImages", Context.MODE_PRIVATE);
         final File file = new File(directory, fileName);
-        try {
-            Bitmap b = BitmapFactory.decodeStream(new FileInputStream(file));
+        Bitmap b = loadImageFromInternalStorage(file);
+        if(b != null){
             imageView.setImageBitmap(b);
             return;
         }
-        catch (FileNotFoundException e) {}
 
-
+        // LOad from web
         Runnable task = new Runnable() {
             @Override
             public void run() {
@@ -644,6 +644,19 @@ public class Database extends android.app.Application implements ValueEventListe
         executor.execute(task);
     }
 
+    public static Bitmap loadImageFromInternalStorage(File file){
+        try {
+            return BitmapFactory.decodeStream(new FileInputStream(file));
+        } catch (FileNotFoundException e) {
+            return null;
+        }
+    }
+
+    /**
+     * Older version, works only for app private directory
+     * @param bitmapImage
+     * @param dest
+     */
     public static void saveToInternalStorage(Bitmap bitmapImage, File dest){
         FileOutputStream fos = null;
         try {
