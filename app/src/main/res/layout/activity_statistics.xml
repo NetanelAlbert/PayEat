@@ -16,56 +16,70 @@
         android:layout_marginLeft="10dp"
         android:gravity="center" >
 
-        <TextView
-            android:id="@+id/textView6"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="רווח יומי:"
-            android:textColor="@android:color/black"
-            android:gravity="center"
-            android:textSize="40sp" />
-
-        <SearchView
-            android:id="@+id/SearchView_dailyProfit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:iconifiedByDefault="false"
-            android:gravity="right"
-            android:queryHint="הכנס תאריך"/>
-
-        <ListView
-            android:id="@+id/ListView_dailyProfit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
             android:layout_weight="1"
-            android:layout_gravity="right"
-            android:layoutDirection="rtl" />
+            android:gravity="center" >
 
-        <TextView
-            android:id="@+id/textView5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="מנות חמות:"
-            android:textColor="@android:color/black"
-            android:gravity="right"
-            android:textSize="40sp" />
+            <TextView
+                android:id="@+id/textView6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="רווח יומי:"
+                android:textColor="@android:color/black"
+                android:gravity="center"
+                android:textSize="40sp" />
 
-        <SearchView
-            android:id="@+id/SearchView_dishCounter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:iconifiedByDefault="false"
-            android:gravity="right"
-            android:queryHint="הכנס מנה" />
+            <SearchView
+                android:id="@+id/SearchView_dailyProfit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:iconifiedByDefault="false"
+                android:gravity="right"
+                android:queryHint="הכנס תאריך"/>
 
-        <ListView
-            android:id="@+id/ListView_dishCounter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            <ListView
+                android:id="@+id/ListView_dailyProfit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layoutDirection="rtl" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
             android:layout_weight="1"
-            android:layout_gravity="right"
-            tools:ignore="RtlHardcoded"/>
+            android:gravity="center">
 
+            <TextView
+                android:id="@+id/textView5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="מנות חמות:"
+                android:textColor="@android:color/black"
+                android:gravity="right"
+                android:textSize="40sp" />
+
+            <SearchView
+                android:id="@+id/SearchView_dishCounter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:iconifiedByDefault="false"
+                android:gravity="right"
+                android:queryHint="הכנס מנה" />
+
+            <ListView
+                android:id="@+id/ListView_dishCounter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                tools:ignore="RtlHardcoded"/>
+
+        </LinearLayout>
     </LinearLayout>
 
     <LinearLayout

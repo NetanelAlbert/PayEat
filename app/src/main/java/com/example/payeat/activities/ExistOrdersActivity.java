@@ -31,6 +31,7 @@ import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.SearchView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.payeat.interfaces.DataChangeListener;
 import com.example.payeat.dataObjects.Database;
@@ -279,6 +280,7 @@ public class ExistOrdersActivity extends AppCompatActivity implements DataChange
                             if(Database.setPrice(table_number, childPosition, new_price)) {
                                 cost.setText(""+new_price);
                             }
+                            Toast.makeText(getApplicationContext(), "מעדכן מחיר של המנה!", Toast.LENGTH_SHORT).show();
                             edit_manager_name_dialog.dismiss();
                         }
                     });

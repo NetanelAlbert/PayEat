@@ -102,11 +102,11 @@ public class DishDetailsFragment extends DialogFragment  implements View.OnClick
         }
 
 
-        ImageView imageView = convertView.findViewById(R.id.dish_image);
+        dish_image = convertView.findViewById(R.id.dish_image);
         String dishImageURL = Database.getDishImageURL(category, dish_position);
        // Drawable image = images.get(menuImageURL);
         //if(image == null){ // not in cash
-            Database.LoadDishImageFromWeb(imageView, getActivity(), dishImageURL);
+            Database.LoadDishImageFromWeb(dish_image, getActivity(), dishImageURL);
 //        } else {
 //            imageView.setImageDrawable(image);
 //        }
@@ -119,7 +119,7 @@ public class DishDetailsFragment extends DialogFragment  implements View.OnClick
         switch(v.getId()) {
             case R.id.order_dish_fragment_button:
                 if(mode_manager) {
-                    editDishFragment = EditDishFromManagerFragment.newInstance();
+                    editDishFragment = EditDishFromManagerFragment.newInstance(dish_image.getDrawable());
                     Bundle bundle = new Bundle();
                     bundle.putString("name", dish_name);
                     bundle.putString("desc", dish_desc);
