@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -15,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,6 +30,7 @@ import com.example.payeat.R;
 import com.example.payeat.fragments.EditDishFromManagerFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -145,8 +148,10 @@ public class MenuByTitleActivity extends AppCompatActivity implements View.OnCli
     }
 
     private class DishAdapter extends ArrayAdapter<Dish>{
+
         public DishAdapter(@NonNull Context context, int resource, @NonNull List<Dish> objects) {
             super(context, resource, objects);
+
         }
 
         @NonNull
@@ -181,6 +186,8 @@ public class MenuByTitleActivity extends AppCompatActivity implements View.OnCli
             description.setText(desc);
             TextView Dish_price = convertView.findViewById(R.id.dish_price_text);
             Dish_price.setText(String.valueOf(price)+ getString(R.string.new_shekel));
+
+
             Button expandDishButton =  convertView.findViewById(R.id.expand_dish_button);
             expandDishButton.setVisibility(View.VISIBLE);
             expandDishButton.setOnClickListener(new View.OnClickListener() {
@@ -189,6 +196,7 @@ public class MenuByTitleActivity extends AppCompatActivity implements View.OnCli
                 dishDetailsFragment = DishDetailsFragment.newInstance();
                 Bundle bundle = new Bundle();
                 bundle.putString("category", String_category);
+                bundle.putInt("dishPosition", position);
                 bundle.putString("name", name);
                 bundle.putString("desc", desc);
                 bundle.putInt("price", price);
@@ -201,7 +209,7 @@ public class MenuByTitleActivity extends AppCompatActivity implements View.OnCli
                 }
                 dishDetailsFragment.setArguments(bundle);
 
-                System.out.println("\n\n\nname from bundle="+name);
+                System.out.println("\n\n\nname & category from bundle="+name+" "+String_category);
                 dishDetailsFragment.show(getSupportFragmentManager(), "DishDetailsFragment");
                     }
                 });
