@@ -685,7 +685,6 @@ public class Database extends android.app.Application implements ValueEventListe
 
             bitmapImage.compress(Bitmap.CompressFormat.JPEG, 100, stream); // fos
         } catch (Exception e) {
-            System.out.println("-> saveToInternalStorage1 err; path = "+dest);
             e.printStackTrace();
         }
 

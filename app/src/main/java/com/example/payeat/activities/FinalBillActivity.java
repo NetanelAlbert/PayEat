@@ -84,7 +84,6 @@ public class FinalBillActivity extends AppCompatActivity implements View.OnClick
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setMessage("לא ניתן לחזור למסך זה. \nהאם אתה בטוח?");
             builder.setCancelable(true);
-
             builder.setPositiveButton(
                     "כן",
                     new DialogInterface.OnClickListener() {
@@ -115,8 +114,9 @@ public class FinalBillActivity extends AppCompatActivity implements View.OnClick
             // The Email will send after the fragment will disappear (from notifyDismiss())
         }
     }
+
     private ArrayList<DinningPerson> names = new ArrayList<>();;
-    private final String screenShotPath = Environment.getExternalStorageDirectory() + File.separator + "DCIM" + File.separator + ".tmp.jpg";
+    private final String screenShotPath = Environment.getExternalStorageDirectory() + File.separator + "DCIM" + File.separator + "Check.jpg";
 
     private void screenShot(){
         final View view = getWindow().getDecorView().getRootView();
