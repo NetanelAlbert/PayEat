@@ -47,7 +47,6 @@ public class ManagerOptionsActivity extends AppCompatActivity implements View.On
     TextView textViewRestaurantName;
     ImageView imageViewRestaurantLogo;
 
-    HashMap<String, Drawable> images;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,15 +62,9 @@ public class ManagerOptionsActivity extends AppCompatActivity implements View.On
         textViewRestaurantName = findViewById(R.id.textView_restaurant_name);
         imageViewRestaurantLogo = findViewById(R.id.imageView_restaurant_logo);
 
-        images = new HashMap<>();
 
         String imageURL = Database.getRestaurantLogoURL();
-        Drawable image = images.get(imageURL);
-        if(image == null){ // not in cash
-            Database.LoadImageFromWeb(imageViewRestaurantLogo, this, images, imageURL);
-        } else {
-            imageViewRestaurantLogo.setImageDrawable(image);
-        }
+        Database.LoadImageFromWeb(imageViewRestaurantLogo, this, imageURL);
 
         notifyOnChange();
 

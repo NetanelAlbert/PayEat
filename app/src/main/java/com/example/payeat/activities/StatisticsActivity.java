@@ -31,6 +31,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.function.Predicate;
 
 public class StatisticsActivity extends AppCompatActivity implements DataChangeListener {
 
@@ -46,6 +47,7 @@ public class StatisticsActivity extends AppCompatActivity implements DataChangeL
     ArrayList<Integer> counter_list = new ArrayList<>();
 
     int to_display = 5;
+    MenuItem display_item;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -141,13 +143,14 @@ public class StatisticsActivity extends AppCompatActivity implements DataChangeL
                 return false;
             }
         });
-
-        CreateDisplayNumberDialog();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_statistics, menu);
+        display_item = menu.getItem(0);
+        display_item.setTitle("שנה כמות לתצוגה\n מציג: " + to_display);
+        onOptionsItemSelected(display_item);
         return true;
     }
 
@@ -191,7 +194,6 @@ public class StatisticsActivity extends AppCompatActivity implements DataChangeL
             }
         });
 
-        editText_newDisplayNumber.requestFocus();
         editText_newDisplayNumber.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
@@ -215,11 +217,16 @@ public class StatisticsActivity extends AppCompatActivity implements DataChangeL
         ArrayList<String[]> dish_counter = Database.getDishCounter();  // format: {"dish_name", count"}
         //split and create adapter
 
+        date_list.clear();
+        profit_list.clear();
+        dish_list.clear();
+        counter_list.clear();
+
         for (String[] daily_profit: daily_profit_list) {
             boolean added = false;
             int profit = Integer.parseInt(daily_profit[1]);
             for(int i=0; i<date_list.size() && !added; i++) {
-                if(profit < profit_list.get(i)) {
+                if(profit > profit_list.get(i)) {
                     date_list.add(i, daily_profit[0]);
                     profit_list.add(i, profit);
                     added = true;
@@ -251,16 +258,22 @@ public class StatisticsActivity extends AppCompatActivity implements DataChangeL
         }
 
         while (date_list.size() > to_display) {
-            date_list.remove(date_list.size() -1);
+            int index = date_list.size() -1; // last
+            date_list.remove(index);
+            profit_list.remove(index);
         }
 
         while (dish_list.size() > to_display) {
-            dish_list.remove(dish_list.size() -1);
-        }
+            int index = dish_list.size() -1; // last
+            dish_list.remove(index);
+            counter_list.remove(index);
+       }
 
 
         StatisticsActivity.CustomListAdapter<String, Integer> capacityListAdapter = new StatisticsActivity.CustomListAdapter<>(this, dish_list, counter_list, R.layout.dish_counter_row);
         listView_dishCounter.setAdapter(capacityListAdapter);
+
+        display_item.setTitle("שנה כמות לתצוגה\n מציג: " + to_display);
     }
 
 

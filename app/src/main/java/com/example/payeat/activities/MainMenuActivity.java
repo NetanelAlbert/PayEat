@@ -115,12 +115,10 @@ public class MainMenuActivity extends AppCompatActivity implements AdapterView.O
 
     private class MenusAdapter extends ArrayAdapter<String>{
         private final Activity activityParent;
-        private final HashMap<String, Drawable> images;
 
         public MenusAdapter(@NonNull Context context, Activity activity, int resource, @NonNull List<String> objects) {
             super(context, resource, objects);
             this.activityParent = activity;
-            images = new HashMap<>();
         }
 
         @NonNull
@@ -135,12 +133,8 @@ public class MainMenuActivity extends AppCompatActivity implements AdapterView.O
 
             ImageView imageView = convertView.findViewById(R.id.main_menu_item_imageView);
             String menuImageURL = Database.getMenuImageURL(getItem(position));
-            Drawable image = images.get(menuImageURL);
-            if(image == null){ // not in cash
-                Database.LoadImageFromWeb(imageView, activityParent, images, menuImageURL);
-            } else {
-                imageView.setImageDrawable(image);
-            }
+            Database.LoadImageFromWeb(imageView, activityParent, menuImageURL);
+
 
             return convertView;
         }
