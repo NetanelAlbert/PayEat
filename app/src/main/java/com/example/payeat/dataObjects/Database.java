@@ -551,6 +551,62 @@ public class Database extends android.app.Application implements ValueEventListe
     }
 
     public static void LoadImageFromWeb(final ImageView imageView, final Activity activity, final String url) {
+    public static String getDishImageURL(String category, int position){
+        Iterable<DataSnapshot> dish_iter = dataSnapshot.child(MENU).child(category).child(DISHES).getChildren();
+        int counter=0;
+        for (DataSnapshot dish_snap : dish_iter) {
+            if(position==counter){
+                Dish temp_dish = dish_snap.getValue(Dish.class);
+                String url=temp_dish.getImg_url();
+                System.out.println("name is "+temp_dish.getName()+" url is= "+url);
+                return url;
+            }
+            counter++;
+        }
+        return "error";
+    }
+
+    public static void LoadDishImageFromWeb(final ImageView imageView, final Activity activity, final String url) {
+        if (url!=null){
+        String fileName = url.substring(url.lastIndexOf('/')+1);
+        File directory = new ContextWrapper(activity).getDir("DishImages", Context.MODE_PRIVATE);
+        final File file = new File(directory, fileName);
+        try {
+            Bitmap b = BitmapFactory.decodeStream(new FileInputStream(file));
+            imageView.setImageBitmap(b);
+            return;
+        }
+        catch (FileNotFoundException e) {}
+
+
+        Runnable task = new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    URL url_value = new URL(url);
+                    final Bitmap b = BitmapFactory.decodeStream(url_value.openConnection().getInputStream());
+                    activity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            imageView.setImageBitmap(b);
+                        }
+                    });
+                    saveToInternalStorage(b, file, activity);
+
+
+                } catch (Exception e) {
+                    Looper.prepare(); // to enable Toast
+                    Toast.makeText(activity, "טעינת התמונה נכשלה", Toast.LENGTH_SHORT).show();
+                }
+            }
+        };
+
+        Executor executor = Executors.newSingleThreadExecutor();
+        executor.execute(task);}
+        return;
+    }
+
+    public static void LoadImageFromWeb(final ImageView imageView, final Activity activity, @Nullable final HashMap<String, Drawable> imagesCash, final String url) {
         String fileName = url.substring(url.lastIndexOf('/')+1);
         File directory = new ContextWrapper(activity).getDir("DishImages", Context.MODE_PRIVATE);
         final File file = new File(directory, fileName);
@@ -594,7 +650,9 @@ public class Database extends android.app.Application implements ValueEventListe
             fos = new FileOutputStream(dest);
             // Use the compress method on the BitMap object to write image to the OutputStream
             bitmapImage.compress(Bitmap.CompressFormat.PNG, 100, fos);
+            System.out.println("-> saveToLocal succeed ("+dest+")");
         } catch (Exception e) {
+            System.out.println("-> saveToLocal error");
             e.printStackTrace();
         } finally {
             try {
