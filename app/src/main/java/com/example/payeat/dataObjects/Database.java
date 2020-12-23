@@ -95,13 +95,14 @@ public class Database extends android.app.Application implements ValueEventListe
         return dishesArray;
     }
 
-    public static void freeTable(int position, double orderPrice) {
+    public static void freeTable(int position) {
         int tableNum=position+1;
         //todo add info to branch
         System.out.println("in free table func");
         ArrayList<Dish> dishesArray=getOrderFromAskBill(tableNum);
+        String date= dataSnapshot.child(ASK_BILL).child(tableNum+"").child(TIME_STAMP).getValue(String.class);
         deleteASK_BILL(tableNum);
-        addOrderInfo(dishesArray, orderPrice);
+        addOrderInfo(dishesArray, date);
     }
 
     private static ArrayList<Dish> getOrderFromAskBill(int tableNum) {
@@ -224,7 +225,7 @@ public class Database extends android.app.Application implements ValueEventListe
         return result;
     }
 
-    public static void addOrderInfo(ArrayList<Dish> dishesArray, double orderPrice){
+    public static void addOrderInfo(ArrayList<Dish> dishesArray,String date){
         int sum=0;
         HashMap<String, Integer> hash= new HashMap<>();
         System.out.println("in order info  func");
@@ -245,9 +246,10 @@ public class Database extends android.app.Application implements ValueEventListe
             counter+=hash.get(key);
             firebaseReference.child(INFO).child(DISH_COUNTER).child(key).setValue(String.valueOf(counter));
         }
-        SimpleDateFormat dayFormatter = new SimpleDateFormat("dd-MM-yyyy");
+        //SimpleDateFormat dayFormatter = new SimpleDateFormat("dd-MM-yyyy");
         Calendar calendar = Calendar.getInstance(); // Returns instance with current date and time set
-        String day= dayFormatter.format(calendar.getTime());
+        String day= date.substring(0,10);
+        day=day.replaceAll("/","-");
         System.out.println("day is= "+day);
         String sDailyProfit;
         sDailyProfit= dataSnapshot.child(INFO).child(DAILY_PROFIT).child(day).getValue(String.class);
