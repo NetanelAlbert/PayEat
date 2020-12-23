@@ -550,7 +550,10 @@ public class Database extends android.app.Application implements ValueEventListe
         int counter=0;
         for (DataSnapshot dish_snap : dish_iter) {
             if(position==counter){
-                return dish_snap.child(IMAGE_URL).getValue(String.class);
+                Dish temp_dish = dish_snap.getValue(Dish.class);
+                String url=temp_dish.getImg_url();
+                System.out.println("name is "+temp_dish.getName()+" url is= "+url);
+                return url;
             }
             counter++;
         }
