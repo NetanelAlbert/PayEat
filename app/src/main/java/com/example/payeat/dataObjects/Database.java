@@ -1,12 +1,16 @@
 package com.example.payeat.dataObjects;
 
 import android.app.Activity;
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Looper;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -25,6 +29,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -545,6 +550,7 @@ public class Database extends android.app.Application implements ValueEventListe
         return dataSnapshot.child(MENU).child(menuName).child(IMAGE_URL).getValue(String.class);
     }
 
+    //public static void LoadImageFromWeb(final ImageView imageView, final Activity activity, final String url) {
     public static String getDishImageURL(String category, int position){
         Iterable<DataSnapshot> dish_iter = dataSnapshot.child(MENU).child(category).child(DISHES).getChildren();
         int counter=0;
@@ -600,18 +606,18 @@ public class Database extends android.app.Application implements ValueEventListe
         return;
     }
 
-    public static void LoadImageFromWeb(final ImageView imageView, final Activity activity, @Nullable final HashMap<String, Drawable> imagesCash, final String url) {
+    public static void LoadImageFromWeb(final ImageView imageView, final Activity activity, final String url) {
+        // Trying to load locally
         String fileName = url.substring(url.lastIndexOf('/')+1);
         File directory = new ContextWrapper(activity).getDir("DishImages", Context.MODE_PRIVATE);
         final File file = new File(directory, fileName);
-        try {
-            Bitmap b = BitmapFactory.decodeStream(new FileInputStream(file));
+        Bitmap b = loadImageFromInternalStorage(file);
+        if(b != null){
             imageView.setImageBitmap(b);
             return;
         }
-        catch (FileNotFoundException e) {}
 
-
+        // LOad from web
         Runnable task = new Runnable() {
             @Override
             public void run() {
@@ -638,14 +644,20 @@ public class Database extends android.app.Application implements ValueEventListe
         executor.execute(task);
     }
 
+    public static Bitmap loadImageFromInternalStorage(File file){
+        try {
+            return BitmapFactory.decodeStream(new FileInputStream(file));
+        } catch (FileNotFoundException e) {
+            return null;
+        }
+    }
 
-    private static void saveToInternalStorage(Bitmap bitmapImage, File dest, Context context){
-//        ContextWrapper cw = new ContextWrapper(context);
-//        // path to /data/data/yourapp/app_data/DishImages
-//        File directory = cw.getDir("DishImages", Context.MODE_PRIVATE);
-//        // Create DishImages
-//        File myPath = new File(directory, fileName);
-
+    /**
+     * Older version, works only for app private directory
+     * @param bitmapImage
+     * @param dest
+     */
+    public static void saveToInternalStorage(Bitmap bitmapImage, File dest){
         FileOutputStream fos = null;
         try {
             fos = new FileOutputStream(dest);
@@ -662,5 +674,18 @@ public class Database extends android.app.Application implements ValueEventListe
                 e.printStackTrace();
             }
         }
+    }
+
+    public static void saveToInternalStorage(Bitmap bitmapImage, File dest, Context context){
+        try {
+            final ContentResolver resolver = context.getContentResolver();
+            OutputStream stream = resolver.openOutputStream(Uri.fromFile(dest)); // uri
+
+            bitmapImage.compress(Bitmap.CompressFormat.JPEG, 100, stream); // fos
+        } catch (Exception e) {
+            System.out.println("-> saveToInternalStorage1 err; path = "+dest);
+            e.printStackTrace();
+        }
+
     }
 }

@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.payeat.interfaces.OnFragmentDismissListener;
 import com.example.payeat.R;
@@ -26,6 +27,9 @@ import com.example.payeat.dataObjects.DinningPerson;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link NamesFragment#newInstance} factory method to
@@ -33,20 +37,27 @@ import java.util.List;
  */
 public class NamesFragment extends DialogFragment implements View.OnClickListener, AdapterView.OnItemLongClickListener {
 
+    public static enum Type {
+        names, email
+    };
 
     private ArrayList<DinningPerson> names;
     private NamesAdapter namesAdapter;
     private EditText editText;
     private OnFragmentDismissListener listener;
+    private Type type;
 
     public NamesFragment() {
         // Required empty public constructor
     }
 
-    private void setParameters(ArrayList<DinningPerson> names, OnFragmentDismissListener listener){
+    private void setParameters(ArrayList<DinningPerson> names, OnFragmentDismissListener listener, Type type){
         this.names = names;
         this.listener = listener;
+        this.type = type;
     }
+
+
 
     /**
      * Use this factory method to create a new instance of
@@ -54,9 +65,9 @@ public class NamesFragment extends DialogFragment implements View.OnClickListene
      *
      * @return A new instance of fragment NamesFragment.
      */
-    public static NamesFragment newInstance(ArrayList<DinningPerson> names, OnFragmentDismissListener listener) {
+    public static NamesFragment newInstance(ArrayList<DinningPerson> names, OnFragmentDismissListener listener, Type type) {
         NamesFragment fragment = new NamesFragment();
-        fragment.setParameters(names, listener);
+        fragment.setParameters(names, listener, type);
         return fragment;
     }
 
@@ -65,10 +76,12 @@ public class NamesFragment extends DialogFragment implements View.OnClickListene
         super.onCreate(savedInstanceState);
     }
 
+    Button addName;
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         final Button addName = view.findViewById(R.id.fragment_names_add_button);
         addName.setOnClickListener(this);
+        this.addName = addName;
         editText = view.findViewById(R.id.fragment_names_editText);
         editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -87,6 +100,11 @@ public class NamesFragment extends DialogFragment implements View.OnClickListene
         namesAdapter = new NamesAdapter(getContext(), R.layout.simple_text_view, names);
         listView.setAdapter(namesAdapter);
         listView.setOnItemLongClickListener(this);
+
+        if(type == Type.email){
+            TextView title = view.findViewById(R.id.fragment_names_textView);
+            title.setText("הכנס כתובת מייל אחת או יותר");
+        }
 
         super.onViewCreated(view, savedInstanceState);
     }
@@ -108,11 +126,27 @@ public class NamesFragment extends DialogFragment implements View.OnClickListene
             if(editText.getText().toString().equals(""))
                 return;
             String name = editText.getText().toString();
+            if(type == Type.email && !isValidEmailAddress(name)) {
+                Toast.makeText(getContext(), "נא להכניס כתובת מייל תקינה", Toast.LENGTH_SHORT).show();
+                return;
+            }
             namesAdapter.add(new DinningPerson(name));
             editText.setText("");
         } else if (view.getId() == R.id.fragment_names_ok_button){
+            addName.performClick();
             dismiss();
         }
+    }
+
+    public static boolean isValidEmailAddress(String email) {
+        boolean result = true;
+        try {
+            InternetAddress emailAddress = new InternetAddress(email);
+            emailAddress.validate();
+        } catch (AddressException ex) {
+            result = false;
+        }
+        return result;
     }
 
     @Override
@@ -122,12 +156,6 @@ public class NamesFragment extends DialogFragment implements View.OnClickListene
         return true;
     }
 
-//    @Override
-//    public void dismiss() {
-//        listener.notifyDismiss();
-//        System.out.println("-->  @Override dismiss()");
-//        super.dismiss();
-//    }
 
     @Override
     public void onDestroyView() {

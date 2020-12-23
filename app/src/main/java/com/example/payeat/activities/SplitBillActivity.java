@@ -45,7 +45,7 @@ public class SplitBillActivity extends AppCompatActivity implements OnFragmentDi
 
 
         names = new ArrayList<>();
-        NamesFragment namesFragment = NamesFragment.newInstance(names, this);
+        NamesFragment namesFragment = NamesFragment.newInstance(names, this, NamesFragment.Type.names);
         namesFragment.show(getSupportFragmentManager(), "Names Fragment");
 
         // Set up the table number
@@ -115,7 +115,7 @@ public class SplitBillActivity extends AppCompatActivity implements OnFragmentDi
             }
 
         } else if(v.getId() == R.id.activity_split_bill_name_textView){
-            NamesFragment namesFragment = NamesFragment.newInstance(names, this);
+            NamesFragment namesFragment = NamesFragment.newInstance(names, this, NamesFragment.Type.names);
             namesFragment.show(getSupportFragmentManager(), "Names Fragment");
 
         } else if (v.getId() == R.id.activity_split_bill_final_bill_button) {
