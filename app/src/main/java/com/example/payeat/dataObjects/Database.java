@@ -572,49 +572,53 @@ public class Database extends android.app.Application implements ValueEventListe
         return "error";
     }
 
-    public static void LoadDishImageFromWeb(final ImageView imageView, final Activity activity, final String url) {
-        if (url!=null){
-        String fileName = url.substring(url.lastIndexOf('/')+1);
-        File directory = new ContextWrapper(activity).getDir("DishImages", Context.MODE_PRIVATE);
-        final File file = new File(directory, fileName);
-        try {
-            Bitmap b = BitmapFactory.decodeStream(new FileInputStream(file));
-            imageView.setImageBitmap(b);
-            return;
-        }
-        catch (FileNotFoundException e) {}
-
-
-        Runnable task = new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    URL url_value = new URL(url);
-                    final Bitmap b = BitmapFactory.decodeStream(url_value.openConnection().getInputStream());
-                    activity.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            imageView.setImageBitmap(b);
-                        }
-                    });
-                    saveToInternalStorage(b, file, activity);
-
-
-                } catch (Exception e) {
-                    Looper.prepare(); // to enable Toast
-                    Toast.makeText(activity, "טעינת התמונה נכשלה", Toast.LENGTH_SHORT).show();
-                }
-            }
-        };
-
-        Executor executor = Executors.newSingleThreadExecutor();
-        executor.execute(task);}
-        return;
-    }
+//    public static void LoadDishImageFromWeb(final ImageView imageView, final Activity activity, final String url) {
+//        if (url!=null){
+//        String fileName = url.substring(url.lastIndexOf('/')+1);
+//        File directory = new ContextWrapper(activity).getDir("DishImages", Context.MODE_PRIVATE);
+//        final File file = new File(directory, fileName);
+//        try {
+//            Bitmap b = BitmapFactory.decodeStream(new FileInputStream(file));
+//            imageView.setImageBitmap(b);
+//            return;
+//        }
+//        catch (FileNotFoundException e) {}
+//
+//
+//        Runnable task = new Runnable() {
+//            @Override
+//            public void run() {
+//                try {
+//                    URL url_value = new URL(url);
+//                    final Bitmap b = BitmapFactory.decodeStream(url_value.openConnection().getInputStream());
+//                    activity.runOnUiThread(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            imageView.setImageBitmap(b);
+//                        }
+//                    });
+//                    saveToInternalStorage(b, file, activity);
+//
+//
+//                } catch (Exception e) {
+//                    Looper.prepare(); // to enable Toast
+//                    Toast.makeText(activity, "טעינת התמונה נכשלה", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//        };
+//
+//        Executor executor = Executors.newSingleThreadExecutor();
+//        executor.execute(task);}
+//        return;
+//    }
 
     public static void LoadImageFromWeb(final ImageView imageView, final Activity activity, final String url) {
-        // Trying to load locally
         String fileName = url.substring(url.lastIndexOf('/')+1);
+        LoadImageFromWeb(imageView, activity, url, fileName);
+    }
+
+    public static void LoadImageFromWeb(final ImageView imageView, final Activity activity, final String url, String fileName) {
+        // Trying to load locally
         File directory = new ContextWrapper(activity).getDir("DishImages", Context.MODE_PRIVATE);
         final File file = new File(directory, fileName);
         Bitmap b = loadImageFromInternalStorage(file);
