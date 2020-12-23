@@ -2,7 +2,17 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/add_new"
+        android:id="@+id/display_all"
+        android:title="הצג הכל"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/change_display"
         android:title="שנה כמות לתצוגה"
         app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/back_button"
+        android:icon="@drawable/ic_arrow_back"
+        app:showAsAction="ifRoom"
+        android:title="חזור" />
 </menu>

@@ -51,9 +51,8 @@ public class ManagerLoginActivity extends AppCompatActivity implements  View.OnC
                     Toast.makeText(this, "סיסמה שגויה", Toast.LENGTH_SHORT ).show();
                 break;
             default:
-
-
         }
+        finish();
         if(intent != null)
             startActivity(intent);
     }

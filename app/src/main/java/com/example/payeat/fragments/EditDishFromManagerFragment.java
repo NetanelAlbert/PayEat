@@ -1,5 +1,6 @@
 package com.example.payeat.fragments;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.fragment.app.DialogFragment;
@@ -11,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.example.payeat.dataObjects.Database;
 import com.example.payeat.dataObjects.Dish;
@@ -23,6 +25,7 @@ import com.example.payeat.R;
  */
 public class EditDishFromManagerFragment extends DialogFragment implements View.OnClickListener {
 
+    private static Drawable drawable_of_dish;
     private EditText editText_new_name;
     private EditText editText_new_price;
     private EditText editText_new_desc;
@@ -48,8 +51,9 @@ public class EditDishFromManagerFragment extends DialogFragment implements View.
      * @return A new instance of fragment EditDishFromManagerFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static EditDishFromManagerFragment newInstance() {
+    public static EditDishFromManagerFragment newInstance(Drawable image) {
         EditDishFromManagerFragment fragment = new EditDishFromManagerFragment();
+        drawable_of_dish = image;
         return fragment;
     }
 
@@ -67,7 +71,7 @@ public class EditDishFromManagerFragment extends DialogFragment implements View.
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View convertView = inflater.inflate(R.layout.fragment_edit_dish_from_manager, container, false);
+        final View convertView = inflater.inflate(R.layout.fragment_edit_dish_from_manager, container, false);
 
         Button sendButton = convertView.findViewById(R.id.button_update_dish);
         sendButton.setOnClickListener(this);
@@ -94,6 +98,18 @@ public class EditDishFromManagerFragment extends DialogFragment implements View.
         editText_new_price.setText(String.valueOf(dish_price));
         editText_new_desc.setText(dish_desc);
 
+        dish_image = convertView.findViewById(R.id.ImageView_update_dish_image);
+        if(drawable_of_dish != null) {
+            dish_image.setImageDrawable(drawable_of_dish);
+        }
+        dish_image.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                Toast.makeText(getContext(),"מצטערים! בגרסא הנוכחית אין אפשרות לערוך תמונה" , Toast.LENGTH_SHORT).show();
+                return true;
+            }
+        });
+
         return convertView;
     }
 
@@ -111,10 +127,12 @@ public class EditDishFromManagerFragment extends DialogFragment implements View.
 
                 if(newDish) {
                     Database.addDishToMenuByCategory(new_dish, category);
+                    Toast.makeText(getContext(), "מוסיף מנה חדשה לתפריט!", Toast.LENGTH_SHORT).show();
                 }
                 else {
                     int position = getArguments().getInt("dish_position");
                     Database.updateDishDetails(position, new_dish, category);
+                    Toast.makeText(getContext(), "מעדכן מנה בתפריט!", Toast.LENGTH_SHORT).show();
                 }
                 dismiss();
                 break;
