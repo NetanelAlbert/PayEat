@@ -88,6 +88,9 @@ public class ManagerOptionsActivity extends AppCompatActivity implements View.On
                 return changeDetails("הכנס שם חדש למסעדה:", "שם מסעדה ריק!", Database.RESTAURANT_NAME);
             case R.id.edit_restaurant_logo:
                 Toast.makeText(getApplicationContext(),"מצטערים! בגרסא הנוכחית אין אפשרות לערוך תמונה" , Toast.LENGTH_SHORT).show();
+            case R.id.edit_password:
+                return changePassword("הזן סיסמה ישנה:", "הפורמט אינו חוקי", Database.PASSWORD);
+
 //                if(checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
 //                    //permission not granted for gallery, request it
 //                    String[] permissions = {Manifest.permission.MANAGE_EXTERNAL_STORAGE};
@@ -217,6 +220,78 @@ public class ManagerOptionsActivity extends AppCompatActivity implements View.On
             }
         });
         edit_manager_name_dialog.show();
+        return true;
+    }
+
+    private boolean changePassword(String title, String onErrorMassage, final String whatToUpdate) {
+        final Dialog edit_password_dialog = new Dialog(this);
+        edit_password_dialog.setContentView(R.layout.change_password_fragment);
+        edit_password_dialog.setCancelable(true);
+
+        TextView textView_title = edit_password_dialog.findViewById(R.id.enter_old_password_text);
+        textView_title.setText(title);
+        TextView textView_title1 = edit_password_dialog.findViewById(R.id.enter_new_password_text1);
+        textView_title1.setText("הזן סיסמא חדשה:");
+        TextView textView_title2 = edit_password_dialog.findViewById(R.id.enter_new_password_text2);
+        textView_title2.setText("הזמן סיסמא חדשה שנית:");
+
+        final TextView textView_error = edit_password_dialog.findViewById(R.id.textView_error);
+        textView_error.setText("סיסמא שגויה");
+        textView_error.setVisibility(View.GONE);
+        final TextView textView_error1 = edit_password_dialog.findViewById(R.id.textView_error1);
+        textView_error1.setText("פורמט שגוי");
+        textView_error1.setVisibility(View.GONE);
+        final TextView textView_error2 = edit_password_dialog.findViewById(R.id.textView_error2);
+        textView_error2.setText("פורמט שגוי");
+        textView_error2.setVisibility(View.GONE);
+
+        final EditText old_password = edit_password_dialog.findViewById(R.id.old_password_edittext);
+        final EditText new_password1 = edit_password_dialog.findViewById(R.id.new_password_edittext1);
+        final EditText new_password2 = edit_password_dialog.findViewById(R.id.new_password_edittext2);
+
+
+        Button OK_button = edit_password_dialog.findViewById(R.id.button_OK);
+        Button Cancle_button = edit_password_dialog.findViewById(R.id.button_cancel);
+
+        OK_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String oldPassword = old_password.getText().toString();
+                String newPassword1 = new_password1.getText().toString();
+                String newPassword2 = new_password2.getText().toString();
+
+                int act=Database.setPassword(oldPassword, newPassword1, newPassword2);
+                  switch (act){
+                      case 0:
+                          Toast.makeText(getApplicationContext(),"הסיסמה שונתה בהצלחה" , Toast.LENGTH_SHORT).show();
+                          break;
+                      case 1:
+                          Toast.makeText(getApplicationContext(),"הזנת סיסמה שגויה" , Toast.LENGTH_SHORT).show();
+                          break;
+                      case 2:
+                          Toast.makeText(getApplicationContext(),"הסיסמא החדשה אינה זהה בשתי ההזנות" , Toast.LENGTH_SHORT).show();
+                          break;
+
+                  }
+
+//                String new_manager_name = editTextDetail.getText().toString();
+//                if(new_manager_name.compareTo("") == 0) {
+//                    textView_error.setVisibility(View.VISIBLE);
+//                }
+//                else {
+//                    Database.UpdateDetailsManager(whatToUpdate, new_manager_name);
+//                    edit_manager_name_dialog.dismiss();
+//                }
+            }
+        });
+
+        Cancle_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                edit_password_dialog.dismiss();
+            }
+        });
+        edit_password_dialog.show();
         return true;
     }
 
