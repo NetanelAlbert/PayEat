@@ -12,4 +12,7 @@
     <item
         android:id="@+id/edit_restaurant_logo"
         android:title="שנה לוגו" />
+    <item
+        android:id="@+id/edit_password"
+        android:title="שנה סיסמא" />
 </menu>

@@ -115,6 +115,16 @@ public class Database extends android.app.Application implements ValueEventListe
         return dishesArray;
     }
 
+    public static int setPassword(String oldPassword, String newPassword1, String newPassword2) {
+       String password= dataSnapshot.child(PASSWORD).getValue(String.class);
+        if(!password.contentEquals(oldPassword))
+            return 1;
+        if(!newPassword1.contentEquals(newPassword2))
+            return 2;
+        dataSnapshot.child(PASSWORD).getRef().setValue(newPassword1);
+        return 0;
+    }
+
     @Override
     public void onCreate() {
         Firebase.setAndroidContext(this);
