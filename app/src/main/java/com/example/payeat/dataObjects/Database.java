@@ -63,6 +63,8 @@ public class Database extends android.app.Application implements ValueEventListe
     public static final String INFO = "info";
     public static final String DISH_COUNTER = "dish_counter";
     public static final String DAILY_PROFIT = "daily_profit";
+    public static final String DAILY_ORDERS = "daily_orders";
+    public static final String COUNTER = "counter";
 
 
 
@@ -275,6 +277,24 @@ public class Database extends android.app.Application implements ValueEventListe
         dailyProfit+=sum;
         System.out.println("profit after "+dailyProfit);
         dataSnapshot.child(INFO).child(DAILY_PROFIT).child(day).getRef().setValue(dailyProfit+"");
+
+        String counter=dataSnapshot.child(INFO).child(DAILY_ORDERS).child(day).child(COUNTER).getValue(String.class);
+        if( counter==null) {
+            dataSnapshot.child(INFO).child(DAILY_ORDERS).child(day).child(COUNTER).getRef().setValue("0");
+            counter="-1";
+            System.out.println("counter is not exist first order for today");
+        }
+        counter= String.valueOf(Integer.parseInt(counter)+1);
+        System.out.println("new counter is "+counter);
+        int i=1;
+        for(Dish d: dishesArray){
+            dataSnapshot.child(INFO).child(DAILY_ORDERS).child(day).child("").child(counter).child(DISHES).child(i+"").getRef().setValue(d);
+            i++;
+        }
+        dataSnapshot.child(INFO).child(DAILY_ORDERS).child(day).child("").child(counter).child(TIME_STAMP).getRef().setValue(date);
+        dataSnapshot.child(INFO).child(DAILY_ORDERS).child(day).child(COUNTER).getRef().setValue(counter);
+
+
 
     }
 
