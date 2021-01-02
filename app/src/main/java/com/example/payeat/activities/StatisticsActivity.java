@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
+import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -19,12 +20,14 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.payeat.R;
 import com.example.payeat.dataObjects.Database;
@@ -33,6 +36,7 @@ import com.example.payeat.interfaces.DataChangeListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.function.Predicate;
 
@@ -42,6 +46,7 @@ public class StatisticsActivity extends AppCompatActivity implements DataChangeL
     ListView listView_dishCounter;
     SearchView SearchView_dailyProfit;
     SearchView SearchView_dishCounter;
+    Button button_pickDate;
 
     ArrayList<String> date_list = new ArrayList<>();
     ArrayList<Integer> profit_list = new ArrayList<>();
@@ -92,6 +97,27 @@ public class StatisticsActivity extends AppCompatActivity implements DataChangeL
 
         listView_dailyProfit = findViewById(R.id.ListView_dailyProfit);
         listView_dishCounter = findViewById(R.id.ListView_dishCounter);
+
+        button_pickDate = findViewById(R.id.btnDate);
+        button_pickDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar systemCalender = Calendar.getInstance();
+                int year = systemCalender.get(Calendar.YEAR);
+                int month = systemCalender.get(Calendar.MONTH);
+                int day =
+                        systemCalender.get(Calendar.DAY_OF_MONTH);
+                DatePickerDialog datePickerDialog = new
+                        DatePickerDialog(StatisticsActivity.this, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                        monthOfYear = monthOfYear +1;
+                        SearchView_dailyProfit.setQuery(dayOfMonth + "-" + monthOfYear +"-" + year, true);
+                    }
+                }, year, month, day);
+                datePickerDialog.show();
+            }
+        });
 
         // Setup search view --> search by date
         SearchView_dailyProfit = findViewById(R.id.SearchView_dailyProfit);

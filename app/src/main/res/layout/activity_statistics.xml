@@ -31,14 +31,29 @@
                 android:textColor="@android:color/black"
                 android:gravity="center"
                 android:textSize="40sp" />
-
-            <SearchView
-                android:id="@+id/SearchView_dailyProfit"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:iconifiedByDefault="false"
-                android:gravity="right"
-                android:queryHint="הכנס תאריך"/>
+                android:orientation="horizontal" >
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/btnDate"
+                    android:text="בחר תאריך"
+                    android:textSize="15sp"
+                    android:textColor="@color/colorTextOnButton"
+                    android:background="@color/colorButton"/>
+
+                <SearchView
+                    android:id="@+id/SearchView_dailyProfit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:iconifiedByDefault="false"
+                    android:gravity="right"
+                    android:queryHint="הכנס תאריך"/>
+
+            </LinearLayout>
 
             <ListView
                 android:id="@+id/ListView_dailyProfit"
