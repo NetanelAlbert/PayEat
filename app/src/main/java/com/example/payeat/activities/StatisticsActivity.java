@@ -288,19 +288,23 @@ public class StatisticsActivity extends AppCompatActivity implements DataChangeL
         dish_list.clear();
         counter_list.clear();
 
+        ArrayList<Integer> date_list_to_compare = new ArrayList<>();
         for (String[] daily_profit : daily_profit_list) {
             boolean added = false;
-            int profit = Integer.parseInt(daily_profit[1]);
+            String[] split = daily_profit[0].split("-");
+            int date_for_compare = Integer.parseInt(split[0] + split[1] + split[2]);
             for (int i = 0; i < date_list.size() && !added; i++) {
-                if (profit > profit_list.get(i)) {
+                if (date_for_compare > profit_list.get(i)) {
                     date_list.add(i, daily_profit[0]);
-                    profit_list.add(i, profit);
+                    profit_list.add(i, Integer.parseInt(daily_profit[1]));
+                    date_list_to_compare.add(date_for_compare);
                     added = true;
                 }
             }
             if (!added) {
                 date_list.add(daily_profit[0]);
-                profit_list.add(profit);
+                profit_list.add(Integer.parseInt(daily_profit[1]));
+                date_list_to_compare.add(date_for_compare);
             }
         }
 
