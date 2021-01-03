@@ -197,6 +197,7 @@ public class StatisticsActivity extends AppCompatActivity implements DataChangeL
             case R.id.display_all:
                 display_item.setTitle("שנה כמות לתצוגה\n מציג: הכל");
                 display_all = true;
+                to_display = -1;
                 notifyOnChange();
                 break;
             case R.id.change_display:
